@@ -1,6 +1,6 @@
 
 
-CREATE DATABASE OJT_MANAGEMENT_PRN211_Version1
+CREATE DATABASE OJT_MANAGEMENT_PRN211_Vs1
 
 CREATE TABLE tblAccount (
 	username varchar(20) NOT NULL,
@@ -21,10 +21,11 @@ CREATE TABLE tblStudent (
 	studentCode varchar(8) NOT NULL,
 	username varchar(20) NOT NULL unique,
 	studentName nvarchar(50),
-	gender bit, /*0: Female, 1: Male*/
+	gender bit, /*false: Female, true: Male*/
 	birthOfDate date,
 	credit int,
 	address nvarchar(100),
+	is_Intern int, /*0: not yet, 1: working, 2: finished*/
 	majorname nvarchar(50),
 
 	PRIMARY KEY (studentCode)
@@ -57,6 +58,7 @@ CREATE TABLE tblJob (
 	status bit, /*0: active, 1: unactive*/
 	taxCode varchar(8) NOT NULL,
 	majorCode int NOT NULL,
+	admin_Confirm int, /*0: not yet, 1: accepted, 2: denied*/
 
 	PRIMARY KEY (jobCode)
 );
@@ -75,9 +77,10 @@ CREATE TABLE tblRegister_Job (
 	jobCode int NOT NULL,
 	grade float,
 	comment nvarchar(200),
-	isAdminConfirm int, /*0: not yet, 1: accepted, 2: dined*/
-	isCompanyConfirm int, /*0: not yet, 1: accepted, 2: dined*/
+	student_Confirm bit, /*false: cancel, true: accepted*/
+	isCompanyConfirm int, /*0: not yet, 1: accepted, 2: denied*/
 	is_Pass bit, /*0: passed, 1: not pass*/
+	aspiration int,
 
 	PRIMARY KEY (studentCode, jobCode)
 );
