@@ -39,11 +39,11 @@ namespace WinFormsApplication
             this.PicLogo = new System.Windows.Forms.PictureBox();
             this.PnChildForm = new System.Windows.Forms.Panel();
             this.PnHeader = new System.Windows.Forms.Panel();
+            this.TxtCurrentSemester = new System.Windows.Forms.Label();
+            this.LbCurrentSemester = new System.Windows.Forms.Label();
             this.LbControlHeader = new System.Windows.Forms.Label();
             this.PicIconControlHeader = new FontAwesome.Sharp.IconPictureBox();
             this.PnLayout = new System.Windows.Forms.Panel();
-            this.LbCurrentSemester = new System.Windows.Forms.Label();
-            this.TxtCurrentSemester = new System.Windows.Forms.Label();
             this.PnUniversityDashboard.SuspendLayout();
             this.PnUniversityLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicLogo)).BeginInit();
@@ -205,6 +205,26 @@ namespace WinFormsApplication
             this.PnHeader.Size = new System.Drawing.Size(1064, 58);
             this.PnHeader.TabIndex = 3;
             // 
+            // TxtCurrentSemester
+            // 
+            this.TxtCurrentSemester.AutoSize = true;
+            this.TxtCurrentSemester.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtCurrentSemester.Location = new System.Drawing.Point(902, 18);
+            this.TxtCurrentSemester.Name = "TxtCurrentSemester";
+            this.TxtCurrentSemester.Size = new System.Drawing.Size(124, 24);
+            this.TxtCurrentSemester.TabIndex = 3;
+            this.TxtCurrentSemester.Text = "Summer 2022";
+            // 
+            // LbCurrentSemester
+            // 
+            this.LbCurrentSemester.AutoSize = true;
+            this.LbCurrentSemester.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LbCurrentSemester.Location = new System.Drawing.Point(788, 18);
+            this.LbCurrentSemester.Name = "LbCurrentSemester";
+            this.LbCurrentSemester.Size = new System.Drawing.Size(97, 24);
+            this.LbCurrentSemester.TabIndex = 2;
+            this.LbCurrentSemester.Text = "Semester: ";
+            // 
             // LbControlHeader
             // 
             this.LbControlHeader.AutoSize = true;
@@ -237,26 +257,6 @@ namespace WinFormsApplication
             this.PnLayout.Name = "PnLayout";
             this.PnLayout.Size = new System.Drawing.Size(1064, 1);
             this.PnLayout.TabIndex = 5;
-            // 
-            // LbCurrentSemester
-            // 
-            this.LbCurrentSemester.AutoSize = true;
-            this.LbCurrentSemester.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.LbCurrentSemester.Location = new System.Drawing.Point(788, 18);
-            this.LbCurrentSemester.Name = "LbCurrentSemester";
-            this.LbCurrentSemester.Size = new System.Drawing.Size(97, 24);
-            this.LbCurrentSemester.TabIndex = 2;
-            this.LbCurrentSemester.Text = "Semester: ";
-            // 
-            // TxtCurrentSemester
-            // 
-            this.TxtCurrentSemester.AutoSize = true;
-            this.TxtCurrentSemester.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtCurrentSemester.Location = new System.Drawing.Point(902, 18);
-            this.TxtCurrentSemester.Name = "TxtCurrentSemester";
-            this.TxtCurrentSemester.Size = new System.Drawing.Size(124, 24);
-            this.TxtCurrentSemester.TabIndex = 3;
-            this.TxtCurrentSemester.Text = "Summer 2022";
             // 
             // FrmUniversityDashboard
             // 

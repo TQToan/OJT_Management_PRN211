@@ -141,7 +141,7 @@ namespace WinFormsApplication
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
             //nếu sinh viên đã có kết quả thực tập thì mới cho sử dụng chức năng này
-            if (1 == 0)// điều kiện đã có kết quả thực tập
+            if (1 == 1)// điều kiện đã có kết quả thực tập
             {
                 OpenChildForm(new FrmStudentInternShipResult());
             }

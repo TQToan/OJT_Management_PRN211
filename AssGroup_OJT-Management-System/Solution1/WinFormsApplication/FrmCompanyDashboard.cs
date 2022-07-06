@@ -1,4 +1,6 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
+using Library.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +16,8 @@ namespace WinFormsApplication
 {
     public partial class FrmCompanyDashboard : Form
     {
-
+        public TblAccount companyAccount { get; set; }
+        public IRepositoryTblCompany RepositoryTblCompany { get; set; }
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
         private Panel leftBorderBtn;
@@ -132,7 +135,10 @@ namespace WinFormsApplication
         private void PicLogo_Click(object sender, EventArgs e)
         {
             currentChildForm.Close();
-            OpenChildForm(new FrmCompanyHome());
+            OpenChildForm(new FrmCompanyHome()
+            {
+                companyAccount = companyAccount,
+            });
             Reset();
         }
 
@@ -141,7 +147,11 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmCompanyProfile());
+            OpenChildForm(new FrmCompanyProfile()
+            {
+                companyAccount = companyAccount,
+                frmCompanyDashboard = this
+            });
         }
 
         //Method: Job company được click
@@ -180,9 +190,18 @@ namespace WinFormsApplication
         //Method: load dữ liệu về tên của user lên form
         private void FrmCompanyDashboard_Load(object sender, EventArgs e)
         {
-            OpenChildForm(new FrmCompanyHome());
+            OpenChildForm(new FrmCompanyHome() { 
+                companyAccount = companyAccount,
+            });
+            LoadFrmCompanyDashboard();
+        }
+
+        public void LoadFrmCompanyDashboard()
+        {
             //Lấy tên người dùng đang đăng nhập
-            LbWelcomeHeader.Text = "FPT Sofwate HCM";
+            RepositoryTblCompany = new RepositoryTblCompany();
+            TblCompany companyInfor = RepositoryTblCompany.GetCompanyInformation(companyAccount.Username);
+            LbWelcomeHeader.Text = companyInfor.CompanyName;
         }
     }
 }

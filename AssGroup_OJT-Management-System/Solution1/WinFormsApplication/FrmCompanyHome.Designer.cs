@@ -47,7 +47,7 @@ namespace WinFormsApplication
             this.LbEmail = new System.Windows.Forms.Label();
             this.TxtCompanyTax = new System.Windows.Forms.TextBox();
             this.LbCompanyTax = new System.Windows.Forms.Label();
-            this.TxtStudentName = new System.Windows.Forms.TextBox();
+            this.TxtCompanyName = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.LbCompanyInformation = new System.Windows.Forms.Label();
             this.LbCompanyName = new System.Windows.Forms.Label();
@@ -224,7 +224,7 @@ namespace WinFormsApplication
             this.PnCompanyInformation.Controls.Add(this.LbEmail);
             this.PnCompanyInformation.Controls.Add(this.TxtCompanyTax);
             this.PnCompanyInformation.Controls.Add(this.LbCompanyTax);
-            this.PnCompanyInformation.Controls.Add(this.TxtStudentName);
+            this.PnCompanyInformation.Controls.Add(this.TxtCompanyName);
             this.PnCompanyInformation.Controls.Add(this.panel2);
             this.PnCompanyInformation.Controls.Add(this.LbCompanyName);
             this.PnCompanyInformation.Location = new System.Drawing.Point(192, 291);
@@ -270,14 +270,14 @@ namespace WinFormsApplication
             this.LbCompanyTax.TabIndex = 12;
             this.LbCompanyTax.Text = "Company tax: ";
             // 
-            // TxtStudentName
+            // TxtCompanyName
             // 
-            this.TxtStudentName.Enabled = false;
-            this.TxtStudentName.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtStudentName.Location = new System.Drawing.Point(201, 94);
-            this.TxtStudentName.Name = "TxtStudentName";
-            this.TxtStudentName.Size = new System.Drawing.Size(384, 32);
-            this.TxtStudentName.TabIndex = 11;
+            this.TxtCompanyName.Enabled = false;
+            this.TxtCompanyName.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtCompanyName.Location = new System.Drawing.Point(201, 94);
+            this.TxtCompanyName.Name = "TxtCompanyName";
+            this.TxtCompanyName.Size = new System.Drawing.Size(384, 32);
+            this.TxtCompanyName.TabIndex = 11;
             // 
             // panel2
             // 
@@ -364,5 +364,6 @@ namespace WinFormsApplication
         private System.Windows.Forms.Label LbCompanyTax;
         private System.Windows.Forms.TextBox TxtEmail;
         private System.Windows.Forms.Label LbEmail;
+        private System.Windows.Forms.TextBox TxtCompanyName;
     }
 }

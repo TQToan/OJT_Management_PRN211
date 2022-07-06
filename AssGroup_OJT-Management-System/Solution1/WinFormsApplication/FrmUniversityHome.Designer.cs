@@ -39,7 +39,7 @@ namespace WinFormsApplication
             this.LbNumberOfSignedCompanies = new System.Windows.Forms.Label();
             this.PicNumberOfSignedCompanies = new FontAwesome.Sharp.IconPictureBox();
             this.PnNumberOfCompanyPost = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.TxtNumberOfPosts = new System.Windows.Forms.Label();
             this.LbNumberOfCompanyPosts = new System.Windows.Forms.Label();
             this.PicNumberOfPosts = new FontAwesome.Sharp.IconPictureBox();
             this.PnNumberOfMajor = new System.Windows.Forms.Panel();
@@ -181,7 +181,7 @@ namespace WinFormsApplication
             // PnNumberOfCompanyPost
             // 
             this.PnNumberOfCompanyPost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(245)))), ((int)(((byte)(195)))));
-            this.PnNumberOfCompanyPost.Controls.Add(this.label3);
+            this.PnNumberOfCompanyPost.Controls.Add(this.TxtNumberOfPosts);
             this.PnNumberOfCompanyPost.Controls.Add(this.LbNumberOfCompanyPosts);
             this.PnNumberOfCompanyPost.Controls.Add(this.PicNumberOfPosts);
             this.PnNumberOfCompanyPost.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -190,17 +190,17 @@ namespace WinFormsApplication
             this.PnNumberOfCompanyPost.Size = new System.Drawing.Size(234, 125);
             this.PnNumberOfCompanyPost.TabIndex = 2;
             // 
-            // label3
+            // TxtNumberOfPosts
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(116, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 24);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "0";
+            this.TxtNumberOfPosts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TxtNumberOfPosts.AutoSize = true;
+            this.TxtNumberOfPosts.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TxtNumberOfPosts.ForeColor = System.Drawing.Color.Black;
+            this.TxtNumberOfPosts.Location = new System.Drawing.Point(116, 65);
+            this.TxtNumberOfPosts.Name = "TxtNumberOfPosts";
+            this.TxtNumberOfPosts.Size = new System.Drawing.Size(20, 24);
+            this.TxtNumberOfPosts.TabIndex = 6;
+            this.TxtNumberOfPosts.Text = "0";
             // 
             // LbNumberOfCompanyPosts
             // 
@@ -342,7 +342,7 @@ namespace WinFormsApplication
         private System.Windows.Forms.Label TxtNumberOfSignedCompanies;
         private System.Windows.Forms.Label LbNumberOfSignedCompanies;
         private FontAwesome.Sharp.IconPictureBox PicNumberOfSignedCompanies;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label TxtNumberOfPosts;
         private System.Windows.Forms.Label LbNumberOfCompanyPosts;
         private FontAwesome.Sharp.IconPictureBox PicNumberOfPosts;
         private System.Windows.Forms.Panel PnNumberOfMajor;

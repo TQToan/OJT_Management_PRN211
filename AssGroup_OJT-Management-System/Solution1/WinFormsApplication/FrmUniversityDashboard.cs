@@ -1,4 +1,6 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
+using Library.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +16,7 @@ namespace WinFormsApplication
 {
     public partial class FrmUniversityDashboard : Form
     {
+        public IRepositoryTblSemester semesterRepository { get; set; }
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
         private Panel leftBorderBtn;
@@ -174,9 +177,29 @@ namespace WinFormsApplication
         private void FrmUniversityDashboard_Load(object sender, EventArgs e)
         {
             //load dữ liệu về current semester và hiển thị tên lên
-            TxtCurrentSemester.Text = "Summer 2022";
-            OpenChildForm(new FrmUniversityHome());
+            //get tên kì hiện tại lên
+            LoadFrmUniversityDashboard();
+        }
 
+        public void LoadFrmUniversityDashboard()
+        {
+            try
+            {
+                semesterRepository = new RepositoryTblSemester();
+                TblSemester currentSemester = semesterRepository.GetCurrentSemester();
+                if (currentSemester != null)
+                {
+                    TxtCurrentSemester.Text = currentSemester.SemesterName;
+                }
+                OpenChildForm(new FrmUniversityHome()
+                {
+                    parentForm = this,
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "University Dashboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

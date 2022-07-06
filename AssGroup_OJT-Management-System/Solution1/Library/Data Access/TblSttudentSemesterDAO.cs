@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,22 @@ namespace Library.Data_Access
                     return instance;
                 }
             }
+        }
+        public int GetNumberOfStudentOfCurrentSemester(TblSemester currentSemester)
+        {
+            int numberOfStudent = 0;
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dbContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    numberOfStudent = dbContext.TblStudentSemesters.Where(semester => semester.SemesterId == currentSemester.SemesterId).Count();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return numberOfStudent;
         }
     }
 }
