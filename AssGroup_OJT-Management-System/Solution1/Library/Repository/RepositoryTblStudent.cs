@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Data_Access;
+using Library.Models;
 
 namespace Library.Repository
 {
     public class RepositoryTblStudent : IRepositoryTblStudent
     {
+
         public void InsertStudent(TblStudent student) => TblStudentDAO.Instance.InsertStudent(student);
         public bool ChecStudentIDIsExist(string studentID) => TblStudentDAO.Instance.ChecStudentIDIsExist(studentID);
 
@@ -28,5 +31,9 @@ namespace Library.Repository
         public IEnumerable<TblStudent> GetStudentListByStudentName(int semesterID, string studentName) => TblStudentDAO.Instance.GetStudentListByStudentName(semesterID,studentName);
 
         public void UpdateStudent(TblStudent student) => TblStudentDAO.Instance.UpdateStudent(student);
+
+        public TblStudent GetStudentProfileByUserName(string username) =>
+            TblStudentDAO.GetStudentProfileByUserName(username);
+
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Models;
 
 namespace Library.Repository
 {
@@ -19,5 +20,7 @@ namespace Library.Repository
         IEnumerable<TblStudent> GetStudentListByCredits(int semesterID, int credit);
         IEnumerable<TblStudent> GetStudentListByMajorName(int semesterID, string major);
         TblStudent GetStudentByStudentID(string id);
+
+        TblStudent GetStudentProfileByUserName(string username);
     }
 }

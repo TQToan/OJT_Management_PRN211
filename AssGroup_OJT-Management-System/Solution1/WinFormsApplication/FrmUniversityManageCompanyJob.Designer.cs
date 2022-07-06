@@ -35,6 +35,7 @@ namespace WinFormsApplication
             this.BtnSearchJobList = new FontAwesome.Sharp.IconButton();
             this.TxtSearchJobCompanyName = new System.Windows.Forms.TextBox();
             this.PnFilter = new System.Windows.Forms.Panel();
+            this.txtIDJob = new System.Windows.Forms.TextBox();
             this.PnLayout = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.DgvCompaniesList)).BeginInit();
             this.PnFilter.SuspendLayout();
@@ -42,6 +43,7 @@ namespace WinFormsApplication
             // 
             // DgvCompaniesList
             // 
+            this.DgvCompaniesList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvCompaniesList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvCompaniesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvCompaniesList.Location = new System.Drawing.Point(0, 91);
@@ -51,6 +53,7 @@ namespace WinFormsApplication
             this.DgvCompaniesList.Size = new System.Drawing.Size(1093, 460);
             this.DgvCompaniesList.TabIndex = 2;
             this.DgvCompaniesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCompaniesList_CellDoubleClick);
+            this.DgvCompaniesList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvCompaniesList_CellFormatting);
             // 
             // LbFilterJobCompanyList
             // 
@@ -76,6 +79,7 @@ namespace WinFormsApplication
             this.CbFilterJobCompanyList.Name = "CbFilterJobCompanyList";
             this.CbFilterJobCompanyList.Size = new System.Drawing.Size(178, 32);
             this.CbFilterJobCompanyList.TabIndex = 2;
+            this.CbFilterJobCompanyList.SelectedIndexChanged += new System.EventHandler(this.CbFilterJobCompanyList_SelectedIndexChanged);
             // 
             // BtnSearchJobList
             // 
@@ -90,6 +94,7 @@ namespace WinFormsApplication
             this.BtnSearchJobList.Size = new System.Drawing.Size(64, 32);
             this.BtnSearchJobList.TabIndex = 1;
             this.BtnSearchJobList.UseVisualStyleBackColor = true;
+            this.BtnSearchJobList.Click += new System.EventHandler(this.BtnSearchJobList_Click);
             // 
             // TxtSearchJobCompanyName
             // 
@@ -112,6 +117,14 @@ namespace WinFormsApplication
             this.PnFilter.Size = new System.Drawing.Size(1093, 91);
             this.PnFilter.TabIndex = 3;
             // 
+            // txtIDJob
+            // 
+            this.txtIDJob.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtIDJob.Location = new System.Drawing.Point(12, 129);
+            this.txtIDJob.Name = "txtIDJob";
+            this.txtIDJob.Size = new System.Drawing.Size(110, 32);
+            this.txtIDJob.TabIndex = 5;
+            // 
             // PnLayout
             // 
             this.PnLayout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(113)))), ((int)(((byte)(36)))));
@@ -129,6 +142,7 @@ namespace WinFormsApplication
             this.Controls.Add(this.PnLayout);
             this.Controls.Add(this.DgvCompaniesList);
             this.Controls.Add(this.PnFilter);
+            this.Controls.Add(this.txtIDJob);
             this.MaximumSize = new System.Drawing.Size(1332, 747);
             this.MinimumSize = new System.Drawing.Size(1111, 598);
             this.Name = "FrmUniversityManageCompanyJob";
@@ -138,6 +152,7 @@ namespace WinFormsApplication
             this.PnFilter.ResumeLayout(false);
             this.PnFilter.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -150,5 +165,6 @@ namespace WinFormsApplication
         private System.Windows.Forms.TextBox TxtSearchJobCompanyName;
         private System.Windows.Forms.Panel PnFilter;
         private System.Windows.Forms.Panel PnLayout;
+        private System.Windows.Forms.TextBox txtIDJob;
     }
 }
