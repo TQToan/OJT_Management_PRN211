@@ -87,7 +87,6 @@ namespace WinFormsApplication
             // BtnUpdate
             // 
             this.BtnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnUpdate.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BtnUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnUpdate.Location = new System.Drawing.Point(365, 20);
@@ -279,6 +278,7 @@ namespace WinFormsApplication
             this.Name = "FrmUniversityEditStudentInformation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Edit Student Information";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmUniversityEditStudentInformation_FormClosing);
             this.Load += new System.EventHandler(this.FrmUniversityEditStudentInformation_Load);
             this.PnHeader.ResumeLayout(false);
             this.PnHeader.PerformLayout();

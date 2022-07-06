@@ -1,4 +1,6 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
+using Library.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,12 +23,15 @@ namespace WinFormsApplication
         private int redColor = 255;
         private int greenColor = 153;
         private int blueColor = 51;
+
+        IRepositoryTblSemester semesterRepo = new RepositoryTblSemester();
+        DateTime tmpDate = DateTime.Now;
         public FrmUniversityDashboard()
         {
             InitializeComponent();
             leftBorderBtn = new Panel();
             leftBorderBtn.Size = new Size(7, 60);
-            PnUniversityDashboard.Controls.Add(leftBorderBtn);
+            PnUniversityDashboard.Controls.Add(leftBorderBtn); 
         }
 
         //Method: khi 1 button được click thể hiện sự active của button
@@ -108,6 +113,7 @@ namespace WinFormsApplication
             childForm.BringToFront();
             childForm.Show();
             LbControlHeader.Text = childForm.Text;
+
         }
 
 
@@ -115,22 +121,46 @@ namespace WinFormsApplication
         private void BtnStudentManagement_Click(object sender, EventArgs e)
         {
             // cấu hình lại button khi được click
-            ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmUniversityManageStudentList());
+            TblSemester currentSemester = semesterRepo.GetCurrentSemester();
+            if (tmpDate <= currentSemester.EndDate)
+            {
+                ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
+                OpenChildForm(new FrmUniversityManageStudentList());
+            }
+            else
+            {
+                MessageBox.Show("New semester  has not been added, please come back next time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void BtnCompanyManagement_Click(object sender, EventArgs e)
         {
             // cấu hình lại button khi được click
-            ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmUniversityManageCompanyList());
+            TblSemester currentSemester = semesterRepo.GetCurrentSemester();
+            if (tmpDate <= currentSemester.EndDate)
+            {
+                ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
+                OpenChildForm(new FrmUniversityManageCompanyList());
+            }
+            else
+            {
+                MessageBox.Show("New semester  has not been added, please come back next time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void BtnCompanyPostManagement_Click(object sender, EventArgs e)
         {
             // cấu hình lại button khi được click
-            ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmUniversityManageCompanyJob());
+            TblSemester currentSemester = semesterRepo.GetCurrentSemester();
+            if (tmpDate <= currentSemester.EndDate)
+            {
+                ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
+                OpenChildForm(new FrmUniversityManageCompanyJob());
+            }
+            else
+            {
+                MessageBox.Show("New semester  has not been added, please come back next time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void BtnSettingManagement_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Library.Data_Access
 {
     public class TblStudentDAO
     {
+         //OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblStudentDAO() { }
         private static TblStudentDAO instance = null;
@@ -26,5 +28,99 @@ namespace Library.Data_Access
                 }
             }
         }
+
+        public TblStudent GetStudentByStudentID(string id)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            return db.TblStudents.Find(id);
+        }
+
+        public void InsertStudent(TblStudent student)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            db.TblStudents.Add(student);
+            db.SaveChanges();
+        }
+
+        public void UpdateStudent (TblStudent student)
+        {
+           using  OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            db.Entry<TblStudent>(student).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public bool ChecStudentIDIsExist(string studentID)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var result = db.TblStudents.Find(studentID);
+            if (result == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public IEnumerable<TblStudent> GetStudentListBySemesterID(int semesterID)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID
+                       select student;
+            return list.ToList();
+
+        }
+        public IEnumerable<TblStudent> GetStudentListByStudentName(int semesterID, string studentName)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID && student.StudentName.Contains(studentName)
+                       select student;
+            return list.ToList();
+
+        }
+        public IEnumerable<TblStudent> GetStudentListByStudentCode(int semesterID, string studentCode)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID && student.StudentCode.Contains(studentCode)
+                       select student;
+            return list.ToList();
+
+        }
+        public IEnumerable<TblStudent> GetStudentListByAddress(int semesterID, string address)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID && student.Address.Contains(address)
+                       select student;
+            return list.ToList();
+
+        }
+        public IEnumerable<TblStudent> GetStudentListByCredits(int semesterID, int credit)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID && student.Credit == credit
+                       select student;
+            return list.ToList();
+
+        }
+        public IEnumerable<TblStudent> GetStudentListByMajorName(int semesterID, string major)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from student in db.TblStudents
+                       join semester in db.TblStudentSemesters on student.StudentCode equals semester.StudentCode
+                       where semester.SemesterId == semesterID && student.Majorname.Contains(major)
+                       select student;
+            return list.ToList();
+
+        }
+
+
     }
 }

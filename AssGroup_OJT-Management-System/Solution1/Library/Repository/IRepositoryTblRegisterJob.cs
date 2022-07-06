@@ -8,5 +8,8 @@ namespace Library.Repository
 {
     public interface IRepositoryTblRegisterJob
     {
+        bool checkCourStatusByStudentCode(string studentCode);
+
+        bool checkStudentIsPass(string studentCode);
     }
 }

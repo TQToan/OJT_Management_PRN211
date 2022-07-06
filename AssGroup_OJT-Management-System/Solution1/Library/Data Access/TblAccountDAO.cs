@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Library.Data_Access
 {
     public class TblAccountDAO
     {
+        //private OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblAccountDAO() { }
         private static TblAccountDAO instance = null;
@@ -25,6 +27,39 @@ namespace Library.Data_Access
                     return instance;
                 }
             }
+        }
+        // hàm kiểm tra Email đã tồn tại chưa 
+        public bool CheckEmailIsExist(String email)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var result = db.TblAccounts.Find(email);
+                if (result != null)
+                {
+                    return true;
+                }
+           
+            return false;
+        }
+
+        public TblAccount GetAccountByEmail(string email)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            return db.TblAccounts.Find(email);
+        }
+
+        public void InsertAccount(TblAccount account)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            db.TblAccounts.Add(account);
+            db.SaveChanges();
+        }
+
+        public void UpdateAccount (TblAccount account)
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var result = db.TblAccounts.Find(account.Username);
+            result.Password = account.Password;
+            db.SaveChanges();
         }
     }
 }

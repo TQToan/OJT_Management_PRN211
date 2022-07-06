@@ -8,5 +8,6 @@ namespace Library.Repository
 {
     public interface IRepositoryTblMajor
     {
+        IEnumerable<string> GetAllMajorName();
     }
 }

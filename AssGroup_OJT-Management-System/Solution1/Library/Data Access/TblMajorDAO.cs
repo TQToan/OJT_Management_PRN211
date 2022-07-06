@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,14 @@ namespace Library.Data_Access
                     return instance;
                 }
             }
+        }
+
+        public IEnumerable<string> GetAllMajorName()
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from major in db.TblMajors
+                       select major.MajorName;
+            return list.ToList();
         }
     }
 }
