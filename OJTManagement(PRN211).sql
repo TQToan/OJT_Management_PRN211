@@ -77,8 +77,8 @@ CREATE TABLE tblRegister_Job (
 	jobCode int NOT NULL,
 	grade float,
 	comment nvarchar(200),
-	student_Confirm bit, /*false: cancel, true: accepted*/
-	isCompanyConfirm int, /*0: not yet, 1: accepted, 2: denied*/
+	student_Confirm bit, /*false: cancel, true: accepted*/ 
+	isCompanyConfirm int, /*0: not yet, 1: accepted, 2: denied*/ 
 	is_Pass bit, /*0: passed, 1: not pass*/
 	aspiration int,
 

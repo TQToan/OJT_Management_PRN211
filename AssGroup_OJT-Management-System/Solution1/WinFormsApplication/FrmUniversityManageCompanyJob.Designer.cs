@@ -43,7 +43,7 @@ namespace WinFormsApplication
             // 
             // DgvCompaniesList
             // 
-            this.DgvCompaniesList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.DgvCompaniesList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvCompaniesList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvCompaniesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DgvCompaniesList.Location = new System.Drawing.Point(0, 91);

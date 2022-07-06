@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.Models;
 
 namespace Library.Repository
 {
     public interface IRepositoryTblStudent
     {
+        TblStudent GetStudentProfileByUserName(string username);
     }
 }

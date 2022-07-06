@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Library.Repository;
 using Library.Models;
-using Library.Data_Access;
-
+using Library.Repository;
 
 namespace WinFormsApplication
 {
     public partial class FrmUniversityManageCompanyJob : Form
     {
-        IRepositoryTblJob repositoryTblJob = new RepositoryTblJob();
+        private readonly IRepositoryTblJob repositoryTblJob = new RepositoryTblJob();
+
         public FrmUniversityManageCompanyJob()
         {
             InitializeComponent();
@@ -26,15 +21,22 @@ namespace WinFormsApplication
         private void DgvCompaniesList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //Lay Job by ID Job
-            TblJob tblJob = repositoryTblJob.GetJobByID(int.Parse(txtIDJob.Text));
-            if (tblJob.NumberInterns <= 0 || tblJob.ExpirationDate < DateTime.Now)
+            var tblJob = repositoryTblJob.GetJobByID(int.Parse(txtIDJob.Text));
+            if (tblJob.NumberInterns <= 0)
             {
-                MessageBox.Show("Can't not confirm this job", "Company Job - Confirm Company's Job");
+                MessageBox.Show("This job is full", "Can't not confirm this job", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            else if (tblJob.ExpirationDate < DateTime.Now)
+            {
+                MessageBox.Show("This job expired", "Can't not confirm this job", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             else
             {
-                DialogResult result = MessageBox.Show("Do you want to accept this company's job?", "Company Job - Confirm Company's Job",
-                                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                var result = MessageBox.Show("Do you want to accept this company's job?",
+                    "Company Job - Confirm Company's Job",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -48,7 +50,7 @@ namespace WinFormsApplication
                         Status = true,
                         TaxCode = tblJob.TaxCode,
                         MajorCode = tblJob.MajorCode,
-                        AdminConfirm = 1,
+                        AdminConfirm = 1
                     };
                     repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
                 }
@@ -65,18 +67,17 @@ namespace WinFormsApplication
                         Status = false,
                         TaxCode = tblJob.TaxCode,
                         MajorCode = tblJob.MajorCode,
-                        AdminConfirm = 2,
+                        AdminConfirm = 2
                     };
                     repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
                 }
+
                 LoadCompanyJob();
                 // nếu là cancel thì không thay đổi gì cả
             }
-
         }
 
         //Method: thực hiện load các job lên
-
 
 
         //Lay danh sach cac bai post
@@ -84,118 +85,63 @@ namespace WinFormsApplication
         {
             try
             {
-
-                using (var db = new OJT_MANAGEMENT_PRN211_Vs1Context())
-                {
-                    BindingSource source = new BindingSource();
-                    source.DataSource = (from job in db.TblJobs
-                                         orderby job.AdminConfirm ascending
-                                         select new
-                                         {
-                                             JobCode = job.JobCode,
-                                             JobName = job.JobName,
-                                             CompanyName = job.TaxCodeNavigation.CompanyName,
-                                             MajorName = job.MajorCodeNavigation.MajorName,
-                                             NumberOfInTerns = job.NumberInterns,
-                                             ExpirationDate = job.ExpirationDate,
-                                             Address = job.TaxCodeNavigation.Address,
-                                             ActionStatus = job.Status,
-                                             AdminConfirm = job.AdminConfirm
-                                         }).ToList();
-                    txtIDJob.DataBindings.Clear();
-                    txtIDJob.DataBindings.Add("Text", source, "JobCode");
-                    //DgvCompaniesList.Columns[0].Visible = false;
-                    DgvCompaniesList.DataSource = source;
-                }
+                var source = new BindingSource();
+                source.DataSource = repositoryTblJob.GetJobList123().ToList();
+                txtIDJob.DataBindings.Clear();
+                txtIDJob.DataBindings.Add("Text", source, "JobCode");
+                //DgvCompaniesList.Columns[0].Visible = false;
+                DgvCompaniesList.DataSource = source;
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Load data error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        //Load cac bai Post
         private void FrmUniversityManageCompanyJob_Load(object sender, EventArgs e)
         {
+            CbFilterJobCompanyList.Text = "Company name";
             LoadCompanyJob();
-
         }
 
+        //--------------------------------------------------------------------------
         private void BtnSearchJobList_Click(object sender, EventArgs e)
         {
-
+            var source = new BindingSource();
+            var searchFiler = CbFilterJobCompanyList.Text;
             try
             {
-                BindingSource source = new BindingSource();
-                source.DataSource = null;
-                using (var db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                switch (searchFiler)
                 {
-                    string searchValue = CbFilterJobCompanyList.Text;
-                    switch (searchValue)
-                    {
-                        case "Company name":
-                            source.DataSource = db.TblJobs.Where(job => job.TaxCodeNavigation.CompanyName.ToUpper().Contains(TxtSearchJobCompanyName.Text.ToUpper()))
-                            .Select(job => new
-                            {
-                                JobCode = job.JobCode,
-                                JobName = job.JobName,
-                                CompanyName = job.TaxCodeNavigation.CompanyName,
-                                MajorName = job.MajorCodeNavigation.MajorName,
-                                NumberOfInTerns = job.NumberInterns,
-                                ExpirationDate = job.ExpirationDate,
-                                Address = job.TaxCodeNavigation.Address,
-                                ActionStatus = job.Status,
-                                AdminConfirm = job.AdminConfirm
-
-                            }).OrderBy(job => job.AdminConfirm).ToList();
-                            break;
-
-                        case "Company Address":
-                            source.DataSource = db.TblJobs.Where(job => job.TaxCodeNavigation.Address.ToUpper().Contains(TxtSearchJobCompanyName.Text.ToUpper()))
-                            .Select(job => new
-                            {
-                                JobCode = job.JobCode,
-                                JobName = job.JobName,
-                                CompanyName = job.TaxCodeNavigation.CompanyName,
-                                MajorName = job.MajorCodeNavigation.MajorName,
-                                NumberOfInTerns = job.NumberInterns,
-                                ExpirationDate = job.ExpirationDate,
-                                Address = job.TaxCodeNavigation.Address,
-                                ActionStatus = job.Status,
-                                AdminConfirm = job.AdminConfirm
-
-                            }).OrderBy(job => job.AdminConfirm).ToList();
-                            break;
-
-                        case "Job name":
-                            source.DataSource = db.TblJobs.Where(job => job.JobName.ToUpper().Contains(TxtSearchJobCompanyName.Text.ToUpper())).
-                            Select(job => new
-                            {
-                                JobCode = job.JobCode,
-                                JobName = job.JobName,
-                                CompanyName = job.TaxCodeNavigation.CompanyName,
-                                MajorName = job.MajorCodeNavigation.MajorName,
-                                NumberOfInTerns = job.NumberInterns,
-                                ExpirationDate = job.ExpirationDate,
-                                Address = job.TaxCodeNavigation.Address,
-                                ActionStatus = job.Status,
-                                AdminConfirm = job.AdminConfirm
-
-                            }).OrderBy(job => job.AdminConfirm).ToList();
-                            break;
-                    }
-
-                    txtIDJob.DataBindings.Clear();
-                    txtIDJob.DataBindings.Add("Text", source, "JobCode");
-                    DgvCompaniesList.DataSource = source;
-
+                    case "Job name":
+                        source.DataSource = repositoryTblJob.SearchJobByJobNameAsAdmin(TxtSearchJobCompanyName.Text)
+                            .ToList();
+                        break;
+                    case "Company Address":
+                        source.DataSource = repositoryTblJob
+                            .SearchJobByCompanyAddressAsAdmin(TxtSearchJobCompanyName.Text).ToList();
+                        break;
+                    default:
+                        source.DataSource = repositoryTblJob.SearchJobByCompanyNameAsAdmin(TxtSearchJobCompanyName.Text)
+                            .ToList();
+                        break;
                 }
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message, "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            if (source.Count > 0)
+            {
+                txtIDJob.DataBindings.Clear();
+                txtIDJob.DataBindings.Add("Text", source, "JobCode");
+                DgvCompaniesList.DataSource = source;
+            }
+            else
+            {
+                MessageBox.Show("No record match!", "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void CbFilterJobCompanyList_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,51 +151,51 @@ namespace WinFormsApplication
 
         private void DgvCompaniesList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (this.DgvCompaniesList.Columns[e.ColumnIndex].Name == "ActionStatus")
+            if (DgvCompaniesList.Columns[e.ColumnIndex].Name == "ActionStatus")
             {
                 if (e.Value != null && e.Value.ToString().Equals("True"))
 
                 {
-                    e.Value = new String("Active");
+                    e.Value = new string("Active");
                     e.CellStyle.ForeColor = Color.Green;
                 }
                 else
                 {
-                    e.Value = new String("Unactive");
+                    e.Value = new string("Unactive");
                     e.CellStyle.ForeColor = Color.Red;
                 }
             }
-            if (this.DgvCompaniesList.Columns[e.ColumnIndex].Name == "AdminConfirm")
+
+            if (DgvCompaniesList.Columns[e.ColumnIndex].Name == "AdminConfirm")
             {
                 if (e.Value != null && e.Value.Equals(1))
 
                 {
-                    e.Value = new String("Accepted");
+                    e.Value = new string("Accepted");
                     e.CellStyle.ForeColor = Color.Green;
                 }
                 else if (e.Value != null && e.Value.Equals(2))
                 {
-                    e.Value = new String("Denied");
+                    e.Value = new string("Denied");
                     e.CellStyle.ForeColor = Color.Red;
                 }
                 else
-                    e.Value = new String("Not Yet");
+                {
+                    e.Value = new string("Not Yet");
+                }
             }
-            if (this.DgvCompaniesList.Columns[e.ColumnIndex].Name == "ExpirationDate")
-            {
-                ShortFormDateFormat(e);
-            }
+
+            if (DgvCompaniesList.Columns[e.ColumnIndex].Name == "ExpirationDate") ShortFormDateFormat(e);
         }
 
         //FormatDate
         private static void ShortFormDateFormat(DataGridViewCellFormattingEventArgs formatting)
         {
             if (formatting.Value != null)
-            {
                 try
                 {
-                    System.Text.StringBuilder dateString = new System.Text.StringBuilder();
-                    DateTime theDate = DateTime.Parse(formatting.Value.ToString());
+                    var dateString = new StringBuilder();
+                    var theDate = DateTime.Parse(formatting.Value.ToString());
 
                     dateString.Append(theDate.Day);
                     dateString.Append("/");
@@ -265,9 +211,6 @@ namespace WinFormsApplication
                     // format this DataGridViewCellFormattingEventArgs instance.
                     formatting.FormattingApplied = false;
                 }
-            }
         }
-
-
     }
 }
