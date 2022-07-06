@@ -73,9 +73,19 @@ namespace Library.Data_Access
                     dbContext.TblMajors.Add(newMajor);
                     dbContext.SaveChanges();
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        public IEnumerable<string> GetAllMajorName()
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from major in db.TblMajors
+                           select major.MajorName;
+                return list.ToList();
             }
         }
     }

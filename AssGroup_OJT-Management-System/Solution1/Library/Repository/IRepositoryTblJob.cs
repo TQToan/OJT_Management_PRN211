@@ -12,5 +12,14 @@ namespace Library.Repository
         public int GetNumberOfAvailableJob();
         public int GetNumberOfInterns(TblCompany company, int companyConfirm, int studentIntern);
         public List<TblJob> GetListCompanyJobPost(TblCompany company);
+        public void UpdateStatusJobAsAdmin(TblJob job);    //Admin Update Status vs Admin Confirm POST
+        public TblJob GetJobByID(int idJob);           //lay post theo ID job
+        public IEnumerable<dynamic> GetJobList123(); //lay cac bai post khi Load from
+        
+        //Admin search cac bai post cua company -------------------------------------------
+        public IEnumerable<dynamic> SearchJobByCompanyNameAsAdmin(string searchValue);
+        public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue);
+        public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue);
+        //----------------------------------------------------------------------
     }
 }

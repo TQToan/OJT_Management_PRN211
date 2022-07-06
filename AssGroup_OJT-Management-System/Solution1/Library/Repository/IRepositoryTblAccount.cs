@@ -11,5 +11,10 @@ namespace Library.Repository
     {
         public TblAccount CheckLogin(string email, string password);
         public bool CheckAvailabelAccount(string email);
+        public bool CheckEmailIsExist(String email);
+        public TblAccount GetAccountByEmail(string email);
+
+        public void InsertAccount(TblAccount account);
+        public void UpdateAccount(TblAccount account);
     }
 }

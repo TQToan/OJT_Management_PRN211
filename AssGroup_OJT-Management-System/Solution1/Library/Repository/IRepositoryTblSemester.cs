@@ -11,5 +11,10 @@ namespace Library.Repository
     {
         public TblSemester GetCurrentSemester();
         public void AddNewSemester(TblSemester newSemester);
+        public IEnumerable<string> GetAllSemesterName();
+        public TblSemester GetSemterBySemesterID(int id);
+
+        //TblSemester GetCurrentSemester();
+        public TblSemester GetSemesterByName(string name);
     }
 }

@@ -34,6 +34,8 @@ namespace WinFormsApplication
             this.BtnSearchApplication = new FontAwesome.Sharp.IconButton();
             this.TxtSearchApplication = new System.Windows.Forms.TextBox();
             this.PnFilter = new System.Windows.Forms.Panel();
+            this.txtStudentCodeInvisible = new System.Windows.Forms.TextBox();
+            this.txtJobCodeInvisible = new System.Windows.Forms.TextBox();
             this.CbFilterApplicationList = new System.Windows.Forms.ComboBox();
             this.PnLayout = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.DgvApplicationList)).BeginInit();
@@ -51,6 +53,7 @@ namespace WinFormsApplication
             this.DgvApplicationList.Size = new System.Drawing.Size(1097, 465);
             this.DgvApplicationList.TabIndex = 7;
             this.DgvApplicationList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvApplicationList_CellDoubleClick);
+            this.DgvApplicationList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvApplicationList_CellFormatting);
             // 
             // LbFilterJobCompanyList
             // 
@@ -88,6 +91,8 @@ namespace WinFormsApplication
             // PnFilter
             // 
             this.PnFilter.BackColor = System.Drawing.SystemColors.Control;
+            this.PnFilter.Controls.Add(this.txtStudentCodeInvisible);
+            this.PnFilter.Controls.Add(this.txtJobCodeInvisible);
             this.PnFilter.Controls.Add(this.LbFilterJobCompanyList);
             this.PnFilter.Controls.Add(this.CbFilterApplicationList);
             this.PnFilter.Controls.Add(this.BtnSearchApplication);
@@ -97,6 +102,24 @@ namespace WinFormsApplication
             this.PnFilter.Name = "PnFilter";
             this.PnFilter.Size = new System.Drawing.Size(1097, 130);
             this.PnFilter.TabIndex = 6;
+            // 
+            // txtStudentCodeInvisible
+            // 
+            this.txtStudentCodeInvisible.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtStudentCodeInvisible.Location = new System.Drawing.Point(291, 92);
+            this.txtStudentCodeInvisible.Name = "txtStudentCodeInvisible";
+            this.txtStudentCodeInvisible.Size = new System.Drawing.Size(86, 32);
+            this.txtStudentCodeInvisible.TabIndex = 5;
+            this.txtStudentCodeInvisible.Visible = false;
+            // 
+            // txtJobCodeInvisible
+            // 
+            this.txtJobCodeInvisible.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtJobCodeInvisible.Location = new System.Drawing.Point(176, 92);
+            this.txtJobCodeInvisible.Name = "txtJobCodeInvisible";
+            this.txtJobCodeInvisible.Size = new System.Drawing.Size(86, 32);
+            this.txtJobCodeInvisible.TabIndex = 4;
+            this.txtJobCodeInvisible.Visible = false;
             // 
             // CbFilterApplicationList
             // 
@@ -111,6 +134,7 @@ namespace WinFormsApplication
             this.CbFilterApplicationList.Name = "CbFilterApplicationList";
             this.CbFilterApplicationList.Size = new System.Drawing.Size(178, 32);
             this.CbFilterApplicationList.TabIndex = 2;
+            this.CbFilterApplicationList.TextChanged += new System.EventHandler(this.CbFilterApplicationList_TextChanged);
             // 
             // PnLayout
             // 
@@ -148,5 +172,7 @@ namespace WinFormsApplication
         private System.Windows.Forms.Panel PnFilter;
         private System.Windows.Forms.ComboBox CbFilterApplicationList;
         private System.Windows.Forms.Panel PnLayout;
+        private System.Windows.Forms.TextBox txtStudentCodeInvisible;
+        private System.Windows.Forms.TextBox txtJobCodeInvisible;
     }
 }

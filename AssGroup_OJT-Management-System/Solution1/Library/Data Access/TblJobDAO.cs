@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Library.Data_Access
 {
@@ -14,6 +15,7 @@ namespace Library.Data_Access
         private TblJobDAO() { }
         private static TblJobDAO instance = null;
         private static readonly object InstanceLock = new object();
+
         public static TblJobDAO Instance
         {
             get
@@ -40,13 +42,14 @@ namespace Library.Data_Access
                     foreach (var item in dbContext.TblJobs.ToList())
                     {
                         int status = DateTime.Compare(item.ExpirationDate.Value, today);
-                        if(status > 0 && item.NumberInterns > 0)
+                        if (status > 0 && item.NumberInterns > 0)
                         {
                             listJob.Add(item);
                         }
                     }
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -73,6 +76,53 @@ namespace Library.Data_Access
                 throw new Exception(ex.Message);
             }
             return listJobs;
+        }
+        public TblJob GetJobByID(int idJob)                      //Lay post theo ID
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                TblJob job = dBContext.TblJobs.Where(j => j.JobCode == idJob).FirstOrDefault();
+                return job;
+            }
+        }
+
+
+        public IEnumerable<dynamic> GetJobList123()              //Lay DS bai POST
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var listFullJob = (from job in dBContext.TblJobs
+                                   orderby job.AdminConfirm ascending
+                                   select new
+                                   {
+                                       JobCode = job.JobCode,
+                                       JobName = job.JobName,
+                                       CompanyName = job.TaxCodeNavigation.CompanyName,
+                                       MajorName = job.MajorCodeNavigation.MajorName,
+                                       NumberOfInTerns = job.NumberInterns,
+                                       ExpirationDate = job.ExpirationDate,
+                                       Address = job.TaxCodeNavigation.Address,
+                                       ActionStatus = job.Status,
+                                       AdminConfirm = job.AdminConfirm
+                                   });
+                return listFullJob;
+            }
+        }
+
+        public void UpdateStatusJobAsAdmin(TblJob job)           //Update Status vs Admin Confirm POST
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    dBContext.Entry<TblJob>(job).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    dBContext.SaveChanges();      // cap nhat CSDL
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public int GetNumberOfInterns(TblCompany company, int companyConfirm, int studentIntern)
@@ -110,11 +160,76 @@ namespace Library.Data_Access
                         }
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
             return listStudent.Count;
         }
+        public IEnumerable<dynamic> SearchJobByCompanyNameAsAdmin(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var listResult = dBContext.TblJobs.Where(job => job.TaxCodeNavigation.CompanyName.ToUpper().Contains(searchValue.ToUpper()))
+                    .Select(job => new
+                    {
+                        JobCode = job.JobCode,
+                        JobName = job.JobName,
+                        CompanyName = job.TaxCodeNavigation.CompanyName,
+                        MajorName = job.MajorCodeNavigation.MajorName,
+                        NumberOfInTerns = job.NumberInterns,
+                        ExpirationDate = job.ExpirationDate,
+                        Address = job.TaxCodeNavigation.Address,
+                        ActionStatus = job.Status,
+                        AdminConfirm = job.AdminConfirm
+
+                    }).OrderBy(job => job.AdminConfirm);
+                return listResult;
+            }
+        }
+        public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var listResult = dBContext.TblJobs.Where(job => job.JobName.ToUpper().Contains(searchValue.ToUpper()))
+                .Select(job => new
+                {
+                    JobCode = job.JobCode,
+                    JobName = job.JobName,
+                    CompanyName = job.TaxCodeNavigation.CompanyName,
+                    MajorName = job.MajorCodeNavigation.MajorName,
+                    NumberOfInTerns = job.NumberInterns,
+                    ExpirationDate = job.ExpirationDate,
+                    Address = job.TaxCodeNavigation.Address,
+                    ActionStatus = job.Status,
+                    AdminConfirm = job.AdminConfirm
+
+                }).OrderBy(job => job.AdminConfirm);
+                return listResult;
+            }
+        }
+        public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var listResult = dBContext.TblJobs.Where(job => job.TaxCodeNavigation.Address.ToUpper().Contains(searchValue.ToUpper()))
+                 .Select(job => new
+                 {
+                     JobCode = job.JobCode,
+                     JobName = job.JobName,
+                     CompanyName = job.TaxCodeNavigation.CompanyName,
+                     MajorName = job.MajorCodeNavigation.MajorName,
+                     NumberOfInTerns = job.NumberInterns,
+                     ExpirationDate = job.ExpirationDate,
+                     Address = job.TaxCodeNavigation.Address,
+                     ActionStatus = job.Status,
+                     AdminConfirm = job.AdminConfirm
+
+                 }).OrderBy(job => job.AdminConfirm);
+                return listResult;
+            }
+        }
     }
 }
+

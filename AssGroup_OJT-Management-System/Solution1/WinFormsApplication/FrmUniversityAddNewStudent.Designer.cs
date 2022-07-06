@@ -103,7 +103,6 @@ namespace WinFormsApplication
             // 
             // BtnInsertANewStudent
             // 
-            this.BtnInsertANewStudent.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnInsertANewStudent.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BtnInsertANewStudent.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnInsertANewStudent.Location = new System.Drawing.Point(293, 28);
@@ -382,6 +381,7 @@ namespace WinFormsApplication
             this.Name = "FrmUniversityAddNewStudent";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Insert New Student";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmUniversityAddNewStudent_FormClosing);
             this.Load += new System.EventHandler(this.FrmUniversityAddNewStudent_Load);
             this.PnHeader.ResumeLayout(false);
             this.PnHeader.PerformLayout();

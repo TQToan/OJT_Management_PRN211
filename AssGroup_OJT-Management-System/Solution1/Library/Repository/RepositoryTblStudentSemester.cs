@@ -12,5 +12,13 @@ namespace Library.Repository
     {
         public int GetNumberOfStudentOfCurrentSemester(TblSemester currentSemester) 
             => TblSttudentSemesterDAO.Instance.GetNumberOfStudentOfCurrentSemester(currentSemester);
+        public bool CheckStudentAndSemesterIsExist(TblStudentSemester stuSem) 
+            => TblSttudentSemesterDAO.Instance.CheckStudentAndSemesterIsExist(stuSem);
+
+        public IEnumerable<TblStudentSemester> GetStudentInOtherSemester(string studentCode)
+            => TblSttudentSemesterDAO.Instance.GetStudentInOtherSemester(studentCode);
+
+        public void InsertStuSemester(TblStudentSemester stuSemester) 
+            => TblSttudentSemesterDAO.Instance.InsertStuSemester(stuSemester);
     }
 }

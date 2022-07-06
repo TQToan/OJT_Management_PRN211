@@ -14,5 +14,14 @@ namespace Library.Repository
             => TblSemesterDAO.Instance.GetCurrentSemester();
         public void AddNewSemester(TblSemester newSemester) 
             => TblSemesterDAO.Instance.AddNewSemester(newSemester);
+        public IEnumerable<string> GetAllSemesterName() 
+            => TblSemesterDAO.Instance.GetAllSemesterName();
+
+        //public TblSemester GetCurrentSemester() => TblSemesterDAO.Instance.GetCurrentSemester();
+
+        public TblSemester GetSemesterByName(string name) 
+            => TblSemesterDAO.Instance.GetSemesterByName(name);
+        public TblSemester GetSemterBySemesterID(int id) 
+            => TblSemesterDAO.Instance.GetSemterBySemesterID(id);
     }
 }

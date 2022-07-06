@@ -15,5 +15,16 @@ namespace Library.Repository
 
         public TblAccount CheckLogin(string email, string password)
             => TblAccountDAO.Instance.CheckLogin(email, password);
+        public bool CheckEmailIsExist(string email) 
+            => TblAccountDAO.Instance.CheckEmailIsExist(email);
+
+        public TblAccount GetAccountByEmail(string email) 
+            => TblAccountDAO.Instance.GetAccountByEmail(email);
+
+        public void InsertAccount(TblAccount account) 
+            => TblAccountDAO.Instance.InsertAccount(account);
+
+        public void UpdateAccount(TblAccount account) 
+            => TblAccountDAO.Instance.UpdateAccount(account);
     }
 }

@@ -43,5 +43,35 @@ namespace Library.Data_Access
             }
             return numberOfStudent;
         }
+
+        public void InsertStuSemester(TblStudentSemester stuSemester)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.TblStudentSemesters.Add(stuSemester);
+                db.SaveChanges();
+            }
+        }
+        public IEnumerable<TblStudentSemester> GetStudentInOtherSemester(string studentCode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                return (IEnumerable<TblStudentSemester>)db.TblStudentSemesters.Where(p => p.StudentCode == studentCode).ToList();
+            }
+        }
+
+        public bool CheckStudentAndSemesterIsExist(TblStudentSemester stuSem)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var result = db.TblStudentSemesters.Where(p => p.StudentCode == stuSem.StudentCode &&
+                p.SemesterId == stuSem.SemesterId).ToList();
+                if (result.Count == 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }
