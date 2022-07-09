@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Library.Repository;
+using System.Text.RegularExpressions;
 namespace WinFormsApplication
 {
     public partial class FrmUniversityManageCompanyList : Form
     {
+        IRepositoryTblCompany repositoryTblCompany = new RepositoryTblCompany();
         public FrmUniversityManageCompanyList()
         {
             InitializeComponent();
@@ -20,7 +22,15 @@ namespace WinFormsApplication
         //Method: search company theo filter và giá trị của filter
         private void BtnSearchStudentList_Click(object sender, EventArgs e)
         {
-
+            string choose = CbFilterCompanyList.SelectedItem.ToString();
+            string txtSearch = TxtSearchCompanyFollowingFilter.Text;
+            var listResult = repositoryTblCompany.SearchCompanyFlFilter(choose, txtSearch).ToList();
+            DgvCompanyList.DataSource = listResult.ToList();
+            CbFilterCompanyList.Text = choose;
+            if (listResult.Count == 0)
+            {
+                MessageBox.Show("Company list does not has any result", "Notification");
+            }
         }
 
         //Method: insert a new company
@@ -28,19 +38,25 @@ namespace WinFormsApplication
         {
             FrmUniversityAddNewCompany frmUniversityAddNewCompany = new FrmUniversityAddNewCompany();
             frmUniversityAddNewCompany.ShowDialog();
+            LoadData();
+                    
         }
 
         //Method: load dữ liệu của company vào datagridview
         private void FrmUniversityManageCompanyList_Load(object sender, EventArgs e)
+        {           
+            LoadData();
+        }
+
+        private void LoadData()
         {
-            List<dynamic> liststudent = new List<dynamic>();
-            liststudent.Add("Thái Quốc Toàn 1");
-            liststudent.Add("Thái Quốc Toàn 2");
-            liststudent.Add("Thái Quốc Toàn 3");
-            liststudent.Add("Thái Quốc Toàn 4");
-            BindingSource source = new BindingSource();
-            source.DataSource = liststudent;
-            DgvCompanyList.DataSource = source;
+            var listCompany = repositoryTblCompany.ListCompany();
+            List<string> filterSearch = new List<string>();
+            filterSearch.Add("Company name");
+            filterSearch.Add("Company tax");
+            filterSearch.Add("Company address");
+            DgvCompanyList.DataSource = listCompany.ToList();
+            CbFilterCompanyList.DataSource = filterSearch.ToList();
         }
     }
 }
