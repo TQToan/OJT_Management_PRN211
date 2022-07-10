@@ -19,6 +19,8 @@ namespace Library.Repository
         public void UpdateStatusApplyJobAsCompany(TblRegisterJob job);
         public IEnumerable<dynamic> SearchAppliedJobByStatusAsCompany(int status);
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue);
+        public int CountAppliedJobByStudentCode(string studentCode);
+        public int CountStudentActivedJobByStudentCode(string studentCode);
 
     }
 }

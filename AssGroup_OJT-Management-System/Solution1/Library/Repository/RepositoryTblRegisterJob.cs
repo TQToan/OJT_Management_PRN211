@@ -11,15 +11,15 @@ namespace Library.Repository
     public class RepositoryTblRegisterJob : IRepositoryTblRegisterJob
     {
 
-        public bool checkCourStatusByStudentCode(string studentCode) 
+        public bool checkCourStatusByStudentCode(string studentCode)
             => TblRegisterJobDAO.Instance.checkCourStatusByStudentCode(studentCode);
 
-        public bool checkStudentIsPass(string studentCode) 
-            =>TblRegisterJobDAO.Instance.checkStudentIsPass(studentCode);
+        public bool checkStudentIsPass(string studentCode)
+            => TblRegisterJobDAO.Instance.checkStudentIsPass(studentCode);
 
-        public TblRegisterJob GetAppliedJobByIDAndStudentCode(int jobID, string studentcode) 
+        public TblRegisterJob GetAppliedJobByIDAndStudentCode(int jobID, string studentcode)
             => TblRegisterJobDAO.Instance.GetAppliedJobByIDAndStudentCode(jobID, studentcode);
-        public IEnumerable<dynamic> GetListStudentAppliedJobAsCompany() 
+        public IEnumerable<dynamic> GetListStudentAppliedJobAsCompany()
             => TblRegisterJobDAO.Instance.GetListStudentAppliedJobAsCompany();
 
         public void UpdateStatusApplyJobAsCompany(TblRegisterJob job) =>
@@ -30,6 +30,9 @@ namespace Library.Repository
 
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue) =>
             TblRegisterJobDAO.Instance.SearchAppliedJobByJobNameAsCompany(searchValue);
+        public int CountAppliedJobByStudentCode(string studentCode) => TblRegisterJobDAO.Instance.CountAppliedJobByStudentCode(studentCode);
 
+        public int CountStudentActivedJobByStudentCode(string studentCode) =>
+            TblRegisterJobDAO.Instance.CountStudentActivedJobByStudentCode(studentCode);
     }
 }

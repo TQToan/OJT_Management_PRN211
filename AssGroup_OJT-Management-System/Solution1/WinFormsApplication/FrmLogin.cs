@@ -63,7 +63,8 @@ namespace WinFormsApplication
                 if (found)
                 {
                     MessageBox.Show(error, "Login - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } else
+                }
+                else
                 {
                     if (account.IsAdmin == 0)
                     {
@@ -71,13 +72,18 @@ namespace WinFormsApplication
                         FrmUniversityDashboard frmUniversityDashboard = new FrmUniversityDashboard();
                         this.Hide();
                         frmUniversityDashboard.ShowDialog();
-                    } else if (account.IsAdmin == 1)
+                    }
+                    else if (account.IsAdmin == 1)
                     {
                         //role: student
-                        FrmStudentDashBoard frmStudentDashBoard = new FrmStudentDashBoard();
+                        FrmStudentDashBoard frmStudentDashBoard = new FrmStudentDashBoard()
+                        {
+                            studentAccount = account,
+                        };
                         this.Hide();
                         frmStudentDashBoard.ShowDialog();
-                    } else if (account.IsAdmin == 2)
+                    }
+                    else if (account.IsAdmin == 2)
                     {
                         //role: company
                         FrmCompanyDashboard frmCompanyDashboard = new FrmCompanyDashboard()
@@ -88,7 +94,8 @@ namespace WinFormsApplication
                         frmCompanyDashboard.ShowDialog();
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Login - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
