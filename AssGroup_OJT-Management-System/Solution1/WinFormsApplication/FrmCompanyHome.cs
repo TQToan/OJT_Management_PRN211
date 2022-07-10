@@ -40,7 +40,8 @@ namespace WinFormsApplication
             if (ListJob == null)
             {
                 TxtNumberOfJobs.Text = "0";
-            } else
+            }
+            else
             {
                 TxtNumberOfJobs.Text = ListJob.Count.ToString();
             }

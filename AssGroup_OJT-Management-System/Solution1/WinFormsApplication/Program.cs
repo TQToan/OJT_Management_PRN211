@@ -17,7 +17,11 @@ namespace WinFormsApplication
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+<<<<<<< HEAD
             Application.Run(new FrmStudentDashBoard());
+=======
+            Application.Run(new FrmUniversityDashboard());
+>>>>>>> 20ba38038fa33c308277952e323407bf5f596a16
         }
     }
 }
