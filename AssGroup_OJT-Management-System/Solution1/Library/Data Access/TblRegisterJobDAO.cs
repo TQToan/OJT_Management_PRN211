@@ -150,5 +150,100 @@ namespace Library.Data_Access
             }
         }
 
+
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from register in db.TblRegisterJobs join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                           join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
+                           join jobs in db.TblJobs on  register.JobCode equals jobs.JobCode
+                           where jobs.TaxCode == taxCode && stuSem.SemesterId == semesterID 
+                           && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
+                           select register;
+                return list.ToList();
+            }
+        } 
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from register in db.TblRegisterJobs
+                            join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                            join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
+                            join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
+                            where stuSem.StudentCode == taxCode && stuSem.SemesterId == semesterID && stuSem.StudentCode.Contains(studentCode)
+                           && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
+                           select register;
+                return list.ToList();
+            }
+        } 
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from register in db.TblRegisterJobs
+                           join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                           join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
+                           join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
+                           where stuSem.StudentCode == taxCode && stuSem.SemesterId == semesterID && student.StudentName.Contains(studentName)
+                           && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
+                           select register;
+                return list.ToList();
+            }
+        }
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from register in db.TblRegisterJobs
+                           join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                           join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
+                           join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
+                           where stuSem.StudentCode == taxCode && stuSem.SemesterId == semesterID && student.IsIntern == statusStudent
+                           && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
+                           select register;
+                return list.ToList();
+            }
+        }
+
+        public void UpdateInternEvaluation(TblRegisterJob evaluation)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.Entry<TblRegisterJob>(evaluation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+
+        // hàm lấy list các bài post sinh viên đã apply trong kỳ 
+        public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from register in db.TblRegisterJobs
+                           join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                           join job in db.TblJobs on register.JobCode equals job.JobCode
+                           where student.StudentCode == studentcode && 
+                           job.ExpirationDate <= currentSemester.EndDate &&
+                           job.ExpirationDate >= currentSemester.StartDate &&
+                           register.StudentConfirm == true
+                           orderby register.Aspiration
+                           select register;
+                return list.ToList();
+            }
+        }
+
+
+        public void InsertRegister(TblRegisterJob registerJob)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.TblRegisterJobs.Add(registerJob);
+                db.SaveChanges();
+            }
+        }
+   
     }
 }

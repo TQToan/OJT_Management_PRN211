@@ -12,5 +12,7 @@ namespace Library.Repository
         public int GetNumberOfCompany();
         public TblCompany GetCompanyInformation(string Email);
         public void UpdateCompanyInformation(TblCompany company);
+
+        public TblCompany GetCompanyByTaxCode(string taxcode);
     }
 }

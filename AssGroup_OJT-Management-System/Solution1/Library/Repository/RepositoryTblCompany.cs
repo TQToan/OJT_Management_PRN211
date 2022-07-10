@@ -10,6 +10,9 @@ namespace Library.Repository
 {
     public class RepositoryTblCompany : IRepositoryTblCompany
     {
+        public TblCompany GetCompanyByTaxCode(string taxcode)
+            => TblCompanyDAO.Instance.GetCompanyByTaxCode(taxcode);
+
         public TblCompany GetCompanyInformation(string Email) 
             => TblCompanyDAO.Instance.GetCompanyInformation(Email);
 

@@ -230,6 +230,60 @@ namespace Library.Data_Access
                 return listResult;
             }
         }
+
+
+        public IEnumerable<TblJob> GetJobActive()
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context()) {
+                var list = from job in db.TblJobs join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && job.ExpirationDate >= DateTime.Now
+                           select job;
+                return list.ToList();
+            }
+        }
+
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && company.CompanyName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
+
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && job.JobName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        } 
+ 
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                    var list = from job in db.TblJobs
+                               join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                               join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                               where job.Status == false && company.Address.Contains(searchValue)
+                               select job;
+                    return list.ToList();
+                }
+        }
+
+
+
     }
 }
 

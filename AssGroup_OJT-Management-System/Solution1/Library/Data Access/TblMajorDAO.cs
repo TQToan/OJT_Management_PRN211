@@ -88,5 +88,21 @@ namespace Library.Data_Access
                 return list.ToList();
             }
         }
+
+
+        public TblMajor GetMajorByMajorCode(int majorCode)
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    return dBContext.TblMajors.Find(majorCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

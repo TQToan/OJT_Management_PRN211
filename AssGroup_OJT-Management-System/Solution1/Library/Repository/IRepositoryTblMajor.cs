@@ -13,5 +13,6 @@ namespace Library.Repository
         public bool CheckExitedMajor(string majorName);
         public void AddNewMajor(TblMajor newMajor);
         public IEnumerable<string> GetAllMajorName();
+        public TblMajor GetMajorByMajorCode(int majorCode);
     }
 }

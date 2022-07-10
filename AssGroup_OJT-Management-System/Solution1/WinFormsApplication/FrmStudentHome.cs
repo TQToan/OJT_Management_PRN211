@@ -32,7 +32,7 @@ namespace WinFormsApplication
             //load dữ liệu về thông tin của sinh viên để hiện thị lênB
             BindingSource source = new BindingSource();
 
-            var student = repositoryTblStudent.GetStudentProfileByUserName("ty@gmail.com");
+            var student = repositoryTblStudent.GetStudentProfileByUserName("huyltse@fpt.edu.vn");
 
             textEmail.Text = student.Username;
             TxtStudentName.Text = student.StudentName;
