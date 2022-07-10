@@ -89,9 +89,7 @@ namespace WinFormsApplication
             this.CbFilterCompanyList.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.CbFilterCompanyList.FormattingEnabled = true;
             this.CbFilterCompanyList.Items.AddRange(new object[] {
-            "Company Tax",
-            "Company name",
-            "Address"});
+            "Company Name"});
             this.CbFilterCompanyList.Location = new System.Drawing.Point(189, 23);
             this.CbFilterCompanyList.Name = "CbFilterCompanyList";
             this.CbFilterCompanyList.Size = new System.Drawing.Size(178, 32);

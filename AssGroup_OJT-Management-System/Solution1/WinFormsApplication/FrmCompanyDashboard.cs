@@ -159,7 +159,10 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmCompanyManageJobList());
+            OpenChildForm(new FrmCompanyManageJobList()
+            {
+                CompanyAccount = companyAccount,
+            });
         }
 
         //Method: Student register job được click

@@ -21,5 +21,21 @@ namespace Library.Repository
         public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue);
         public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue);
         //----------------------------------------------------------------------
+
+        //Company Role -----------------------------------------------------------------
+        public IEnumerable<dynamic> GetJobListAsCompany(string companyTax);
+        public IEnumerable<dynamic> SearchJobByJobNameAsCompany(string jobName, string companyTax);
+
+        public IEnumerable<dynamic> SearchJobByMajorNameAsCompany(string majorName, string companyTax);
+        public void CreateNewJob(TblJob job);
+        public void UpdateJob(TblJob job);
+        //------------------------------------------------------------------------------
+
+
+        public IEnumerable<TblJob> GetJobActive();
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue);
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue);
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue);
+
     }
 }

@@ -81,7 +81,7 @@ namespace Library.Data_Access
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
-                TblJob job = dBContext.TblJobs.Where(j => j.JobCode == idJob).FirstOrDefault();
+                TblJob job = dBContext.TblJobs.FirstOrDefault(j => j.JobCode == idJob);
                 return job;
             }
         }
@@ -89,7 +89,9 @@ namespace Library.Data_Access
 
         public IEnumerable<dynamic> GetJobList123()              //Lay DS bai POST
         {
-            var dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
             var listFullJob = (from job in dBContext.TblJobs
                                orderby job.AdminConfirm ascending
                                select new
@@ -182,8 +184,8 @@ namespace Library.Data_Access
                         AdminConfirm = job.AdminConfirm
 
                     }).OrderBy(job => job.AdminConfirm);
-                return listResult;
-            
+            return listResult;
+
         }
         public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue)
         {
@@ -202,8 +204,8 @@ namespace Library.Data_Access
                     AdminConfirm = job.AdminConfirm
 
                 }).OrderBy(job => job.AdminConfirm);
-                return listResult;
-            
+            return listResult;
+
         }
         public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue)
         {
@@ -222,9 +224,120 @@ namespace Library.Data_Access
                      AdminConfirm = job.AdminConfirm
 
                  }).OrderBy(job => job.AdminConfirm);
-                return listResult;
-            
+            return listResult;
+
         }
+        public IEnumerable<dynamic> GetJobListAsCompany(string companyTax)
+        {
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
+            var listFullJob = (from job in dBContext.TblJobs
+                               orderby job.AdminConfirm ascending
+                               where job.TaxCode == companyTax
+                               select new
+                               {
+                                   JobCode = job.JobCode,
+                                   JobName = job.JobName,
+                                   MajorName = job.MajorCodeNavigation.MajorName,
+                                   NumberOfInTerns = job.NumberInterns,
+                                   ExpirationDate = job.ExpirationDate,
+                                   JobDescription = job.JobDescription,
+                                   ActionStatus = job.Status,
+                                   AdminConfirm = job.AdminConfirm
+                               });
+            return listFullJob;
+        }
+
+        public IEnumerable<dynamic> SearchJobByJobNameAsCompany(string jobName, string companyTax)
+        {
+            IEnumerable<dynamic> listResult = GetJobListAsCompany(companyTax).Where(job => job.JobName.Trim().ToLower().Contains(jobName.Trim().ToLower()));
+            return listResult;
+        }
+
+        public IEnumerable<dynamic> SearchJobByMajorNameAsCompany(string majorName, string companyTax)
+        {
+            IEnumerable<dynamic> listResult = GetJobListAsCompany(companyTax).Where(job => job.MajorName.Trim().ToLower().Contains(majorName.Trim().ToLower()));
+            return listResult;
+        }
+
+        public void CreateNewJob(TblJob job)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                dBContext.TblJobs.Add(job);
+                dBContext.SaveChanges();
+            }
+        }
+
+        public void UpdateJob(TblJob job)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.Entry<TblJob>(job).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                /*
+                var jobFound = db.TblJobs.Find(job.JobCode);
+                jobFound.JobName = job.JobName;
+                jobFound.NumberInterns = job.NumberInterns;
+                jobFound.ExpirationDate = job.ExpirationDate;
+                jobFound.Status = job.Status;
+                jobFound.JobDescription = job.JobDescription;*/
+                db.SaveChanges();
+            }
+        }
+
+        public IEnumerable<TblJob> GetJobActive()
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && job.ExpirationDate >= DateTime.Now
+                           select job;
+                return list.ToList();
+            }
+        }
+
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && company.CompanyName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
+
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && job.JobName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
+
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && company.Address.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
+
+
     }
 }
 

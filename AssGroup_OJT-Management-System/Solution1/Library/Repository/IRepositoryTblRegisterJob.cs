@@ -22,5 +22,12 @@ namespace Library.Repository
         public int CountAppliedJobByStudentCode(string studentCode);
         public int CountStudentActivedJobByStudentCode(string studentCode);
 
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent);
+        public void UpdateInternEvaluation(TblRegisterJob evaluation);
+        public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode);
+        public void InsertRegister(TblRegisterJob registerJob);
     }
 }

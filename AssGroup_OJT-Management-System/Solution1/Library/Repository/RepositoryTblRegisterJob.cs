@@ -31,8 +31,27 @@ namespace Library.Repository
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue) =>
             TblRegisterJobDAO.Instance.SearchAppliedJobByJobNameAsCompany(searchValue);
         public int CountAppliedJobByStudentCode(string studentCode) => TblRegisterJobDAO.Instance.CountAppliedJobByStudentCode(studentCode);
-
         public int CountStudentActivedJobByStudentCode(string studentCode) =>
             TblRegisterJobDAO.Instance.CountStudentActivedJobByStudentCode(studentCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode) =>
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemester(semesterID, taxCode);
+
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode) =>
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStudentCode(semesterID: semesterID, taxCode: taxCode, studentCode: studentCode);
+
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName) =>
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStudentName(semesterID, taxCode, studentName);
+
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent) =>
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStatus(semesterID, taxCode, statusStudent);
+
+        public void UpdateInternEvaluation(TblRegisterJob evaluation) =>
+            TblRegisterJobDAO.Instance.UpdateInternEvaluation(evaluation);
+
+        public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode) =>
+            TblRegisterJobDAO.Instance.GetListStudentApplied(currentSemester, studentcode);
+
+        public void InsertRegister(TblRegisterJob registerJob) =>
+            TblRegisterJobDAO.Instance.InsertRegister(registerJob);
     }
 }
