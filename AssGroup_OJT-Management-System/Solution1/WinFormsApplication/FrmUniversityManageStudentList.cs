@@ -136,8 +136,23 @@ namespace WinFormsApplication
                     if (num.Count() == 1)
                     {
                         if (selectedSemester.SemesterId == currentSemester.SemesterId)
-                        {
-                            tmpCourse = "Not Yet";
+                        {// mới thêm 
+                            // tmpCourse = "Not Yet";
+                            if (student.IsIntern != 2)
+                            {
+                                tmpCourse = "Not Yet";
+                            }
+                            else
+                            {
+                                if (checkCour)
+                                {
+                                    tmpCourse = "Passed";
+                                }
+                                else
+                                {
+                                    tmpCourse = "Not Passed";
+                                }
+                            }
                         }
                         else
                         {

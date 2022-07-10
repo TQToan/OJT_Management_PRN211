@@ -20,5 +20,12 @@ namespace Library.Repository
             => TblMajorDAO.Instance.GetNumberOfListMajor();
         public IEnumerable<string> GetAllMajorName() 
             => TblMajorDAO.Instance.GetAllMajorName();
+
+
+        public TblMajor GetMajorbyMajorName(string majorName)
+            => TblMajorDAO.Instance.GetMajorbyMajorName(majorName);
+        public TblMajor GetMajorByMajorCode(int majorCode) =>
+            TblMajorDAO.Instance.GetMajorByMajorCode(majorCode);
+
     }
 }

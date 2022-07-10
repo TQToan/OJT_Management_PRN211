@@ -1,4 +1,6 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
+using Library.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +16,7 @@ namespace WinFormsApplication
 {
     public partial class FrmStudentDashBoard : Form
     {
+        public TblAccount studentAccount { get; set; }
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
         private Panel leftBorderBtn;
@@ -198,7 +201,9 @@ namespace WinFormsApplication
         private void FrmStudentDashBoard_Load(object sender, EventArgs e)
         {
             //Code nội dung giao diện trang home ở đây
-            OpenChildForm(new FrmStudentHome());
+            OpenChildForm(new FrmStudentHome() { 
+                studentAccount = studentAccount,
+            });
             //Lấy tên người dùng đang đăng nhập
             LbWelcomeHeader.Text = "Thái Quốc Toàn";
         }

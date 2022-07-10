@@ -20,6 +20,7 @@ namespace Library.Models
         public string TaxCode { get; set; }
         public int MajorCode { get; set; }
         public int? AdminConfirm { get; set; }
+        public string JobDescription { get; set; }
 
         public virtual TblMajor MajorCodeNavigation { get; set; }
         public virtual TblCompany TaxCodeNavigation { get; set; }

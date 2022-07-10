@@ -83,7 +83,6 @@ namespace WinFormsApplication
             // BtnUpdate
             // 
             this.BtnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnUpdate.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BtnUpdate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnUpdate.Location = new System.Drawing.Point(287, 35);
@@ -258,6 +257,8 @@ namespace WinFormsApplication
             this.Name = "FrmCompanyEvaluateInterns";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Evaluate Inernship";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmCompanyEvaluateInterns_FormClosing);
+            this.Load += new System.EventHandler(this.FrmCompanyEvaluateInterns_Load);
             this.PnHeader.ResumeLayout(false);
             this.PnHeader.PerformLayout();
             this.PnControls.ResumeLayout(false);

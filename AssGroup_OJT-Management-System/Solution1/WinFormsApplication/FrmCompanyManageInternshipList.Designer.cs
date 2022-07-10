@@ -50,6 +50,7 @@ namespace WinFormsApplication
             this.DgvStudentList.RowTemplate.Height = 29;
             this.DgvStudentList.Size = new System.Drawing.Size(1063, 421);
             this.DgvStudentList.TabIndex = 7;
+            this.DgvStudentList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvStudentList_CellClick);
             this.DgvStudentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvStudentList_CellDoubleClick);
             // 
             // LbFilterStudentList
@@ -76,6 +77,7 @@ namespace WinFormsApplication
             this.CbFilterStudentList.Name = "CbFilterStudentList";
             this.CbFilterStudentList.Size = new System.Drawing.Size(178, 32);
             this.CbFilterStudentList.TabIndex = 2;
+            this.CbFilterStudentList.SelectionChangeCommitted += new System.EventHandler(this.CbFilterStudentList_SelectionChangeCommitted);
             // 
             // BtnSearchStudentList
             // 
@@ -90,6 +92,7 @@ namespace WinFormsApplication
             this.BtnSearchStudentList.Size = new System.Drawing.Size(64, 32);
             this.BtnSearchStudentList.TabIndex = 1;
             this.BtnSearchStudentList.UseVisualStyleBackColor = true;
+            this.BtnSearchStudentList.Click += new System.EventHandler(this.BtnSearchStudentList_Click);
             // 
             // TxtSearchStudentFollowingFilter
             // 

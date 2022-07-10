@@ -122,7 +122,6 @@ namespace WinFormsApplication
             // 
             // BtnInsertANewCompany
             // 
-            this.BtnInsertANewCompany.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnInsertANewCompany.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BtnInsertANewCompany.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnInsertANewCompany.Location = new System.Drawing.Point(366, 40);
@@ -247,7 +246,7 @@ namespace WinFormsApplication
             this.Controls.Add(this.PnLayout);
             this.Controls.Add(this.PnHeader);
             this.Name = "FrmUniversityAddNewCompany";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Insert New Company";
             this.PnHeader.ResumeLayout(false);
             this.PnHeader.PerformLayout();

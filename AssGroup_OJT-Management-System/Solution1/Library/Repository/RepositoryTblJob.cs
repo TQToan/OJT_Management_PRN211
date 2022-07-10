@@ -35,5 +35,28 @@ namespace Library.Repository
         public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue) 
             => TblJobDAO.Instance.SearchJobByCompanyAddressAsAdmin(searchValue);
         //----------------------------------------------------------------------
+
+        //Company Role ---------------------------------------------------------------------
+        public IEnumerable<dynamic> GetJobListAsCompany(string companyTax) => TblJobDAO.Instance.GetJobListAsCompany(companyTax);
+        public IEnumerable<dynamic> SearchJobByJobNameAsCompany(string jobName, string companyTax) => TblJobDAO.Instance.SearchJobByJobNameAsCompany(jobName, companyTax);
+        public IEnumerable<dynamic> SearchJobByMajorNameAsCompany(string majorName, string companyTax) => TblJobDAO.Instance.SearchJobByMajorNameAsCompany(majorName, companyTax);
+        public void CreateNewJob(TblJob job) => TblJobDAO.Instance.CreateNewJob(job);
+        public void UpdateJob(TblJob job) => TblJobDAO.Instance.UpdateJob(job);
+        //----------------------------------------------------------------------------------
+
+
+        //Student search--------------------
+        public IEnumerable<TblJob> GetJobActive() => TblJobDAO.Instance.GetJobActive();
+
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByCompanyNameAsStudent(searchValue);
+
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByJobNameAsStudent(searchValue);
+
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByCompanyAddressAsStudent(searchValue);
+        //----------------------------------------------------------------------
+
     }
 }

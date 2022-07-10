@@ -145,7 +145,7 @@ namespace WinFormsApplication
             this.TxtAddressCompany.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.TxtAddressCompany.Enabled = false;
             this.TxtAddressCompany.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TxtAddressCompany.Location = new System.Drawing.Point(248, 159);
+            this.TxtAddressCompany.Location = new System.Drawing.Point(234, 159);
             this.TxtAddressCompany.MaximumSize = new System.Drawing.Size(747, 32);
             this.TxtAddressCompany.MinimumSize = new System.Drawing.Size(747, 32);
             this.TxtAddressCompany.Name = "TxtAddressCompany";

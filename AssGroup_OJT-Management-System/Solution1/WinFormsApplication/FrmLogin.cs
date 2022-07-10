@@ -74,7 +74,9 @@ namespace WinFormsApplication
                     } else if (account.IsAdmin == 1)
                     {
                         //role: student
-                        FrmStudentDashBoard frmStudentDashBoard = new FrmStudentDashBoard();
+                        FrmStudentDashBoard frmStudentDashBoard = new FrmStudentDashBoard() {
+                            studentAccount = account,
+                        };
                         this.Hide();
                         frmStudentDashBoard.ShowDialog();
                     } else if (account.IsAdmin == 2)

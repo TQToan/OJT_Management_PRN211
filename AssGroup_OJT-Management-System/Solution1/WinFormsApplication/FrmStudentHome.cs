@@ -15,6 +15,7 @@ namespace WinFormsApplication
     public partial class FrmStudentHome : Form
     {
         private readonly IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+        public TblAccount studentAccount { get; set; }
         public dynamic StudentInfo { get; set; }
         public FrmStudentHome()
         {
@@ -32,7 +33,7 @@ namespace WinFormsApplication
             //load dữ liệu về thông tin của sinh viên để hiện thị lênB
             BindingSource source = new BindingSource();
 
-            var student = repositoryTblStudent.GetStudentProfileByUserName("ty@gmail.com");
+            var student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);
 
             textEmail.Text = student.Username;
             TxtStudentName.Text = student.StudentName;

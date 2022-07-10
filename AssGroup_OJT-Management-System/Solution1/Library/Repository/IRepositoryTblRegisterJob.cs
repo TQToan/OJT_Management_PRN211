@@ -20,5 +20,12 @@ namespace Library.Repository
         public IEnumerable<dynamic> SearchAppliedJobByStatusAsCompany(int status);
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue);
 
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent);
+        public void UpdateInternEvaluation(TblRegisterJob evaluation);
+        public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode);
+        public void InsertRegister(TblRegisterJob registerJob);
     }
 }
