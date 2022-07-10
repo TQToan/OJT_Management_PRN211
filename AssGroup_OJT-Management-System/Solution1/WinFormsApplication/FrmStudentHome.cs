@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Library.Models;
+using Library.Repository;
 
 namespace WinFormsApplication
 {
     public partial class FrmStudentHome : Form
     {
+        private readonly IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+        public dynamic StudentInfo { get; set; }
         public FrmStudentHome()
         {
             InitializeComponent();
@@ -25,7 +29,17 @@ namespace WinFormsApplication
             // load số lượng bài post của các công ty còn hạn đăng
             // và còn số lượng về đúng chuyên ngành của sinh viên
 
-            //load dữ liệu về thông tin của sinh viên để hiện thị lên
+            //load dữ liệu về thông tin của sinh viên để hiện thị lênB
+            BindingSource source = new BindingSource();
+
+            var student = repositoryTblStudent.GetStudentProfileByUserName("ty@gmail.com");
+
+            textEmail.Text = student.Username;
+            TxtStudentName.Text = student.StudentName;
+            TxtStudentID.Text = student.StudentCode;
+            txtMajor.Text = student.Majorname;
+            TxtCredit.Text = student.Credit.ToString();
+
         }
     }
 }

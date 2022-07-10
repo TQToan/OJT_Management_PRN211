@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,6 @@ namespace Library.Data_Access
 {
     public class TblCompanyDAO
     {
-        OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblCompanyDAO() { }
         private static TblCompanyDAO instance = null;
@@ -32,79 +32,141 @@ namespace Library.Data_Access
 
         public IEnumerable<dynamic> ListCompany()
         {
-            var result = from c in db.TblCompanies
-                         select new
-                         {
-                             CompanyName = c.CompanyName,
-                             CompanyTax = c.TaxCode,
-                             Email = c.Username,
-                             Address = c.Address,
-                             NumberOfJob = c.TblJobs.Count,
-                         };
-            return result;
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();           
+                var result = from c in db.TblCompanies
+                             select new
+                             {
+                                 CompanyName = c.CompanyName,
+                                 CompanyTax = c.TaxCode,
+                                 Email = c.Username,
+                                 Address = c.Address,
+                                 NumberOfJob = c.TblJobs.Count,
+                             };
+                return result;           
         }
 
-        public TblCompany GetCompany(string taxCode) => db.TblCompanies.Where(c => c.TaxCode == taxCode).FirstOrDefault();
+        public TblCompany GetCompanyByTaxCode(string taxCode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var company = db.TblCompanies.Where(c => c.TaxCode == taxCode).FirstOrDefault();
+                return company;
+            }
+        }
 
         public bool CreateCompany(TblCompany company)
         {
-            using (var transaction = db.Database.BeginTransaction())
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
-                try
+                using (var transaction = db.Database.BeginTransaction())
                 {
-                    db.TblAccounts.Add(company.UsernameNavigation);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.TblAccounts.Add(company.UsernameNavigation);
+                        db.SaveChanges();
 
-                    db.TblCompanies.Add(company);
-                    db.SaveChanges();
+                        db.TblCompanies.Add(company);
+                        db.SaveChanges();
 
-                    transaction.Commit();
-                    return true;
-                }catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    //System.Diagnostics.Debug.WriteLine(ex.Message);
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        //System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
+
                 }
-
+                return false;
             }
-            return false;
         }
-        
+
 
         public IEnumerable<dynamic> SearchCompanyFlFilter(string choose, string txtSearch)
         {
-            IEnumerable<dynamic> listCompany = ListCompany();
-            List<dynamic> result = new List<dynamic>();
-            //System.Diagnostics.Debug.WriteLine(choose);
-            foreach (var item in listCompany)
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
-                bool check = true;
-                if (choose.Equals("Company name"))
+                IEnumerable<dynamic> listCompany = ListCompany();
+                List<dynamic> result = new List<dynamic>();
+                //System.Diagnostics.Debug.WriteLine(choose);
+                foreach (var item in listCompany)
                 {
-                    if (txtSearch != string.Empty && !(item.CompanyName.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                    bool check = true;
+                    if (choose.Equals("Company name"))
                     {
-                        check = false;
+                        if (txtSearch != string.Empty && !(item.CompanyName.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                        {
+                            check = false;
+                        }
                     }
-                } else if (choose.Equals("Company tax"))
-                {
-                    if (txtSearch != string.Empty && !(item.CompanyTax.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                    else if (choose.Equals("Company tax"))
                     {
-                        check = false;
+                        if (txtSearch != string.Empty && !(item.CompanyTax.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                        {
+                            check = false;
+                        }
+
                     }
-                    
-                }else if (choose.Equals("Company address"))
-                {
-                    if (txtSearch != string.Empty && !(item.Address.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                    else if (choose.Equals("Company address"))
                     {
-                        check = false;
+                        if (txtSearch != string.Empty && !(item.Address.Trim().ToLower().Contains(txtSearch.Trim().ToLower())))
+                        {
+                            check = false;
+                        }
+                    }
+                    if (check)
+                    {
+                        result.Add(item);
                     }
                 }
-                if (check)
-                {
-                    result.Add(item);
-                }
+                return result;
             }
-            return result;
+        }
+
+        public int GetNumberOfCompany()
+        {
+            int numberOfCompany = 0;
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dbContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    numberOfCompany = dbContext.TblCompanies.Count();
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return numberOfCompany;
+        }
+
+        public TblCompany GetCompanyInformation(string Email)
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    return dBContext.TblCompanies.SingleOrDefault(company => company.Username.Equals(Email));
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void UpdateCompanyInformation (TblCompany company)
+        {
+            try
+            {
+                using(OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    dBContext.Entry<TblCompany>(company).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    dBContext.SaveChanges();
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

@@ -100,9 +100,6 @@ namespace WinFormsApplication
             this.CbFilterJobCompanyList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CbFilterJobCompanyList.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.CbFilterJobCompanyList.FormattingEnabled = true;
-            this.CbFilterJobCompanyList.Items.AddRange(new object[] {
-            "Job name",
-            "Status"});
             this.CbFilterJobCompanyList.Location = new System.Drawing.Point(199, 37);
             this.CbFilterJobCompanyList.Name = "CbFilterJobCompanyList";
             this.CbFilterJobCompanyList.Size = new System.Drawing.Size(178, 32);

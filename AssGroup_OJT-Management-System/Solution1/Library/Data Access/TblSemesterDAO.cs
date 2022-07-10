@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,79 @@ namespace Library.Data_Access
                     }
                     return instance;
                 }
+            }
+        }
+
+        public TblSemester GetCurrentSemester()
+        {
+            TblSemester semester = null;
+            List<TblSemester> listSemester = null;
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    listSemester = dBContext.TblSemesters.ToList();
+                    if (listSemester.Count > 0)
+                    {
+                        semester = listSemester.OrderByDescending(semester => semester.EndDate).First();
+                    }
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return semester;
+        }
+
+        public void AddNewSemester(TblSemester newSemester)
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dbContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    dbContext.TblSemesters.Add(newSemester);
+                    dbContext.SaveChanges();
+                }
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public IEnumerable<string> GetAllSemesterName()
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from c in db.TblSemesters
+                           orderby c.StartDate descending
+                           select c.SemesterName;
+                return list.ToList();
+            }
+        }
+        public TblSemester GetSemterBySemesterID(int id)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                return db.TblSemesters.Find(id);
+            }
+        }
+        /*public TblSemester GetCurrentSemester()
+        {
+            using OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var list = from semester in db.TblSemesters
+                         orderby semester.StartDate descending
+                         select semester;
+            TblSemester result =  list.First();
+            return result;
+        }*/
+
+        public TblSemester GetSemesterByName(string name)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var result = from semester in db.TblSemesters
+                             where semester.SemesterName == name
+                             select semester;
+                return result.FirstOrDefault();
             }
         }
     }

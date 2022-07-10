@@ -101,6 +101,7 @@ namespace WinFormsApplication
             this.BtnUpdate.TabIndex = 5;
             this.BtnUpdate.Text = "Update";
             this.BtnUpdate.UseVisualStyleBackColor = true;
+            this.BtnUpdate.Click += new System.EventHandler(this.BtnUpdate_Click);
             // 
             // BtnCancel
             // 
@@ -114,6 +115,7 @@ namespace WinFormsApplication
             this.BtnCancel.TabIndex = 4;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // PnLayout1
             // 
@@ -255,6 +257,7 @@ namespace WinFormsApplication
             this.Name = "FrmCompanyUpdateJobInformation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update Job Informaton";
+            this.Load += new System.EventHandler(this.FrmCompanyUpdateJobInformation_Load);
             this.PnHeader.ResumeLayout(false);
             this.PnHeader.PerformLayout();
             this.PnControls.ResumeLayout(false);

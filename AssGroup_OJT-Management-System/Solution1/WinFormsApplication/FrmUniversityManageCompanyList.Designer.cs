@@ -115,7 +115,6 @@ namespace WinFormsApplication
             this.TxtSearchCompanyFollowingFilter.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TxtSearchCompanyFollowingFilter.Location = new System.Drawing.Point(401, 23);
             this.TxtSearchCompanyFollowingFilter.Name = "TxtSearchCompanyFollowingFilter";
-            this.TxtSearchCompanyFollowingFilter.PlaceholderText = "Email";
             this.TxtSearchCompanyFollowingFilter.Size = new System.Drawing.Size(490, 32);
             this.TxtSearchCompanyFollowingFilter.TabIndex = 0;
             // 

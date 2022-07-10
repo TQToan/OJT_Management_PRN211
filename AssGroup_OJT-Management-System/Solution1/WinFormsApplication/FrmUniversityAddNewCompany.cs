@@ -52,13 +52,14 @@ namespace WinFormsApplication
             }
             else
             {
-                if (!match.Success)
+                //if (!match.Success)
+                if(!email.Trim().EndsWith("@fpt.edu.vn"))
                 {
                     //MessageBox.Show("Your email is invalid format !!!", "Notification");
                     msgError += "Your email is invalid format\n";
                     check = false;
                 }
-                if (repositoryTblAccount.GetAccount(email) != null)
+                if (repositoryTblAccount.GetAccountByEmail(email) != null)
                 {
                     //MessageBox.Show("Company email id duplicated !!!", "Notification");
                     msgError += "Company email id duplicated\n";
@@ -70,7 +71,7 @@ namespace WinFormsApplication
                     msgError += "Password required is more than 6 characters\n";
                     check = false;
                 }
-                if (repositoryTblCompany.GetCompany(companyTax) != null)
+                if (repositoryTblCompany.GetCompanyByTaxCode(companyTax) != null)
                 {
                     //MessageBox.Show("Company tax id duplicated !!!", "Notification");
                     msgError += "Company tax id duplicated\n";
@@ -92,13 +93,13 @@ namespace WinFormsApplication
                     UsernameNavigation = new TblAccount() {
                     Username = email,
                     Password = password,
-                    IsAdmin = 3,
+                    IsAdmin = 2,
                     },                  
                 };
                 bool result = repositoryTblCompany.CreateCompany(TblCompany);
                 if (result)
                 {
-                    MessageBox.Show("Successfully added a new company", "Notification");
+                    MessageBox.Show("Successfully added a new company", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.Close();
                 }
             }

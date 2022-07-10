@@ -31,7 +31,7 @@ namespace Library.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server =(local); database =OJT_MANAGEMENT_PRN211_Vs1;uid=sa;pwd=12345;");
+                optionsBuilder.UseSqlServer("Server=(local);Uid=sa;Pwd=12345;Database=OJT_MANAGEMENT_PRN211_Vs1");
             }
         }
 
@@ -42,7 +42,7 @@ namespace Library.Models
             modelBuilder.Entity<TblAccount>(entity =>
             {
                 entity.HasKey(e => e.Username)
-                    .HasName("PK__tblAccou__F3DBC573CFE1AD5E");
+                    .HasName("PK__tblAccou__F3DBC5738FDAD9C9");
 
                 entity.ToTable("tblAccount");
 
@@ -62,11 +62,11 @@ namespace Library.Models
             modelBuilder.Entity<TblCompany>(entity =>
             {
                 entity.HasKey(e => e.TaxCode)
-                    .HasName("PK__tblCompa__D97858A73015B2F4");
+                    .HasName("PK__tblCompa__D97858A7B2E9D368");
 
                 entity.ToTable("tblCompany");
 
-                entity.HasIndex(e => e.Username, "UQ__tblCompa__F3DBC572A3B84ACF")
+                entity.HasIndex(e => e.Username, "UQ__tblCompa__F3DBC572578525C2")
                     .IsUnique();
 
                 entity.Property(e => e.TaxCode)
@@ -98,7 +98,7 @@ namespace Library.Models
             modelBuilder.Entity<TblJob>(entity =>
             {
                 entity.HasKey(e => e.JobCode)
-                    .HasName("PK__tblJob__5B60E0DDF9602DEF");
+                    .HasName("PK__tblJob__5B60E0DD42DCB8F7");
 
                 entity.ToTable("tblJob");
 
@@ -109,6 +109,10 @@ namespace Library.Models
                 entity.Property(e => e.ExpirationDate)
                     .HasColumnType("date")
                     .HasColumnName("expirationDate");
+
+                entity.Property(e => e.JobDescription)
+                    .HasMaxLength(300)
+                    .HasColumnName("jobDescription");
 
                 entity.Property(e => e.JobName)
                     .HasMaxLength(50)
@@ -142,7 +146,7 @@ namespace Library.Models
             modelBuilder.Entity<TblMajor>(entity =>
             {
                 entity.HasKey(e => e.MajorCode)
-                    .HasName("PK__tblMajor__E397B9ADADFB3660");
+                    .HasName("PK__tblMajor__E397B9AD36287284");
 
                 entity.ToTable("tblMajor");
 
@@ -156,7 +160,7 @@ namespace Library.Models
             modelBuilder.Entity<TblRegisterJob>(entity =>
             {
                 entity.HasKey(e => new { e.StudentCode, e.JobCode })
-                    .HasName("PK__tblRegis__8D41E13A8FC6F464");
+                    .HasName("PK__tblRegis__8D41E13A8C30782D");
 
                 entity.ToTable("tblRegister_Job");
 
@@ -197,7 +201,7 @@ namespace Library.Models
             modelBuilder.Entity<TblSemester>(entity =>
             {
                 entity.HasKey(e => e.SemesterId)
-                    .HasName("PK__tblSemes__F2F37EA71B375CD8");
+                    .HasName("PK__tblSemes__F2F37EA7B240DF26");
 
                 entity.ToTable("tblSemester");
 
@@ -219,11 +223,11 @@ namespace Library.Models
             modelBuilder.Entity<TblStudent>(entity =>
             {
                 entity.HasKey(e => e.StudentCode)
-                    .HasName("PK__tblStude__48F7EF37C1CA2132");
+                    .HasName("PK__tblStude__48F7EF37644A7044");
 
                 entity.ToTable("tblStudent");
 
-                entity.HasIndex(e => e.Username, "UQ__tblStude__F3DBC57293FADCC2")
+                entity.HasIndex(e => e.Username, "UQ__tblStude__F3DBC5721858B08A")
                     .IsUnique();
 
                 entity.Property(e => e.StudentCode)
@@ -269,7 +273,7 @@ namespace Library.Models
             modelBuilder.Entity<TblStudentSemester>(entity =>
             {
                 entity.HasKey(e => e.RecordId)
-                    .HasName("PK__tblStude__D825197EFCB79B53");
+                    .HasName("PK__tblStude__D825197E88FC45EB");
 
                 entity.ToTable("tblStudent_Semester");
 

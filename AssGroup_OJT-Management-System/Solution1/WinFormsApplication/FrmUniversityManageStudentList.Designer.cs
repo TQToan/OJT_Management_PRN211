@@ -67,7 +67,7 @@ namespace WinFormsApplication
             this.CbSesmester.Name = "CbSesmester";
             this.CbSesmester.Size = new System.Drawing.Size(178, 32);
             this.CbSesmester.TabIndex = 5;
-            this.CbSesmester.SelectedValueChanged += new System.EventHandler(this.CbSesmester_SelectedValueChanged);
+            this.CbSesmester.SelectionChangeCommitted += new System.EventHandler(this.CbSesmester_SelectionChangeCommitted);
             // 
             // BtnAddNewStudent
             // 
@@ -155,6 +155,7 @@ namespace WinFormsApplication
             this.DgvStudentList.RowTemplate.Height = 29;
             this.DgvStudentList.Size = new System.Drawing.Size(1063, 434);
             this.DgvStudentList.TabIndex = 5;
+            this.DgvStudentList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvStudentList_CellClick);
             this.DgvStudentList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvStudentList_CellDoubleClick);
             // 
             // FrmUniversityManageStudentList
@@ -170,6 +171,7 @@ namespace WinFormsApplication
             this.Name = "FrmUniversityManageStudentList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Student List";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmUniversityManageStudentList_FormClosing);
             this.Load += new System.EventHandler(this.FrmUniversityManageStudentList_Load);
             this.PnFilter.ResumeLayout(false);
             this.PnFilter.PerformLayout();

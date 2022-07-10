@@ -26,10 +26,19 @@ namespace WinFormsApplication
             string txtSearch = TxtSearchCompanyFollowingFilter.Text;
             var listResult = repositoryTblCompany.SearchCompanyFlFilter(choose, txtSearch).ToList();
             DgvCompanyList.DataSource = listResult.ToList();
+            
             CbFilterCompanyList.Text = choose;
             if (listResult.Count == 0)
             {
-                MessageBox.Show("Company list does not has any result", "Notification");
+                MessageBox.Show("Company list does not has any result", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                DgvCompanyList.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                DgvCompanyList.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                DgvCompanyList.Columns[1].Width = 180;
+                DgvCompanyList.Columns[3].Width = 180;
+                DgvCompanyList.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
         }
 
@@ -50,13 +59,21 @@ namespace WinFormsApplication
 
         private void LoadData()
         {
-            var listCompany = repositoryTblCompany.ListCompany();
+            var listCompany = repositoryTblCompany.ListCompany().ToList();          
             List<string> filterSearch = new List<string>();
             filterSearch.Add("Company name");
             filterSearch.Add("Company tax");
-            filterSearch.Add("Company address");
-            DgvCompanyList.DataSource = listCompany.ToList();
+            filterSearch.Add("Company address");           
             CbFilterCompanyList.DataSource = filterSearch.ToList();
+            DgvCompanyList.DataSource = listCompany;
+            System.Diagnostics.Debug.WriteLine(listCompany.Count);
+            
+            DgvCompanyList.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvCompanyList.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            DgvCompanyList.Columns[1].Width = 180;
+            DgvCompanyList.Columns[3].Width = 180;
+            DgvCompanyList.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            //DgvCompanyList.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
     }
 }

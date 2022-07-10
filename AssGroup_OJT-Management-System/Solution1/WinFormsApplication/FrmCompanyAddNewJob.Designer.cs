@@ -45,7 +45,7 @@ namespace WinFormsApplication
             this.LbJobDescription = new System.Windows.Forms.Label();
             this.TxtJobDescription = new System.Windows.Forms.TextBox();
             this.LbMajorName = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbMajorName = new System.Windows.Forms.ComboBox();
             this.PnHeader.SuspendLayout();
             this.PnControls.SuspendLayout();
             this.SuspendLayout();
@@ -100,6 +100,7 @@ namespace WinFormsApplication
             this.BtnInsertANewJob.TabIndex = 7;
             this.BtnInsertANewJob.Text = "Insert";
             this.BtnInsertANewJob.UseVisualStyleBackColor = true;
+            this.BtnInsertANewJob.Click += new System.EventHandler(this.BtnInsertANewJob_Click);
             // 
             // BtnCancel
             // 
@@ -217,23 +218,23 @@ namespace WinFormsApplication
             this.LbMajorName.TabIndex = 12;
             this.LbMajorName.Text = "Major name: ";
             // 
-            // comboBox1
+            // cbMajorName
             // 
-            this.comboBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(285, 443);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(329, 32);
-            this.comboBox1.TabIndex = 13;
+            this.cbMajorName.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cbMajorName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMajorName.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cbMajorName.FormattingEnabled = true;
+            this.cbMajorName.Location = new System.Drawing.Point(285, 443);
+            this.cbMajorName.Name = "cbMajorName";
+            this.cbMajorName.Size = new System.Drawing.Size(329, 32);
+            this.cbMajorName.TabIndex = 13;
             // 
             // FrmCompanyAddNewJob
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(653, 636);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbMajorName);
             this.Controls.Add(this.LbMajorName);
             this.Controls.Add(this.TxtJobDescription);
             this.Controls.Add(this.LbJobDescription);
@@ -277,7 +278,7 @@ namespace WinFormsApplication
         private System.Windows.Forms.Label LbJobDescription;
         private System.Windows.Forms.TextBox TxtJobDescription;
         private System.Windows.Forms.Label LbMajorName;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbMajorName;
         private System.Windows.Forms.Button BtnInsertANewJob;
         private System.Windows.Forms.Button BtnCancel;
     }
