@@ -43,5 +43,20 @@ namespace Library.Repository
         public void CreateNewJob(TblJob job) => TblJobDAO.Instance.CreateNewJob(job);
         public void UpdateJob(TblJob job) => TblJobDAO.Instance.UpdateJob(job);
         //----------------------------------------------------------------------------------
+
+
+        //Student search--------------------
+        public IEnumerable<TblJob> GetJobActive() => TblJobDAO.Instance.GetJobActive();
+
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByCompanyNameAsStudent(searchValue);
+
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByJobNameAsStudent(searchValue);
+
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByCompanyAddressAsStudent(searchValue);
+        //----------------------------------------------------------------------
+
     }
 }

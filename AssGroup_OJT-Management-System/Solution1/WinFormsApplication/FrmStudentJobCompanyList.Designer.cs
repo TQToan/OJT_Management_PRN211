@@ -72,8 +72,7 @@ namespace WinFormsApplication
             this.CbFilterJobCompanyList.Items.AddRange(new object[] {
             "Company name",
             "Company Address",
-            "Job name",
-            "Status"});
+            "Job name"});
             this.CbFilterJobCompanyList.Location = new System.Drawing.Point(199, 37);
             this.CbFilterJobCompanyList.Name = "CbFilterJobCompanyList";
             this.CbFilterJobCompanyList.Size = new System.Drawing.Size(178, 32);
@@ -121,6 +120,7 @@ namespace WinFormsApplication
             this.DgvCompaniesList.RowTemplate.Height = 29;
             this.DgvCompaniesList.Size = new System.Drawing.Size(1093, 459);
             this.DgvCompaniesList.TabIndex = 3;
+            this.DgvCompaniesList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCompaniesList_CellClick);
             this.DgvCompaniesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCompaniesList_CellDoubleClick);
             // 
             // FrmStudentJobCompanyList

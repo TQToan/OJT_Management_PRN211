@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Library.Models;
+using Library.Repository;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,10 +19,29 @@ namespace WinFormsApplication
             InitializeComponent();
         }
 
+        private IRepositoryTblJob jobRepo = new RepositoryTblJob();
+        private IRepositoryTblSemester semesterRepo = new RepositoryTblSemester();
+        private IRepositoryTblRegisterJob registerJobRepo = new RepositoryTblRegisterJob();
+        private IRepositoryTblStudent studentRepo = new RepositoryTblStudent();
+        private IRepositoryTblCompany companyRepo = new RepositoryTblCompany(); 
+        // dùng tạm id để lấy studentInfor 
+        public string stuCode = "SE151262";
+
+        public TblStudent StudentInfor { get; set; }
+        public TblSemester currentSemester { get; set; }
+
+        private TblRegisterJob registerJob1 { get; set; }
+        private TblRegisterJob registerJob2 { get; set; }
+
         //Method: Load dữ liệu của 2 bài được applied bởi sinh viên này
         private void FrmStudentApplication_Load(object sender, EventArgs e)
         {
             //code load data ở đây
+            StudentInfor = studentRepo.GetStudentByStudentID(stuCode);
+
+            currentSemester = semesterRepo.GetCurrentSemester();
+            
+            LoadScreen();
         }
 
 
@@ -32,6 +53,19 @@ namespace WinFormsApplication
             if (result == DialogResult.OK)
             {
                 //code xóa applied ở đây
+                registerJob1.StudentConfirm = false;
+                registerJob1.Aspiration = 0;
+                registerJobRepo.UpdateInternEvaluation(registerJob1);
+
+                //cập nhật lại nguyện vọng cho job còn lại 
+                var listAppliedCancel = registerJobRepo.GetListStudentApplied(currentSemester, StudentInfor.StudentCode);
+                if (listAppliedCancel != null)
+                {
+                    var tmpListAppliedCancel = listAppliedCancel.First();
+                    tmpListAppliedCancel.Aspiration = 1;
+                    registerJobRepo.UpdateInternEvaluation(tmpListAppliedCancel);
+                }
+                LoadScreen();
             }
             
         }
@@ -44,9 +78,15 @@ namespace WinFormsApplication
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == DialogResult.OK)
             {
-                FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList();
+                FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList()
+                {
+                    IsChange = true,
+                    SelectJobFromChange = registerJob1
+                };
                 frmStudentJobCompanyList.ShowDialog();
+                LoadScreen();
                 //code change applied ở đây
+
             }
 
         }
@@ -59,6 +99,11 @@ namespace WinFormsApplication
             if (result == DialogResult.OK)
             {
                 //code xóa applied ở đây
+                registerJob2.StudentConfirm = false;
+                registerJob2.Aspiration = 0;
+                registerJobRepo.UpdateInternEvaluation(registerJob2);
+
+                LoadScreen();
             }
         }
 
@@ -69,10 +114,115 @@ namespace WinFormsApplication
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (result == DialogResult.OK)
             {
-                FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList();
+                FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList()
+                {
+                    IsChange = true,
+                    SelectJobFromChange = registerJob2
+                };
                 frmStudentJobCompanyList.ShowDialog();
                 //code change applied ở đây
             }
         }
+
+        private void LoadAspiration1(TblJob job)
+        {
+            var tmpCompany = companyRepo.GetCompanyByTaxCode(job.TaxCode);
+            LbJobNameAspiration1.Text = job.JobName;
+            TxtCompanyNameAspiration1.Text = tmpCompany.CompanyName;
+            TxtAddressAspiration1.Text = tmpCompany.Address;
+            TxtQuantityAspiration1.Text = job.NumberInterns.ToString();
+
+            var tmpRegisterJob = registerJobRepo.GetAppliedJobByIDAndStudentCode(job.JobCode, StudentInfor.StudentCode);
+            if (tmpRegisterJob.IsCompanyConfirm == null) tmpRegisterJob.IsCompanyConfirm = 0;
+            switch (tmpRegisterJob.IsCompanyConfirm)
+            {
+                case 0:
+                    TxtStatusAspiration1.Text = "Not Yet";
+                    break;
+                case 1:
+                    TxtStatusAspiration1.Text = "Accepted";
+                    break;
+                case 2:
+                    TxtStatusAspiration1.Text = "Denied";
+                    break;
+            }
+
+            LbAddressAspiration1.Enabled = false;
+            TxtQuantityAspiration1.Enabled = false;
+            TxtAddressAspiration1.Enabled = false;
+        }
+
+
+        private void LoadAspiration2(TblJob job)
+        {
+            var tmpCompany = companyRepo.GetCompanyByTaxCode(job.TaxCode);
+            LbJobNameAspiration2.Text = job.JobName;
+            TxtCompanyNameAspiration2.Text = tmpCompany.CompanyName;
+            TxtAddressAspiration2.Text = tmpCompany.Address;
+            TxtQuantityAspiration2.Text = job.NumberInterns.ToString();
+            
+            var tmpRegisterJob = registerJobRepo.GetAppliedJobByIDAndStudentCode(job.JobCode,StudentInfor.StudentCode);
+            if (tmpRegisterJob.IsCompanyConfirm == null) tmpRegisterJob.IsCompanyConfirm = 0;
+            switch (tmpRegisterJob.IsCompanyConfirm)
+            {
+                case 0:
+                    TxtStatusAspiration2.Text = "Not Yet";
+                    break;
+                case 1:
+                    TxtStatusAspiration2.Text = "Accepted";
+                    break;
+                case 2:
+                    TxtStatusAspiration2.Text = "Denied";
+                    break ;
+            }
+
+
+            LbAddressAspiration2.Enabled = false;
+            TxtQuantityAspiration2.Enabled = false;
+            TxtAddressAspiration2.Enabled = false;
+        }
+
+        private void LoadScreen()
+        {
+            ClearText();
+            var listApplied = registerJobRepo.GetListStudentApplied(currentSemester, StudentInfor.StudentCode);
+            switch (listApplied.Count())
+            {
+                case 0:
+                    PnAspiration1.Enabled = false;
+                    PnAspiration2.Enabled = false;
+                    break;
+                case 1:
+                    PnAspiration2.Enabled = false;
+                    registerJob1 = listApplied.First();
+                    var tmp = jobRepo.GetJobByID(registerJob1.JobCode);
+                    LoadAspiration1(tmp);
+                    break;
+                case 2:
+                    registerJob1 = listApplied.First();
+                    var tmp1 = jobRepo.GetJobByID(registerJob1.JobCode);
+                    LoadAspiration1(tmp1);
+
+                    registerJob2 = listApplied.Last();
+                    var tmp2 = jobRepo.GetJobByID(registerJob2.JobCode);
+                    LoadAspiration2(tmp2);
+                    break;
+            }
+        }
+
+        private void ClearText()
+        {
+            TxtAddressAspiration1.Clear();
+            TxtAddressAspiration2.Clear();
+            TxtCompanyNameAspiration1.Clear();
+            TxtCompanyNameAspiration2.Clear();
+            TxtQuantityAspiration1.Clear();
+            TxtQuantityAspiration2.Clear();
+            TxtStatusAspiration1.Clear();
+            TxtStatusAspiration2.Clear();
+            LbJobNameAspiration1.Text = "Job Name";
+            LbJobNameAspiration2.Text = "Job Name";
+        }
+
     }
 }

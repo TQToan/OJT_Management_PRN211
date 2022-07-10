@@ -14,5 +14,7 @@ namespace Library.Repository
         public void AddNewMajor(TblMajor newMajor);
         public IEnumerable<string> GetAllMajorName();
         public TblMajor GetMajorbyMajorName(string majorName);
+        public TblMajor GetMajorByMajorCode(int majorCode);
+
     }
 }

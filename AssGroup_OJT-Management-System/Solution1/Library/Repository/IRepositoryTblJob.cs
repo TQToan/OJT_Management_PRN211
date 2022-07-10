@@ -30,5 +30,12 @@ namespace Library.Repository
         public void CreateNewJob(TblJob job);
         public void UpdateJob(TblJob job);
         //------------------------------------------------------------------------------
+
+
+        public IEnumerable<TblJob> GetJobActive();
+        public IEnumerable<TblJob> SearchJobByCompanyNameAsStudent(string searchValue);
+        public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue);
+        public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue);
+
     }
 }

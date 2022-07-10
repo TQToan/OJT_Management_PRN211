@@ -44,7 +44,9 @@ namespace Library.Data_Access
                              };
                 return result;           
         }
-
+        
+        //Duplicate
+        /*
         public TblCompany GetCompanyByTaxCode(string taxCode)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
@@ -53,7 +55,7 @@ namespace Library.Data_Access
                 return company;
             }
         }
-
+        */
         public bool CreateCompany(TblCompany company)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
@@ -168,5 +170,22 @@ namespace Library.Data_Access
                 throw new Exception(ex.Message);
             }
         }
+
+        public TblCompany GetCompanyByTaxCode(string taxcode)
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    return dBContext.TblCompanies.Find(taxcode);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }

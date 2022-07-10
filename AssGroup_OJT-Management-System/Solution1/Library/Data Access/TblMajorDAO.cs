@@ -89,13 +89,30 @@ namespace Library.Data_Access
             }
         }
 
+
         public TblMajor GetMajorbyMajorName(string majorName)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
                 var major = db.TblMajors.Where(x => x.MajorName == majorName).FirstOrDefault();
                 return major;
-            }           
+            }
+        }
+
+        public TblMajor GetMajorByMajorCode(int majorCode)
+        {
+            try
+            {
+                using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    return dBContext.TblMajors.Find(majorCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
     }
 }

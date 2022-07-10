@@ -10,14 +10,26 @@ namespace Library.Repository
 {
     public class RepositoryTblCompany : IRepositoryTblCompany
     {
+
         public bool CreateCompany(TblCompany company)
                 => TblCompanyDAO.Instance.CreateCompany(company);
 
+        public TblCompany GetCompanyByTaxCode(string taxcode)
+            => TblCompanyDAO.Instance.GetCompanyByTaxCode(taxcode);
+
+        public TblCompany GetCompanyInformation(string Email) 
+            => TblCompanyDAO.Instance.GetCompanyInformation(Email);
+
+        //duplicate
+        /*
         public TblCompany GetCompanyByTaxCode(string taxCode)
                 => TblCompanyDAO.Instance.GetCompanyByTaxCode(taxCode);
+        */
 
+        /*
         public TblCompany GetCompanyInformation(string Email)
                 => TblCompanyDAO.Instance.GetCompanyInformation(Email);
+        */
 
         public int GetNumberOfCompany()
                 => TblCompanyDAO.Instance.GetNumberOfCompany();
