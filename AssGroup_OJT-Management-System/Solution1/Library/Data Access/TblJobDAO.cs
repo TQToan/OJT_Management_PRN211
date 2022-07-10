@@ -81,7 +81,7 @@ namespace Library.Data_Access
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
-                TblJob job = dBContext.TblJobs.Where(j => j.JobCode == idJob).FirstOrDefault();
+                TblJob job = dBContext.TblJobs.FirstOrDefault(j => j.JobCode == idJob);
                 return job;
             }
         }
