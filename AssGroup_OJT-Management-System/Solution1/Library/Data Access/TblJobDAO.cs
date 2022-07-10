@@ -89,8 +89,8 @@ namespace Library.Data_Access
 
         public IEnumerable<dynamic> GetJobList123()              //Lay DS bai POST
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            //{
                 var listFullJob = (from job in dBContext.TblJobs
                                    orderby job.AdminConfirm ascending
                                    select new
@@ -106,7 +106,7 @@ namespace Library.Data_Access
                                        AdminConfirm = job.AdminConfirm
                                    });
                 return listFullJob;
-            }
+            //}
         }
 
         public void UpdateStatusJobAsAdmin(TblJob job)           //Update Status vs Admin Confirm POST
@@ -169,8 +169,8 @@ namespace Library.Data_Access
         }
         public IEnumerable<dynamic> SearchJobByCompanyNameAsAdmin(string searchValue)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            //{
                 var listResult = dBContext.TblJobs.Where(job => job.TaxCodeNavigation.CompanyName.ToUpper().Contains(searchValue.ToUpper()))
                     .Select(job => new
                     {
@@ -186,12 +186,12 @@ namespace Library.Data_Access
 
                     }).OrderBy(job => job.AdminConfirm);
                 return listResult;
-            }
+           // }
         }
         public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            //{
                 var listResult = dBContext.TblJobs.Where(job => job.JobName.ToUpper().Contains(searchValue.ToUpper()))
                 .Select(job => new
                 {
@@ -207,12 +207,12 @@ namespace Library.Data_Access
 
                 }).OrderBy(job => job.AdminConfirm);
                 return listResult;
-            }
+           // }
         }
         public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            //{
                 var listResult = dBContext.TblJobs.Where(job => job.TaxCodeNavigation.Address.ToUpper().Contains(searchValue.ToUpper()))
                  .Select(job => new
                  {
@@ -228,7 +228,7 @@ namespace Library.Data_Access
 
                  }).OrderBy(job => job.AdminConfirm);
                 return listResult;
-            }
+            //}
         }
     }
 }
