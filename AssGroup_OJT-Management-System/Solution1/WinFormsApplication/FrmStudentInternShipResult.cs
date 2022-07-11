@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Library.Repository;
+using Library.Models;
 namespace WinFormsApplication
 {
     public partial class FrmStudentInternShipResult : Form
     {
+        
+        public TblStudent Student { get; set; }
+        public TblRegisterJob RegisterJob { get; set; }
         public FrmStudentInternShipResult()
         {
             InitializeComponent();
@@ -20,7 +24,36 @@ namespace WinFormsApplication
         //Method: Load kết quả thực tập lên
         private void FrmStudentInternShipResult_Load(object sender, EventArgs e)
         {
-            // code load kết quả thực tập lên ở đây
+            TxtFullNameInternshipResult.Text = RegisterJob.StudentCodeNavigation.StudentName.ToString();
+            TxtEmailInternshipResult.Text = RegisterJob.StudentCodeNavigation.Username.ToString();
+            TxtStudentIDInternshipResult.Text = RegisterJob.StudentCode.ToString();
+            TxtMajorInternshipResult.Text = RegisterJob.StudentCodeNavigation.Majorname.ToString();
+            TxtJobNameInternshipResult.Text = RegisterJob.JobCodeNavigation.JobName.ToString();
+            TxtAddressInternshipResult.Text = RegisterJob.StudentCodeNavigation.Address.ToString();
+
+            if (string.IsNullOrEmpty(RegisterJob.Grade.ToString()))
+            {
+                TxtGradeInternshipResult.Text = "Not yet";
+            }
+            else
+            {
+                TxtGradeInternshipResult.Text = RegisterJob.Grade.ToString();
+            }
+
+            if (RegisterJob.Comment == null)
+            {
+                TxtCommentInternshipResult.Text = "Not yet";
+            }
+            else
+            {
+                TxtCommentInternshipResult.Text = RegisterJob.Comment.ToString();
+            }
+            string status = "Working";
+            if(RegisterJob.StudentCodeNavigation.IsIntern == 2)
+            {
+                status = "Finish";
+            }
+            TxtPassStatusInternshipResult.Text = status;
         }
     }
 }

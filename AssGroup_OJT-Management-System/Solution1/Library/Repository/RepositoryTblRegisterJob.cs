@@ -53,5 +53,8 @@ namespace Library.Repository
 
         public void InsertRegister(TblRegisterJob registerJob) =>
             TblRegisterJobDAO.Instance.InsertRegister(registerJob);
+
+        public TblRegisterJob GetStudentInternResult(string studentcode)
+            => TblRegisterJobDAO.Instance.GetStudentInternResult(studentcode);
     }
 }
