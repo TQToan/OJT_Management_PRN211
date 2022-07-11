@@ -18,6 +18,7 @@ namespace WinFormsApplication
         public TblAccount Account { get; set; }
         public IRepositoryTblJob RepositoryTblJob { get; set; }
         public TblJob TblJob { get; set; }
+        public FrmCompanyManageJobList parentForm { get; set; }
         public FrmCompanyUpdateJobInformation()
         {
             InitializeComponent();
@@ -87,7 +88,7 @@ namespace WinFormsApplication
             }
             else
             {
-                msgError = "\n  Expiration Date is wrong format(MM/dd/YYYY)";
+                msgError = "\n  Expiration Date is wrong format(MM/dd/yyyy)";
                 check = false;
             }
 
@@ -104,10 +105,10 @@ namespace WinFormsApplication
                 checkInput();
                 checkInvalidInput();
 
-                bool status = true;
+                bool status = false;
                 if (CbStatusJob.SelectedItem.ToString().Equals("Unactive"))
                 {
-                    status = false;
+                    status = true;
                 }
                 TblJob tblJob = new TblJob()
                 {
@@ -125,6 +126,7 @@ namespace WinFormsApplication
                 RepositoryTblJob.UpdateJob(tblJob);
                 MessageBox.Show("Update successfully", "Update a job", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
+                parentForm.LoadData();
             }
             catch (Exception ex)
             {
@@ -134,12 +136,17 @@ namespace WinFormsApplication
 
         private void FrmCompanyUpdateJobInformation_Load(object sender, EventArgs e)
         {
+            LoadFrmCompanyUpdateJobInformation();
+        }
+
+        public void LoadFrmCompanyUpdateJobInformation()
+        {
             TxtJobName.Text = TblJob.JobName;
             TxtNumberOfInterns.Text = TblJob.NumberInterns.ToString();
             MTxtExpirationDate.Text = TblJob.ExpirationDate.Value.ToString("dd-MM-yyyy");
             TxtJobDescription.Text = TblJob.JobDescription;
             string status = "Active";
-            if (!TblJob.Status.Value)
+            if (TblJob.Status.Value)
             {
                 status = "Unactive";
             }

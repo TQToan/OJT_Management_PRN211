@@ -56,7 +56,7 @@ namespace WinFormsApplication
                 if(!email.Trim().EndsWith("@fpt.edu.vn"))
                 {
                     //MessageBox.Show("Your email is invalid format !!!", "Notification");
-                    msgError += "Your email is invalid format\n";
+                    msgError += "Your email is invalid format (Ex: abc@fpt.edu.vn)\n";
                     check = false;
                 }
                 if (repositoryTblAccount.GetAccountByEmail(email) != null)
@@ -65,17 +65,40 @@ namespace WinFormsApplication
                     msgError += "Company email id duplicated\n";
                     check = false;
                 }
-                if (password.Length < 6)
+                if (password.Length < 6 || password.Length > 20)
                 {
                     //MessageBox.Show("Password required is more than 8 characters !!!", "Notification");
-                    msgError += "Password required is more than 6 characters\n";
+                    msgError += "Password required is required 6-20 characters\n";
                     check = false;
                 }
-                if (repositoryTblCompany.GetCompanyByTaxCode(companyTax) != null)
+                if (companyTax.Length != 8)//10)
                 {
-                    //MessageBox.Show("Company tax id duplicated !!!", "Notification");
-                    msgError += "Company tax id duplicated\n";
+                    msgError += "Company tax is required 8 characters.";
                     check = false;
+                } else
+                {
+                    string taxCodePattern = @"^[0-9]{8,8}$";
+                    Regex regex = new Regex(taxCodePattern);
+                    if (regex.IsMatch(companyTax) == false)
+                    {
+                        msgError += "Company tax is required the number format.";
+                        check = false;
+                    }
+                    if (repositoryTblCompany.GetCompanyByTaxCode(companyTax) != null)
+                    {
+                        //MessageBox.Show("Company tax id duplicated !!!", "Notification");
+                        msgError += "Company tax id duplicated\n";
+                        check = false;
+                    }
+                }
+                if (companyName.Length > 100)
+                {
+                    msgError += "Company name is required less than 100 characters.\n";
+                    check = false;
+                }
+                if (address.Length > 100)
+                {
+                    msgError += "Address is required less than 100 characters.\n";
                 }
             }                          
             if (!check)
@@ -96,6 +119,7 @@ namespace WinFormsApplication
                     IsAdmin = 2,
                     },                  
                 };
+                MessageBox.Show(TblCompany.TaxCode +" " + TblCompany.CompanyName + " " + TblCompany.Address + " " + TblCompany.UsernameNavigation.Username + " " + TblCompany.UsernameNavigation.Password + " " + TblCompany.UsernameNavigation.IsAdmin);
                 bool result = repositoryTblCompany.CreateCompany(TblCompany);
                 if (result)
                 {

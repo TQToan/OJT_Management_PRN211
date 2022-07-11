@@ -35,65 +35,58 @@ namespace WinFormsApplication
             else
             {
                 int adminConfirm = tblJob.AdminConfirm.Value;
-                bool status = tblJob.Status.Value;
-                if (status == true)
+                if (adminConfirm == 0)
                 {
-                    if (adminConfirm == 0)
-                    {
-                        var result = MessageBox.Show("Do you want to accept this company's job?",
-                            "Company Job - Confirm Company's Job",
-                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    var result = MessageBox.Show("Do you want to accept this company's job?",
+                        "Company Job - Confirm Company's Job",
+                        MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                        if (result == DialogResult.Yes)
-                        {
-                            //thực hiện thay đổi trạng thái của job này sang trạng thái accept
-                            tblJob = new TblJob
-                            {
-                                JobCode = int.Parse(txtIDJob.Text),
-                                JobName = tblJob.JobName,
-                                NumberInterns = tblJob.NumberInterns,
-                                ExpirationDate = tblJob.ExpirationDate,
-                                Status = true,
-                                TaxCode = tblJob.TaxCode,
-                                MajorCode = tblJob.MajorCode,
-                                AdminConfirm = 1
-                            };
-                            repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
-                        }
-
-                        else if (result == DialogResult.No)
-                        {
-                            //thực hiện thay đổi trạng thái của job này sang trạng thái dined
-                            tblJob = new TblJob
-                            {
-                                JobCode = int.Parse(txtIDJob.Text),
-                                JobName = tblJob.JobName,
-                                NumberInterns = tblJob.NumberInterns,
-                                ExpirationDate = tblJob.ExpirationDate,
-                                Status = false,
-                                TaxCode = tblJob.TaxCode,
-                                MajorCode = tblJob.MajorCode,
-                                AdminConfirm = 2
-                            };
-                            repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
-                        }
-                    }
-                    else
+                    if (result == DialogResult.Yes)
                     {
-                        if (adminConfirm == 1)
+                        //thực hiện thay đổi trạng thái của job này sang trạng thái accept
+                        tblJob = new TblJob
                         {
-                            MessageBox.Show("This company job accepted before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        if (adminConfirm == 2)
-                        {
-                            MessageBox.Show("This company job dined before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
+                            JobCode = int.Parse(txtIDJob.Text),
+                            JobName = tblJob.JobName,
+                            NumberInterns = tblJob.NumberInterns,
+                            ExpirationDate = tblJob.ExpirationDate,
+                            Status = false,
+                            TaxCode = tblJob.TaxCode,
+                            MajorCode = tblJob.MajorCode,
+                            AdminConfirm = 1
+                        };
+                        repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
                     }
-                } else
-                {
-                    MessageBox.Show("This company job is unactive!", "Confirmed company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else if (result == DialogResult.No)
+                    {
+                        //thực hiện thay đổi trạng thái của job này sang trạng thái dined
+                        tblJob = new TblJob
+                        {
+                            JobCode = int.Parse(txtIDJob.Text),
+                            JobName = tblJob.JobName,
+                            NumberInterns = tblJob.NumberInterns,
+                            ExpirationDate = tblJob.ExpirationDate,
+                            Status = true,
+                            TaxCode = tblJob.TaxCode,
+                            MajorCode = tblJob.MajorCode,
+                            AdminConfirm = 2
+                        };
+                        repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
+                        //chuyển trạng thái hoạt động của bài job về unactive
+
+                    }
                 }
-
+                else
+                {
+                    if (adminConfirm == 1)
+                    {
+                        MessageBox.Show("This company job accepted before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    if (adminConfirm == 2)
+                    {
+                        MessageBox.Show("This company job dined before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
                 LoadCompanyJob();
                 // nếu là cancel thì không thay đổi gì cả
             }
@@ -175,7 +168,7 @@ namespace WinFormsApplication
         {
             if (DgvCompaniesList.Columns[e.ColumnIndex].Name == "ActionStatus")
             {
-                if (e.Value != null && e.Value.ToString().Equals("True"))
+                if (e.Value != null && e.Value.ToString().Equals("False"))
 
                 {
                     e.Value = new string("Active");

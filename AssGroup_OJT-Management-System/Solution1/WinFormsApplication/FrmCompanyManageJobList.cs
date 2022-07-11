@@ -29,7 +29,7 @@ namespace WinFormsApplication
             LoadData();
         }
 
-        private void LoadData()
+        public void LoadData()
         {
             var company = repositoryTblCompany.GetCompanyInformation(CompanyAccount.Username);
             var listJob = repositoryTblJob.GetJobListAsCompany(company.TaxCode).ToList();
@@ -100,6 +100,7 @@ namespace WinFormsApplication
             {
                 RepositoryTblJob = repositoryTblJob,
                 Account = CompanyAccount,
+                parentForm = this,
             };
             frmCompanyAddNewJob.Show();
             LoadData();
@@ -113,6 +114,7 @@ namespace WinFormsApplication
                 RepositoryTblJob = repositoryTblJob,
                 Account = CompanyAccount,
                 TblJob = GetJobAtRowSelect(),
+                parentForm = this
             };
             frmCompanyUpdateJobInformation.Show();
         }
@@ -133,6 +135,69 @@ namespace WinFormsApplication
                 AdminConfirm = int.Parse(DgvCompanyJobList.SelectedCells[0].OwningRow.Cells[7].Value.ToString()),
             };
             return Member;
+        }
+
+        private void DgvCompanyJobList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (DgvCompanyJobList.Columns[e.ColumnIndex].Name == "ActionStatus")
+            {
+                if (e.Value != null && e.Value.ToString().Equals("False"))
+
+                {
+                    e.Value = new string("Active");
+                    e.CellStyle.ForeColor = Color.Green;
+                }
+                else
+                {
+                    e.Value = new string("Unactive");
+                    e.CellStyle.ForeColor = Color.Red;
+                }
+            }
+
+            if (DgvCompanyJobList.Columns[e.ColumnIndex].Name == "AdminConfirm")
+            {
+                if (e.Value != null && e.Value.Equals(1))
+
+                {
+                    e.Value = new string("Accepted");
+                    e.CellStyle.ForeColor = Color.Green;
+                }
+                else if (e.Value != null && e.Value.Equals(2))
+                {
+                    e.Value = new string("Denied");
+                    e.CellStyle.ForeColor = Color.Red;
+                }
+                else
+                {
+                    e.Value = new string("Not Yet");
+                }
+            }
+
+            if (DgvCompanyJobList.Columns[e.ColumnIndex].Name == "ExpirationDate") ShortFormDateFormat(e);
+        }
+        //FormatDate
+        private void ShortFormDateFormat(DataGridViewCellFormattingEventArgs formatting)
+        {
+            if (formatting.Value != null)
+                try
+                {
+                    var dateString = new StringBuilder();
+                    var theDate = DateTime.Parse(formatting.Value.ToString());
+
+                    dateString.Append(theDate.Day);
+                    dateString.Append("/");
+                    dateString.Append(theDate.Month);
+                    dateString.Append("/");
+                    dateString.Append(theDate.Year);
+                    formatting.Value = dateString.ToString();
+                    formatting.FormattingApplied = true;
+                }
+                catch (FormatException)
+                {
+                    // Set to false in case there are other handlers interested trying to
+                    // format this DataGridViewCellFormattingEventArgs instance.
+                    formatting.FormattingApplied = false;
+                }
         }
     }
 }

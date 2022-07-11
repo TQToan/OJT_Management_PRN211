@@ -19,6 +19,7 @@ namespace WinFormsApplication
         public TblAccount Account { get; set; }
         public IRepositoryTblJob RepositoryTblJob { get; set; }
         public TblJob TblJob { get; set; }
+        public FrmCompanyManageJobList parentForm { get; set; }
         public FrmCompanyAddNewJob()
         {
             InitializeComponent();
@@ -47,7 +48,7 @@ namespace WinFormsApplication
                     JobName = TxtJobName.Text,
                     NumberInterns = int.Parse(TxtNumberOfInterns.Text),
                     ExpirationDate = DateTime.Parse(MTxtExpirationDate.Text),
-                    Status = true,
+                    Status = false,
                     TaxCode = repositoryTblCompany.GetCompanyInformation(Account.Username).TaxCode,
                     MajorCode = repositoryTblMajor.GetMajorbyMajorName(cbMajorName.SelectedItem.ToString()).MajorCode,
                     AdminConfirm = 0,
@@ -56,6 +57,7 @@ namespace WinFormsApplication
                 RepositoryTblJob.CreateNewJob(tblJob);
                 MessageBox.Show("Inserted successfully", "Insert a job", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
+                parentForm.LoadData();
             }
             catch (Exception ex)
             {

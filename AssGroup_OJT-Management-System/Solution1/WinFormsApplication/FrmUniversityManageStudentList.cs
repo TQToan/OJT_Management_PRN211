@@ -258,13 +258,13 @@ namespace WinFormsApplication
                         }
                         break;
                 }
-            }
-            if (listStudentFilter == null || listStudentFilter.Count() == 0)
-            {
-                semesterRepo = new RepositoryTblSemester();
-                TblSemester currentSemester = semesterRepo.GetCurrentSemester();
-                listStudentFilter = studentRepo.GetStudentListBySemesterID(currentSemester.SemesterId);
-                MessageBox.Show("No records match!", "Search student", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (listStudentFilter == null || listStudentFilter.Count() == 0)
+                {
+                    semesterRepo = new RepositoryTblSemester();
+                    TblSemester currentSemester = semesterRepo.GetCurrentSemester();
+                    listStudentFilter = studentRepo.GetStudentListBySemesterID(currentSemester.SemesterId);
+                    MessageBox.Show("No records match!", "Search student", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             LoadStudentList(listStudentFilter);
         }

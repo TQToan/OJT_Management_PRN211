@@ -274,21 +274,21 @@ namespace WinFormsApplication
                 if (present.Year - dateTime.Year < 18)
                 {
                     check = true;
-                    error += "\n - Date of Birth must be 18 years younger than Current Date.";
+                    error += $"\n - Date of Birth must be before {present.Year - 18}";
                 }
                 else
                 {
                     if (present.Year - dateTime.Year > 100)
                     {
                         check = true;
-                        error += "\n - You are too old.";
+                        error += "\n - Date of birth is not suitable.";
                     }
                 }
             }
             else
             {
                 check = true;
-                error += "\n - Date Of Birth is wrong format(MM/dd/YYYY).";
+                error += "\n - Date Of Birth is wrong format(MM/dd/yyyy).";
             }
 
             if (int.TryParse(TxtCredit.Text, out var credit))

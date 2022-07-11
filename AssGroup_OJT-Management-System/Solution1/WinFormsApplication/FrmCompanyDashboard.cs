@@ -162,6 +162,7 @@ namespace WinFormsApplication
             OpenChildForm(new FrmCompanyManageJobList()
             {
                 CompanyAccount = companyAccount,
+                
             });
         }
 

@@ -56,7 +56,7 @@ namespace WinFormsApplication
             string address = TxtAddress.Text.Trim();
             bool found = false;
             string error = "";
-
+            MessageBox.Show(MtxtDateOfBirth.Text);
             try
             {
                 if (fullName.Length == 0)
@@ -96,10 +96,10 @@ namespace WinFormsApplication
                 //    error += "\n - Date Of Birth is Empty.";
                 //}
 
-                if (DateTime.Today.Year - DateTime.Parse(MtxtDateOfBirth.Text).Year < 18)
+                if (DateTime.Today.Year - DateTime.ParseExact(MtxtDateOfBirth.Text, "dd/MM/yyyy", null).Year < 18)
                 {
                     found = true;
-                    error += "You must 18+\n";
+                    error += $"student's birthdate must be before {DateTime.Today.Year - 18} .\n";
                 }
 
                 if (found)
@@ -130,9 +130,9 @@ namespace WinFormsApplication
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("valid DateTime"))
+                if (ex.Message.Contains("DateTime"))
                 {
-                    MessageBox.Show("- Date Of Birth is Empty.", "Update Profile - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Date Of Birth is invalid.", "Update Profile - Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
                 else

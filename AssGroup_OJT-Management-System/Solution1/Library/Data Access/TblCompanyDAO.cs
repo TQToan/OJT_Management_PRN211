@@ -64,10 +64,23 @@ namespace Library.Data_Access
                 {
                     try
                     {
-                        db.TblAccounts.Add(company.UsernameNavigation);
+                        TblCompany newCompany = new TblCompany()
+                        {
+                            TaxCode  =company.TaxCode,
+                            Username = company.Username,
+                            Address = company.Address,
+                            CompanyName = company.CompanyName
+                        };
+                        TblAccount newAccount = new TblAccount()
+                        {
+                            Username = company.UsernameNavigation.Username,
+                            Password = company.UsernameNavigation.Password,
+                            IsAdmin = company.UsernameNavigation.IsAdmin
+                        };
+                        db.TblAccounts.Add(newAccount);
                         db.SaveChanges();
 
-                        db.TblCompanies.Add(company);
+                        db.TblCompanies.Add(newCompany);
                         db.SaveChanges();
 
                         transaction.Commit();
@@ -76,11 +89,10 @@ namespace Library.Data_Access
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        //System.Diagnostics.Debug.WriteLine(ex.Message);
+                        throw new Exception(ex.Message);
                     }
-
+                    return false;
                 }
-                return false;
             }
         }
 

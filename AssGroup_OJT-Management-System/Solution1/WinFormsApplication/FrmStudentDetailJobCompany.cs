@@ -79,6 +79,7 @@ namespace WinFormsApplication
                     {
                         registerJob.StudentConfirm = true;
                         registerJob.Aspiration = tmpAspiration;
+                        registerJob.IsCompanyConfirm = 0;
                         registerJobRepo.UpdateInternEvaluation(registerJob);
                     }
                     else
@@ -88,7 +89,8 @@ namespace WinFormsApplication
                             JobCode = JobInfor.JobCode,
                             StudentCode = StudentInfor.StudentCode,
                             StudentConfirm = true,
-                            Aspiration = tmpAspiration
+                            Aspiration = tmpAspiration,
+                            IsCompanyConfirm = 0,
                         };
                         registerJobRepo.InsertRegister(tmpregister);
                     }

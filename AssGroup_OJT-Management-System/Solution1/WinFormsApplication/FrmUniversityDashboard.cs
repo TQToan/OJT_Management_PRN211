@@ -145,7 +145,7 @@ namespace WinFormsApplication
             }
             else
             {
-                MessageBox.Show("New semester  has not been added, please come back next time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("New semester has not been added, please come back next time.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -189,7 +189,9 @@ namespace WinFormsApplication
         private void PicLogo_Click(object sender, EventArgs e)
         {
             currentChildForm.Close();
-            OpenChildForm(new FrmUniversityHome());
+            OpenChildForm(new FrmUniversityHome() { 
+                parentForm = this,
+            });
             Reset();
         }
 

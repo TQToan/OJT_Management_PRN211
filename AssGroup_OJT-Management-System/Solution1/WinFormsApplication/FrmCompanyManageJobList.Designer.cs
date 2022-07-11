@@ -52,6 +52,7 @@ namespace WinFormsApplication
             this.DgvCompanyJobList.Size = new System.Drawing.Size(1066, 421);
             this.DgvCompanyJobList.TabIndex = 5;
             this.DgvCompanyJobList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvCompanyJobList_CellDoubleClick);
+            this.DgvCompanyJobList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DgvCompanyJobList_CellFormatting);
             // 
             // PnFilter
             // 
