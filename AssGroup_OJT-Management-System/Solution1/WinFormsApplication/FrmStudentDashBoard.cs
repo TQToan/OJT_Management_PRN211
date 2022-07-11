@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
 using Library.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Library.Models;
+using Library.Repository;
 
 namespace WinFormsApplication
 {
     public partial class FrmStudentDashBoard : Form
     {
+        public IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+
+        public IRepositoryTblRegisterJob repositoryTblRegisterJob = new RepositoryTblRegisterJob();
+        public TblAccount studentAccount { get; set; }
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
         private Panel leftBorderBtn;
@@ -41,7 +48,7 @@ namespace WinFormsApplication
 
                 //1. chỉnh button được hover
                 // lấy cái button được nhấn
-                currentBtn = (IconButton) senderBtn;
+                currentBtn = (IconButton)senderBtn;
                 // đổi màu background cho button đó
                 currentBtn.BackColor = Color.FromArgb(79, 79, 79);
                 // đổi đổi màu chữ
@@ -117,7 +124,10 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmStudentProfile());
+            OpenChildForm(new FrmStudentProfile()
+            {
+                StudentAccount = studentAccount,
+            });
         }
 
         //Method: Khi jobs company list được clik
@@ -125,7 +135,10 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmStudentJobCompanyList());
+            OpenChildForm(new FrmStudentJobCompanyList()
+            {
+                studentAccount = studentAccount,
+            });
         }
 
         //Method: Khi student application được click
@@ -142,9 +155,15 @@ namespace WinFormsApplication
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
             //nếu sinh viên đã có kết quả thực tập thì mới cho sử dụng chức năng này
-            if (1 == 1)// điều kiện đã có kết quả thực tập
+            var student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);
+            var resultIntern = repositoryTblRegisterJob.GetStudentInternResult(student.StudentCode);
+            if (resultIntern.StudentCodeNavigation.IsIntern != 0)// điều kiện đã có kết quả thực tập
             {
-                OpenChildForm(new FrmStudentInternShipResult());
+                OpenChildForm(new FrmStudentInternShipResult()
+                {
+                    Student = student,
+                    RegisterJob = resultIntern
+                });
             }
             else
             {
@@ -157,7 +176,7 @@ namespace WinFormsApplication
                     Reset();
                 }
             }
-            
+
         }
 
         //Method: chức năng logout
@@ -182,7 +201,10 @@ namespace WinFormsApplication
         private void PicLogo_Click(object sender, EventArgs e)
         {
             currentChildForm.Close();
-            OpenChildForm(new FrmStudentHome());
+            OpenChildForm(new FrmStudentHome()
+            {
+                studentAccount = studentAccount,
+            });
             Reset();
         }
 
@@ -199,9 +221,18 @@ namespace WinFormsApplication
         private void FrmStudentDashBoard_Load(object sender, EventArgs e)
         {
             //Code nội dung giao diện trang home ở đây
-            OpenChildForm(new FrmStudentHome());
+            OpenChildForm(new FrmStudentHome()
+            {
+                studentAccount = studentAccount,
+            });
+            LoadFrmStudentDashboard();
+        }
+
+        public void LoadFrmStudentDashboard()
+        {
             //Lấy tên người dùng đang đăng nhập
-            LbWelcomeHeader.Text = "Thái Quốc Toàn";
+            var student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);
+            LbWelcomeHeader.Text = student.StudentName;
         }
     }
 }

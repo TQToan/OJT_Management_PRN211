@@ -26,48 +26,62 @@ namespace WinFormsApplication
         //Method: confirm application of student(intern)
         private void DgvApplicationList_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            int index = DgvApplicationList.CurrentCell.RowIndex;
+            int jobCode = int.Parse(DgvApplicationList.Rows[index].Cells[6].Value.ToString());
+            string studentCode = DgvApplicationList.Rows[index].Cells[0].Value.ToString();
             var appliedJob =
-                repositoryTblRegisterJob.GetAppliedJobByIDAndStudentCode(Int32.Parse(txtJobCodeInvisible.Text),
-                    txtStudentCodeInvisible.Text);
-            DialogResult result = MessageBox.Show("Do you want to confirm for this student who applied your job?",
-                "Interns Application - Confirm Application",
-                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                repositoryTblRegisterJob.GetAppliedJobByIDAndStudentCode(jobCode,
+                    studentCode);
+            if (appliedJob.IsCompanyConfirm == 0)
+            {
+                DialogResult result = MessageBox.Show("Do you want to confirm for this student who applied your job?",
+                    "Interns Application - Confirm Application",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
-            {
-                appliedJob.IsCompanyConfirm = 1;
-                // thực hiện cập nhật companyConfirm là accepted
-                /*TblRegisterJob studentApplied = new TblRegisterJob
+                if (result == DialogResult.Yes)
                 {
-                    StudentCode = appliedJob.StudentCode,
-                    JobCode = appliedJob.JobCode,
-                    Grade = appliedJob.Grade,
-                    Comment = appliedJob.Comment,
-                    StudentConfirm = appliedJob.StudentConfirm,
-                    IsCompanyConfirm = 1,
-                    IsPass = appliedJob.IsPass,
-                    Aspiration = appliedJob.Aspiration,
-                };
-                repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(studentApplied);*/
-                repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(appliedJob);
-            }
-            else if (result == DialogResult.No)
-            {
-                // thực hiện cập nhật companyConfirm là dined
-                appliedJob.IsCompanyConfirm = 2;
-                /*TblRegisterJob studentApplied = new TblRegisterJob
+                    appliedJob.IsCompanyConfirm = 1;
+                    //update trạng thái isInterns for student
+                    IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+                    TblStudent student = repositoryTblStudent.GetStudentByStudentID(studentCode);
+                    student.IsIntern = 1;
+                    repositoryTblStudent.UpdateStudent(student);
+                    // thực hiện cập nhật companyConfirm là accepted
+                    /*TblRegisterJob studentApplied = new TblRegisterJob
+                    {
+                        StudentCode = appliedJob.StudentCode,
+                        JobCode = appliedJob.JobCode,
+                        Grade = appliedJob.Grade,
+                        Comment = appliedJob.Comment,
+                        StudentConfirm = appliedJob.StudentConfirm,
+                        IsCompanyConfirm = 1,
+                        IsPass = appliedJob.IsPass,
+                        Aspiration = appliedJob.Aspiration,
+                    };
+                    repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(studentApplied);*/
+                    repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(appliedJob);
+                }
+                else if (result == DialogResult.No)
                 {
-                    StudentCode = appliedJob.StudentCode,
-                    JobCode = appliedJob.JobCode,
-                    Grade = appliedJob.Grade,
-                    Comment = appliedJob.Comment,
-                    StudentConfirm = appliedJob.StudentConfirm,
-                    IsCompanyConfirm = 2,
-                    IsPass = appliedJob.IsPass,
-                    Aspiration = appliedJob.Aspiration,
-                };
-                repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(studentApplied);*/
-                repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(appliedJob);
+                    // thực hiện cập nhật companyConfirm là dined
+                    appliedJob.IsCompanyConfirm = 2;
+                    /*TblRegisterJob studentApplied = new TblRegisterJob
+                    {
+                        StudentCode = appliedJob.StudentCode,
+                        JobCode = appliedJob.JobCode,
+                        Grade = appliedJob.Grade,
+                        Comment = appliedJob.Comment,
+                        StudentConfirm = appliedJob.StudentConfirm,
+                        IsCompanyConfirm = 2,
+                        IsPass = appliedJob.IsPass,
+                        Aspiration = appliedJob.Aspiration,
+                    };
+                    repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(studentApplied);*/
+                    repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(appliedJob);
+                }
+            } else
+            {
+                MessageBox.Show("This student application was confirmed before!", "Confirmed student applycation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             // cancel là thoát form này
             LoadAppiedJob();
@@ -154,7 +168,7 @@ namespace WinFormsApplication
             }
             else
             {
-                MessageBox.Show("No record match!", "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No record match!", "Search student application", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

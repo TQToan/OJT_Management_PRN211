@@ -138,7 +138,7 @@ namespace WinFormsApplication
                         if (selectedSemester.SemesterId == currentSemester.SemesterId)
                         {// mới thêm 
                             // tmpCourse = "Not Yet";
-                            if (studentStore.IsIntern != 2)
+                            if (student.IsIntern != 2)
                             {
                                 tmpCourse = "Not Yet";
                             }
@@ -258,6 +258,13 @@ namespace WinFormsApplication
                         }
                         break;
                 }
+            }
+            if (listStudentFilter == null || listStudentFilter.Count() == 0)
+            {
+                semesterRepo = new RepositoryTblSemester();
+                TblSemester currentSemester = semesterRepo.GetCurrentSemester();
+                listStudentFilter = studentRepo.GetStudentListBySemesterID(currentSemester.SemesterId);
+                MessageBox.Show("No records match!", "Search student", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             LoadStudentList(listStudentFilter);
         }

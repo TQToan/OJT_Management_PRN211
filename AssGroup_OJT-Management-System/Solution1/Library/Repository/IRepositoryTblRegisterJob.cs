@@ -19,6 +19,8 @@ namespace Library.Repository
         public void UpdateStatusApplyJobAsCompany(TblRegisterJob job);
         public IEnumerable<dynamic> SearchAppliedJobByStatusAsCompany(int status);
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue);
+        public int CountAppliedJobByStudentCode(string studentCode);
+        public int CountStudentActivedJobByStudentCode(string studentCode);
 
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode);
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode);
@@ -27,6 +29,9 @@ namespace Library.Repository
         public void UpdateInternEvaluation(TblRegisterJob evaluation);
         public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode);
         public void InsertRegister(TblRegisterJob registerJob);
+
         public void DeleteRegister(TblRegisterJob registerJob);
+
+        public TblRegisterJob GetStudentInternResult(string studentcode);
     }
 }

@@ -9,12 +9,12 @@ namespace Library.Data_Access
 {
     public class TblStudentDAO
     {
-         //OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+        //OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblStudentDAO() { }
         private static TblStudentDAO instance = null;
         private static readonly object InstanceLock = new object();
-        
+
         public static TblStudentDAO Instance
         {
             get
@@ -48,13 +48,21 @@ namespace Library.Data_Access
             }
         }
 
-        public void UpdateStudent (TblStudent student)
+        public void UpdateStudent(TblStudent student)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            try
             {
-                db.Entry<TblStudent>(student).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                db.SaveChanges();
+                using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+                {
+                    db.Entry<TblStudent>(student).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
 
         public bool ChecStudentIDIsExist(string studentID)

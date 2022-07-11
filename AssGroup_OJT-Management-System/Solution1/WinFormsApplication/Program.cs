@@ -18,7 +18,7 @@ namespace WinFormsApplication
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new FrmStudentDashBoard());
+            Application.Run(new FrmLogin());
 
         }
     }

@@ -36,6 +36,14 @@ namespace Library.Repository
             => TblJobDAO.Instance.SearchJobByCompanyAddressAsAdmin(searchValue);
         //----------------------------------------------------------------------
 
+        //Company Role ---------------------------------------------------------------------
+        public IEnumerable<dynamic> GetJobListAsCompany(string companyTax) => TblJobDAO.Instance.GetJobListAsCompany(companyTax);
+        public IEnumerable<dynamic> SearchJobByJobNameAsCompany(string jobName, string companyTax) => TblJobDAO.Instance.SearchJobByJobNameAsCompany(jobName, companyTax);
+        public IEnumerable<dynamic> SearchJobByMajorNameAsCompany(string majorName, string companyTax) => TblJobDAO.Instance.SearchJobByMajorNameAsCompany(majorName, companyTax);
+        public void CreateNewJob(TblJob job) => TblJobDAO.Instance.CreateNewJob(job);
+        public void UpdateJob(TblJob job) => TblJobDAO.Instance.UpdateJob(job);
+        //----------------------------------------------------------------------------------
+
 
         //Student search--------------------
         public IEnumerable<TblJob> GetJobActive() => TblJobDAO.Instance.GetJobActive();
@@ -52,5 +60,6 @@ namespace Library.Repository
         public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue) =>
             TblJobDAO.Instance.SearchJobByMajorNameAsStudent(searchValue);
         //----------------------------------------------------------------------
+
     }
 }

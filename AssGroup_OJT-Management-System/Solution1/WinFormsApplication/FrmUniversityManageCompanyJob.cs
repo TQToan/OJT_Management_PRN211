@@ -34,42 +34,64 @@ namespace WinFormsApplication
             }
             else
             {
-                var result = MessageBox.Show("Do you want to accept this company's job?",
-                    "Company Job - Confirm Company's Job",
-                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
+                int adminConfirm = tblJob.AdminConfirm.Value;
+                bool status = tblJob.Status.Value;
+                if (status == true)
                 {
-                    //thực hiện thay đổi trạng thái của job này sang trạng thái accept
-                    tblJob = new TblJob
+                    if (adminConfirm == 0)
                     {
-                        JobCode = int.Parse(txtIDJob.Text),
-                        JobName = tblJob.JobName,
-                        NumberInterns = tblJob.NumberInterns,
-                        ExpirationDate = tblJob.ExpirationDate,
-                        Status = true,
-                        TaxCode = tblJob.TaxCode,
-                        MajorCode = tblJob.MajorCode,
-                        AdminConfirm = 1
-                    };
-                    repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
-                }
+                        var result = MessageBox.Show("Do you want to accept this company's job?",
+                            "Company Job - Confirm Company's Job",
+                            MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                else if (result == DialogResult.No)
-                {
-                    //thực hiện thay đổi trạng thái của job này sang trạng thái dined
-                    tblJob = new TblJob
+                        if (result == DialogResult.Yes)
+                        {
+                            //thực hiện thay đổi trạng thái của job này sang trạng thái accept
+                            tblJob = new TblJob
+                            {
+                                JobCode = int.Parse(txtIDJob.Text),
+                                JobName = tblJob.JobName,
+                                NumberInterns = tblJob.NumberInterns,
+                                ExpirationDate = tblJob.ExpirationDate,
+                                Status = true,
+                                TaxCode = tblJob.TaxCode,
+                                MajorCode = tblJob.MajorCode,
+                                AdminConfirm = 1
+                            };
+                            repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
+                        }
+
+                        else if (result == DialogResult.No)
+                        {
+                            //thực hiện thay đổi trạng thái của job này sang trạng thái dined
+                            tblJob = new TblJob
+                            {
+                                JobCode = int.Parse(txtIDJob.Text),
+                                JobName = tblJob.JobName,
+                                NumberInterns = tblJob.NumberInterns,
+                                ExpirationDate = tblJob.ExpirationDate,
+                                Status = false,
+                                TaxCode = tblJob.TaxCode,
+                                MajorCode = tblJob.MajorCode,
+                                AdminConfirm = 2
+                            };
+                            repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
+                        }
+                    }
+                    else
                     {
-                        JobCode = int.Parse(txtIDJob.Text),
-                        JobName = tblJob.JobName,
-                        NumberInterns = tblJob.NumberInterns,
-                        ExpirationDate = tblJob.ExpirationDate,
-                        Status = false,
-                        TaxCode = tblJob.TaxCode,
-                        MajorCode = tblJob.MajorCode,
-                        AdminConfirm = 2
-                    };
-                    repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
+                        if (adminConfirm == 1)
+                        {
+                            MessageBox.Show("This company job accepted before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        if (adminConfirm == 2)
+                        {
+                            MessageBox.Show("This company job dined before!", "Accepting company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                } else
+                {
+                    MessageBox.Show("This company job is unactive!", "Confirmed company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 LoadCompanyJob();
@@ -140,7 +162,7 @@ namespace WinFormsApplication
             }
             else
             {
-                MessageBox.Show("No record match!", "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No record match!", "Search company job", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -189,7 +211,7 @@ namespace WinFormsApplication
         }
 
         //FormatDate
-        private static void ShortFormDateFormat(DataGridViewCellFormattingEventArgs formatting)
+        private void ShortFormDateFormat(DataGridViewCellFormattingEventArgs formatting)
         {
             if (formatting.Value != null)
                 try

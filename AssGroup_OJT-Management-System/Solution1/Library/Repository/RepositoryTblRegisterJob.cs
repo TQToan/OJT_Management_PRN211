@@ -11,15 +11,15 @@ namespace Library.Repository
     public class RepositoryTblRegisterJob : IRepositoryTblRegisterJob
     {
 
-        public bool checkCourStatusByStudentCode(string studentCode) 
+        public bool checkCourStatusByStudentCode(string studentCode)
             => TblRegisterJobDAO.Instance.checkCourStatusByStudentCode(studentCode);
 
-        public bool checkStudentIsPass(string studentCode) 
-            =>TblRegisterJobDAO.Instance.checkStudentIsPass(studentCode);
+        public bool checkStudentIsPass(string studentCode)
+            => TblRegisterJobDAO.Instance.checkStudentIsPass(studentCode);
 
-        public TblRegisterJob GetAppliedJobByIDAndStudentCode(int jobID, string studentcode) 
+        public TblRegisterJob GetAppliedJobByIDAndStudentCode(int jobID, string studentcode)
             => TblRegisterJobDAO.Instance.GetAppliedJobByIDAndStudentCode(jobID, studentcode);
-        public IEnumerable<dynamic> GetListStudentAppliedJobAsCompany() 
+        public IEnumerable<dynamic> GetListStudentAppliedJobAsCompany()
             => TblRegisterJobDAO.Instance.GetListStudentAppliedJobAsCompany();
 
         public void UpdateStatusApplyJobAsCompany(TblRegisterJob job) =>
@@ -30,29 +30,35 @@ namespace Library.Repository
 
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue) =>
             TblRegisterJobDAO.Instance.SearchAppliedJobByJobNameAsCompany(searchValue);
-
-        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode) => 
-            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemester(semesterID,taxCode);
+        public int CountAppliedJobByStudentCode(string studentCode) => TblRegisterJobDAO.Instance.CountAppliedJobByStudentCode(studentCode);
+        public int CountStudentActivedJobByStudentCode(string studentCode) =>
+            TblRegisterJobDAO.Instance.CountStudentActivedJobByStudentCode(studentCode);
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemester(int semesterID, string taxCode) =>
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemester(semesterID, taxCode);
 
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode) =>
-            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStudentCode(semesterID:semesterID,taxCode:taxCode,studentCode:studentCode);
+            TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStudentCode(semesterID: semesterID, taxCode: taxCode, studentCode: studentCode);
 
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName) =>
             TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStudentName(semesterID, taxCode, studentName);
 
-        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent) => 
+        public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStatus(int semesterID, string taxCode, int statusStudent) =>
             TblRegisterJobDAO.Instance.GetIntershipInCurrentSemesterByStatus(semesterID, taxCode, statusStudent);
 
-        public void UpdateInternEvaluation(TblRegisterJob evaluation) => 
+        public void UpdateInternEvaluation(TblRegisterJob evaluation) =>
             TblRegisterJobDAO.Instance.UpdateInternEvaluation(evaluation);
 
         public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode) =>
-            TblRegisterJobDAO.Instance.GetListStudentApplied(currentSemester,studentcode);
+            TblRegisterJobDAO.Instance.GetListStudentApplied(currentSemester, studentcode);
 
         public void InsertRegister(TblRegisterJob registerJob) =>
             TblRegisterJobDAO.Instance.InsertRegister(registerJob);
 
+
         public void DeleteRegister(TblRegisterJob registerJob) =>
             TblRegisterJobDAO.Instance.DeleteRegister(registerJob);
+
+        public TblRegisterJob GetStudentInternResult(string studentcode)
+            => TblRegisterJobDAO.Instance.GetStudentInternResult(studentcode);
     }
 }

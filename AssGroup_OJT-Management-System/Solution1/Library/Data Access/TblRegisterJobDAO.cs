@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Library.Repository;
 namespace Library.Data_Access
 {
     public class TblRegisterJobDAO
     {
-       // private OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblRegisterJobDAO() { }
         private static TblRegisterJobDAO instance = null;
@@ -33,7 +32,8 @@ namespace Library.Data_Access
         // hàm kiểm tra Cour status, lấy job mới nhất kiểm tra là pass, hay not pass(bao gồm not pass, not yet)
         public bool checkCourStatusByStudentCode(string studentCode)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context()) {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
                 var list = from appl in db.TblRegisterJobs
                            join job in db.TblJobs on appl.JobCode equals job.JobCode
                            where appl.StudentCode == studentCode
@@ -44,7 +44,6 @@ namespace Library.Data_Access
                 {
                     return true;
                 }
-            }
             return false;
         }
 
@@ -52,8 +51,8 @@ namespace Library.Data_Access
         // hàm kiểm tra student đã pass chưa trong tất các kỳ, chỉ cần 1 pass return true 
         public bool checkStudentIsPass(string studentCode)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            
                 var list = from appl in db.TblRegisterJobs
                            where appl.StudentCode == studentCode && appl.IsPass == false
                            select appl;
@@ -62,7 +61,7 @@ namespace Library.Data_Access
                     return true;
                 }
                 return false;
-            }
+            
         }
 
 
@@ -73,26 +72,45 @@ namespace Library.Data_Access
                 TblRegisterJob job = dbContext.TblRegisterJobs.FirstOrDefault(j => j.JobCode == idJob && j.StudentCode == studentCode);
                 return job;
             }
-                
+
+        }
+        public int CountAppliedJobByStudentCode(string studentCode)                      //Lay post theo ID
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dbContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var job = dbContext.TblRegisterJobs.Where(j => j.StudentCode == studentCode);
+                int count = job.Count();
+                return count;
+            }
+
+        }
+
+        public int CountStudentActivedJobByStudentCode(string studentCode)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dbContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var job = dbContext.TblRegisterJobs.Where(j => j.StudentCode == studentCode && j.IsCompanyConfirm == 1 && j.StudentConfirm == true);
+                int count = job.Count();
+                return count;
+            }
         }
         public IEnumerable<dynamic> GetListStudentAppliedJobAsCompany()
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
-                var listStudent = from apply in dBContext.TblRegisterJobs
-                                  orderby apply.IsCompanyConfirm
-                                  select new
-                                  {
-                                      StudentCode = apply.StudentCode,
-                                      StudentName = apply.StudentCodeNavigation.StudentName,
-                                      JobName = apply.JobCodeNavigation.JobName,
-                                      StudentConfirm = apply.StudentConfirm,
-                                      CompanyConfirm = apply.IsCompanyConfirm,
-                                      Aspiration = apply.Aspiration,
-                                      JobCode = apply.JobCode,
-                                  };
-                return listStudent;
-            }
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
+            var listStudent = from apply in dBContext.TblRegisterJobs
+                              orderby apply.IsCompanyConfirm
+                              select new
+                              {
+                                  StudentCode = apply.StudentCode,
+                                  StudentName = apply.StudentCodeNavigation.StudentName,
+                                  JobName = apply.JobCodeNavigation.JobName,
+                                  StudentConfirm = apply.StudentConfirm,
+                                  CompanyConfirm = apply.IsCompanyConfirm,
+                                  Aspiration = apply.Aspiration,
+                                  JobCode = apply.JobCode,
+                              };
+            return listStudent;
         }
         public void UpdateStatusApplyJobAsCompany(TblRegisterJob job)           //Update isCompany Confirm job
         {
@@ -113,9 +131,10 @@ namespace Library.Data_Access
 
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue)
         {
-            using(OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
-                var listResult = dBContext.TblRegisterJobs.Where(apply => apply.JobCodeNavigation.JobName.ToUpper().Contains(searchValue.ToUpper()))
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
+            var listResult = dBContext.TblRegisterJobs.Where(apply => apply.JobCodeNavigation.JobName.ToUpper().Contains(searchValue.ToUpper()))
+
                 .Select(apply => new
                 {
                     StudentCode = apply.StudentCode,
@@ -128,13 +147,12 @@ namespace Library.Data_Access
 
                 }).OrderBy(apply => apply.CompanyConfirm);
                 return listResult;
-            }
+            
         }
         public IEnumerable<dynamic> SearchAppliedJobByStatusAsCompany(int status)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
-                var listResult = dBContext.TblRegisterJobs.Where(apply => apply.IsCompanyConfirm == status)
+            var dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            var listResult = dBContext.TblRegisterJobs.Where(apply => apply.IsCompanyConfirm == status)
                 .Select(apply => new
                 {
                     StudentCode = apply.StudentCode,
@@ -147,7 +165,6 @@ namespace Library.Data_Access
 
                 }).OrderBy(apply => apply.CompanyConfirm);
                 return listResult;
-            }
         }
 
 
@@ -155,29 +172,30 @@ namespace Library.Data_Access
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
-                var list = from register in db.TblRegisterJobs join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                var list = from register in db.TblRegisterJobs
+                           join student in db.TblStudents on register.StudentCode equals student.StudentCode
                            join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
-                           join jobs in db.TblJobs on  register.JobCode equals jobs.JobCode
-                           where jobs.TaxCode == taxCode && stuSem.SemesterId == semesterID 
+                           join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
+                           where jobs.TaxCode == taxCode && stuSem.SemesterId == semesterID
                            && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
                            select register;
                 return list.ToList();
             }
-        } 
+        }
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentCode(int semesterID, string taxCode, string studentCode)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
             {
                 var list = from register in db.TblRegisterJobs
-                            join student in db.TblStudents on register.StudentCode equals student.StudentCode
-                            join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
-                            join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
-                            where stuSem.StudentCode == taxCode && stuSem.SemesterId == semesterID && stuSem.StudentCode.Contains(studentCode)
-                           && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
+                           join student in db.TblStudents on register.StudentCode equals student.StudentCode
+                           join stuSem in db.TblStudentSemesters on student.StudentCode equals stuSem.StudentCode
+                           join jobs in db.TblJobs on register.JobCode equals jobs.JobCode
+                           where stuSem.StudentCode == taxCode && stuSem.SemesterId == semesterID && stuSem.StudentCode.Contains(studentCode)
+                          && register.IsCompanyConfirm == 1 && register.StudentConfirm == true
                            select register;
                 return list.ToList();
             }
-        } 
+        }
         public IEnumerable<TblRegisterJob> GetIntershipInCurrentSemesterByStudentName(int semesterID, string taxCode, string studentName)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
@@ -225,7 +243,7 @@ namespace Library.Data_Access
                 var list = from register in db.TblRegisterJobs
                            join student in db.TblStudents on register.StudentCode equals student.StudentCode
                            join job in db.TblJobs on register.JobCode equals job.JobCode
-                           where student.StudentCode == studentcode && 
+                           where student.StudentCode == studentcode &&
                            job.ExpirationDate <= currentSemester.EndDate &&
                            job.ExpirationDate >= currentSemester.StartDate &&
                            register.StudentConfirm == true
@@ -245,6 +263,7 @@ namespace Library.Data_Access
             }
         }
 
+
         public void DeleteRegister(TblRegisterJob registerJob)
         {
             using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
@@ -254,5 +273,24 @@ namespace Library.Data_Access
             }
         }
    
+
+        public TblRegisterJob GetStudentInternResult(string studentcode)
+        {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+                    var result = (from register in db.TblRegisterJobs
+                         where register.StudentCode == studentcode &&
+                         register.StudentConfirm == true
+                         select register).FirstOrDefault();
+            
+            IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+            IRepositoryTblJob repositoryTblJob = new RepositoryTblJob();
+            var student = repositoryTblStudent.GetStudentByStudentID(studentcode);
+            var job = repositoryTblJob.GetJobByID(result.JobCode);
+            result.StudentCodeNavigation = student;
+            result.JobCodeNavigation = job;
+            return result;       
+        }
+
+
     }
 }

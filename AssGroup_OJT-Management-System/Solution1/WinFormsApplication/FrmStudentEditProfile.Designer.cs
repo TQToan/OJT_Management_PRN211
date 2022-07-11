@@ -118,7 +118,6 @@ namespace WinFormsApplication
             // BtnUpdate
             // 
             this.BtnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.BtnUpdate, "BtnUpdate");
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.UseVisualStyleBackColor = true;
@@ -240,6 +239,7 @@ namespace WinFormsApplication
             this.Controls.Add(this.PnHeader);
             this.Controls.Add(this.PnInformation);
             this.Name = "FrmStudentEditProfile";
+            this.Load += new System.EventHandler(this.FrmStudentEditProfile_Load);
             this.PnInformation.ResumeLayout(false);
             this.PnInformation.PerformLayout();
             this.PnControls.ResumeLayout(false);
