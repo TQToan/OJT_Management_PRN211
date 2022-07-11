@@ -19,6 +19,8 @@ namespace WinFormsApplication
     public partial class FrmStudentDashBoard : Form
     {
         public IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+
+        public IRepositoryTblRegisterJob repositoryTblRegisterJob = new RepositoryTblRegisterJob();
         public TblAccount studentAccount { get; set; }
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
@@ -155,9 +157,15 @@ namespace WinFormsApplication
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
             //nếu sinh viên đã có kết quả thực tập thì mới cho sử dụng chức năng này
-            if (1 == 1)// điều kiện đã có kết quả thực tập
+            var student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);
+            var resultIntern = repositoryTblRegisterJob.GetStudentInternResult(student.StudentCode);
+            if (resultIntern.StudentCodeNavigation.IsIntern != 0)// điều kiện đã có kết quả thực tập
             {
-                OpenChildForm(new FrmStudentInternShipResult());
+                OpenChildForm(new FrmStudentInternShipResult()
+                {
+                    Student = student,
+                    RegisterJob = resultIntern
+                });
             }
             else
             {

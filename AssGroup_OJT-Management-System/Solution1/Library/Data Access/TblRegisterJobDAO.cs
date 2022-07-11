@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Library.Repository;
 namespace Library.Data_Access
 {
     public class TblRegisterJobDAO
@@ -261,6 +261,23 @@ namespace Library.Data_Access
                 db.TblRegisterJobs.Add(registerJob);
                 db.SaveChanges();
             }
+        }
+
+        public TblRegisterJob GetStudentInternResult(string studentcode)
+        {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+                    var result = (from register in db.TblRegisterJobs
+                         where register.StudentCode == studentcode &&
+                         register.StudentConfirm == true
+                         select register).FirstOrDefault();
+            
+            IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
+            IRepositoryTblJob repositoryTblJob = new RepositoryTblJob();
+            var student = repositoryTblStudent.GetStudentByStudentID(studentcode);
+            var job = repositoryTblJob.GetJobByID(result.JobCode);
+            result.StudentCodeNavigation = student;
+            result.JobCodeNavigation = job;
+            return result;       
         }
 
     }
