@@ -338,6 +338,19 @@ namespace Library.Data_Access
             }
         }
 
+        public int GetNumberOfActiveJobSameMajorStudent(int majorCode)
+        {
+            List<TblJob> jobs = null;
+            using (OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                jobs = dBContext.TblJobs.Where(job => job.MajorCode == majorCode).ToList();
+            }
+            if (jobs == null)
+            {
+                return 0;
+            }
+            return jobs.Count();
+        }
 
     }
 }

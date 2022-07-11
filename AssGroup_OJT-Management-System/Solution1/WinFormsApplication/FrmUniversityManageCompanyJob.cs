@@ -53,6 +53,7 @@ namespace WinFormsApplication
                             Status = false,
                             TaxCode = tblJob.TaxCode,
                             MajorCode = tblJob.MajorCode,
+                            JobDescription = tblJob.JobDescription,
                             AdminConfirm = 1
                         };
                         repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);
@@ -69,6 +70,7 @@ namespace WinFormsApplication
                             Status = true,
                             TaxCode = tblJob.TaxCode,
                             MajorCode = tblJob.MajorCode,
+                            JobDescription = tblJob.JobDescription,
                             AdminConfirm = 2
                         };
                         repositoryTblJob.UpdateStatusJobAsAdmin(tblJob);

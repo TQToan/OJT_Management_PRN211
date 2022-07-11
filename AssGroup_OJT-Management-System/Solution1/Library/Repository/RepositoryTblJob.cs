@@ -56,6 +56,9 @@ namespace Library.Repository
 
         public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue) =>
             TblJobDAO.Instance.SearchJobByCompanyAddressAsStudent(searchValue);
+
+        public int GetNumberOfActiveJobSameMajorStudent(int majorCode) => 
+            TblJobDAO.Instance.GetNumberOfActiveJobSameMajorStudent(majorCode);
         //----------------------------------------------------------------------
 
     }

@@ -51,7 +51,7 @@ namespace WinFormsApplication
             string status = "Working";
             if(RegisterJob.StudentCodeNavigation.IsIntern == 2)
             {
-                status = "Finish";
+                status = "Finished";
             }
             TxtPassStatusInternshipResult.Text = status;
         }

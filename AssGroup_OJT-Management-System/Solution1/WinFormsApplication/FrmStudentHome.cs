@@ -18,6 +18,9 @@ namespace WinFormsApplication
         public IRepositoryTblSemester RepositoryTblSemester { get; set; }
         public IRepositoryTblStudentSemester RepositoryTblStudentSemester { get; set; }
         public IRepositoryTblRegisterJob RepositoryTblRegisterJob { get; set; }
+        public IRepositoryTblCompany repositoryTblCompany { get; set; }
+        public IRepositoryTblMajor RepositoryTblMajor { get; set; }
+        public IRepositoryTblJob repositoryTblJob { get; set; }
         public TblAccount studentAccount { get; set; }
         public FrmStudentHome()
         {
@@ -48,12 +51,18 @@ namespace WinFormsApplication
             TblSemester semester = RepositoryTblSemester.GetCurrentSemester();
             TxtSemester.Text = semester.SemesterName;
 
-            RepositoryTblRegisterJob = new RepositoryTblRegisterJob();
-            int numberOfSignedCompany = RepositoryTblRegisterJob.CountAppliedJobByStudentCode(student.StudentCode);
+            //RepositoryTblRegisterJob = new RepositoryTblRegisterJob();
+            //int numberOfSignedCompany = RepositoryTblRegisterJob.CountAppliedJobByStudentCode(student.StudentCode);
+            repositoryTblCompany = new RepositoryTblCompany();
+            int numberOfSignedCompany = repositoryTblCompany.GetNumberOfCompany();
             TxtNumberOfSignedCompaniesHeader.Text = numberOfSignedCompany.ToString();
 
-            int numberOfStudentActivedJob =
-                RepositoryTblRegisterJob.CountStudentActivedJobByStudentCode(student.StudentCode);
+            RepositoryTblMajor = new RepositoryTblMajor();
+            repositoryTblJob = new RepositoryTblJob();
+            TblMajor tblMajor = RepositoryTblMajor.GetMajorbyMajorName(student.Majorname);
+            //int numberOfStudentActivedJob =
+            //    RepositoryTblRegisterJob.CountStudentActivedJobByStudentCode(student.StudentCode);
+            int numberOfStudentActivedJob = repositoryTblJob.GetNumberOfActiveJobSameMajorStudent(tblMajor.MajorCode);
             LbNumberOfActiveJobsHeader.Text = numberOfStudentActivedJob.ToString();
 
         }

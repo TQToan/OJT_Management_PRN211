@@ -143,6 +143,11 @@ namespace WinFormsApplication
                         break;
                 }
             }
+            if (listInternFilter.Count() == 0)
+            {
+                listInternFilter = registJobRepo.GetIntershipInCurrentSemester(currentSemester.SemesterId, companyInfor.TaxCode);
+                MessageBox.Show("No record match!", "Search interns", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             LoadInterList((IEnumerable<TblRegisterJob>)listInternFilter);
         }
 

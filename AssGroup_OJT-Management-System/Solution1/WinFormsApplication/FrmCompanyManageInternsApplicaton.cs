@@ -17,6 +17,7 @@ namespace WinFormsApplication
     public partial class FrmCompanyManageInternsApplicaton : Form
     {
         private readonly IRepositoryTblRegisterJob repositoryTblRegisterJob = new RepositoryTblRegisterJob();
+        public IRepositoryTblJob repositoryTblJob { get; set; }
         //private readonly BindingSource source = new BindingSource();
         public FrmCompanyManageInternsApplicaton()
         {
@@ -60,6 +61,11 @@ namespace WinFormsApplication
                     };
                     repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(studentApplied);*/
                     repositoryTblRegisterJob.UpdateStatusApplyJobAsCompany(appliedJob);
+                    //cập nhật lại numberinterns
+                    repositoryTblJob = new RepositoryTblJob();
+                    TblJob currentJob = repositoryTblJob.GetJobByID(jobCode);
+                    currentJob.NumberInterns -= 1;
+                    repositoryTblJob.UpdateJob(currentJob);
                 }
                 else if (result == DialogResult.No)
                 {

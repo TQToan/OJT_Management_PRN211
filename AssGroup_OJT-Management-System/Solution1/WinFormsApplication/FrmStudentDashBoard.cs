@@ -174,7 +174,9 @@ namespace WinFormsApplication
                 if (result == DialogResult.OK)
                 {
                     //chỉnh về giao diện home
-                    OpenChildForm(new FrmStudentHome());
+                    OpenChildForm(new FrmStudentHome() { 
+                        studentAccount = studentAccount,
+                    });
                     Reset();
                 }
             }
