@@ -54,7 +54,14 @@ namespace Library.Repository
         public void InsertRegister(TblRegisterJob registerJob) =>
             TblRegisterJobDAO.Instance.InsertRegister(registerJob);
 
+
+        public void DeleteRegister(TblRegisterJob registerJob) =>
+            TblRegisterJobDAO.Instance.DeleteRegister(registerJob);
+
         public TblRegisterJob GetStudentInternResult(string studentcode)
             => TblRegisterJobDAO.Instance.GetStudentInternResult(studentcode);
+
+        public void UpdateRegister(TblRegisterJob registerJob) 
+            => TblRegisterJobDAO.Instance.UpdateRegister(registerJob);
     }
 }

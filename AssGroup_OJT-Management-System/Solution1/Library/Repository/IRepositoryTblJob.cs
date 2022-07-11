@@ -38,5 +38,7 @@ namespace Library.Repository
         public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue);
         public int GetNumberOfActiveJobSameMajorStudent(int majorCode);
 
+        public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue);
+
     }
 }

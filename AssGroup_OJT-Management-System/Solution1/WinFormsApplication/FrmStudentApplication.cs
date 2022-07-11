@@ -54,13 +54,11 @@ namespace WinFormsApplication
             if (result == DialogResult.OK)
             {
                 //code xóa applied ở đây
-                registerJob1.StudentConfirm = false;
-                registerJob1.Aspiration = 0;
-                registerJobRepo.UpdateInternEvaluation(registerJob1);
+                registerJobRepo.DeleteRegister(registerJob1);
 
                 //cập nhật lại nguyện vọng cho job còn lại 
                 var listAppliedCancel = registerJobRepo.GetListStudentApplied(currentSemester, StudentInfor.StudentCode);
-                if (listAppliedCancel != null)
+                if (listAppliedCancel.Count() == 1)
                 {
                     var tmpListAppliedCancel = listAppliedCancel.First();
                     tmpListAppliedCancel.Aspiration = 1;
@@ -101,9 +99,7 @@ namespace WinFormsApplication
             if (result == DialogResult.OK)
             {
                 //code xóa applied ở đây
-                registerJob2.StudentConfirm = false;
-                registerJob2.Aspiration = 0;
-                registerJobRepo.UpdateInternEvaluation(registerJob2);
+                registerJobRepo.DeleteRegister(registerJob2);
 
                 LoadScreen();
             }
@@ -140,7 +136,7 @@ namespace WinFormsApplication
             switch (tmpRegisterJob.IsCompanyConfirm)
             {
                 case 0:
-                    TxtStatusAspiration1.Text = "Not Yet";
+                    TxtStatusAspiration1.Text = "Waiting";
                     break;
                 case 1:
                     TxtStatusAspiration1.Text = "Accepted";
@@ -169,7 +165,7 @@ namespace WinFormsApplication
             switch (tmpRegisterJob.IsCompanyConfirm)
             {
                 case 0:
-                    TxtStatusAspiration2.Text = "Not Yet";
+                    TxtStatusAspiration2.Text = "Waiting";
                     break;
                 case 1:
                     TxtStatusAspiration2.Text = "Accepted";
@@ -210,6 +206,11 @@ namespace WinFormsApplication
                     var tmp2 = jobRepo.GetJobByID(registerJob2.JobCode);
                     LoadAspiration2(tmp2);
                     break;
+            }
+            if (StudentInfor.IsIntern != 0)
+            {
+                PnAspiration1.Enabled = false;
+                PnAspiration2.Enabled = false;
             }
         }
 

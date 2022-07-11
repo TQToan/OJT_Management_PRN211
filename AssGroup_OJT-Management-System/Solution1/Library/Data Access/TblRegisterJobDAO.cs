@@ -263,6 +263,26 @@ namespace Library.Data_Access
             }
         }
 
+
+        public void DeleteRegister(TblRegisterJob registerJob)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.TblRegisterJobs.Remove(registerJob);
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateRegister(TblRegisterJob registerJob)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.Entry<TblRegisterJob>(registerJob).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+   
+
         public TblRegisterJob GetStudentInternResult(string studentcode)
         {
             OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
@@ -274,11 +294,15 @@ namespace Library.Data_Access
             IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
             IRepositoryTblJob repositoryTblJob = new RepositoryTblJob();
             var student = repositoryTblStudent.GetStudentByStudentID(studentcode);
-            var job = repositoryTblJob.GetJobByID(result.JobCode);
-            result.StudentCodeNavigation = student;
-            result.JobCodeNavigation = job;
+            if (result != null)
+            {
+                var job = repositoryTblJob.GetJobByID(result.JobCode);
+                result.StudentCodeNavigation = student;
+                result.JobCodeNavigation = job;
+            }
             return result;       
         }
+
 
     }
 }

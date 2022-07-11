@@ -293,7 +293,7 @@ namespace Library.Data_Access
                 var list = from job in db.TblJobs
                            join company in db.TblCompanies on job.TaxCode equals company.TaxCode
                            join major in db.TblMajors on job.MajorCode equals major.MajorCode
-                           where job.Status == false && job.ExpirationDate >= DateTime.Now
+                           where job.Status == false && job.ExpirationDate >= DateTime.Now && job.AdminConfirm == 1 && job.NumberInterns > 0
                            select job;
                 return list.ToList();
             }
@@ -351,6 +351,20 @@ namespace Library.Data_Access
             }
             return jobs.Count();
         }
+
+        public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && major.MajorName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
+
 
     }
 }

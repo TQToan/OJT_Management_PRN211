@@ -54,38 +54,79 @@ namespace WinFormsApplication
             var listApplied = registerJobRepo.GetListStudentApplied(currentSemester, studentInfor.StudentCode);
             bool isCheck = false;
 
-            if (listApplied != null)
-            {
-                foreach (var item in listApplied)
-                {
-                    if (item.JobCode == jobInfor.JobCode)
-                    {
-                        frmStudentDetailJobCompany.ApplyOrCancel = false;
-                        frmStudentDetailJobCompany.ShowDialog();
-                        isCheck = true;
-                    }
-                }
 
-            }
-           
-            if (!isCheck)
+            if (IsChange)
             {
-                if (IsChange)
+                frmStudentDetailJobCompany.IsChange = true;
+                if (SelectJobFromChange == null)
                 {
-                    frmStudentDetailJobCompany.IsChange = true;
-                    frmStudentDetailJobCompany.SelectJobFromChange = SelectJobFromChange;
+                    frmStudentDetailJobCompany.ApplyOrCancel = true;
+                    frmStudentDetailJobCompany.ShowDialog();
+                }
+                else
+                {
+                    // Update or Cancel 
                     if (jobInfor.JobCode == SelectJobFromChange.JobCode)
                     {
                         frmStudentDetailJobCompany.ApplyOrCancel = false;
+                        frmStudentDetailJobCompany.ShowDialog();
                     }
                     else
                     {
-                        frmStudentDetailJobCompany.ApplyOrCancel = true;
+                        foreach (var item in listApplied)
+                        {
+                            // change aspiration 2 job
+                            if (item.JobCode == jobInfor.JobCode && item.JobCode != SelectJobFromChange.JobCode)
+                            {
+                                DialogResult rs = MessageBox.Show("You have applied this job. Do you want change aspiration?", "Information", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                                if (rs == DialogResult.OK)
+                                {
+                                    int tmpAspiration1 = (int)item.Aspiration;
+                                    item.Aspiration = SelectJobFromChange.Aspiration;
+                                    SelectJobFromChange.Aspiration = tmpAspiration1;
+                                    registerJobRepo.UpdateInternEvaluation(item);
+                                    registerJobRepo.UpdateInternEvaluation(SelectJobFromChange);
+                                }
+                                isCheck = true;
+                            }
+                        }
+
+                        // Add new Job into old job 
+                        if (!isCheck)
+                        {
+                            frmStudentDetailJobCompany.IsChange = true;
+                            if (jobInfor.JobCode == SelectJobFromChange.JobCode)
+                            {
+                                frmStudentDetailJobCompany.ApplyOrCancel = false;
+                            }
+                            else
+                            {
+                                frmStudentDetailJobCompany.ApplyOrCancel = true;
+                            }
+                            frmStudentDetailJobCompany.SelectJobFromChange = SelectJobFromChange;
+                            frmStudentDetailJobCompany.ShowDialog();
+                          //  SelectJobFromChange = registerJobRepo.GetAppliedJobByIDAndStudentCode(jobInfor.JobCode, studentInfor.StudentCode);
+                        }
                     }
-                    frmStudentDetailJobCompany.ShowDialog();
-                    SelectJobFromChange = registerJobRepo.GetAppliedJobByIDAndStudentCode(jobInfor.JobCode, studentInfor.StudentCode);
+                    SelectJobFromChange = registerJobRepo.GetAppliedJobByIDAndStudentCode(SelectJobFromChange.JobCode, studentInfor.StudentCode);
                 }
-                else
+            }
+            else
+            {
+                if (listApplied != null)
+                {
+                    foreach (var item in listApplied)
+                    {
+                        if (item.JobCode == jobInfor.JobCode)
+                        {
+                            frmStudentDetailJobCompany.ApplyOrCancel = false;
+                            frmStudentDetailJobCompany.ShowDialog();
+                            isCheck = true;
+                        }
+                    }
+                }
+
+                if (!isCheck)
                 {
                     if (listApplied.Count() != 2)
                     {
@@ -99,7 +140,11 @@ namespace WinFormsApplication
                 }
             }
 
-           
+
+
+
+            IEnumerable<TblJob> jobList = jobRepo.GetJobActive();
+            LoadJobList(jobList);
         }
 
         //Method: Chức năng load danh sách các job của các công ty chưa hết hạn
@@ -181,6 +226,9 @@ namespace WinFormsApplication
                     
                     case "Job name":
                         listInternFilter = jobRepo.SearchJobByJobNameAsStudent(tmpSearch);
+                        break;
+                    case "Major name":
+                        listInternFilter = jobRepo.SearchJobByMajorNameAsStudent(tmpSearch);
                         break;
                 }
             } 

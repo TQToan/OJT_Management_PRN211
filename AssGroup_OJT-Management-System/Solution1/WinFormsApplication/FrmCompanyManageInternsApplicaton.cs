@@ -18,6 +18,7 @@ namespace WinFormsApplication
     {
         private readonly IRepositoryTblRegisterJob repositoryTblRegisterJob = new RepositoryTblRegisterJob();
         public IRepositoryTblJob repositoryTblJob { get; set; }
+        public IRepositoryTblSemester repositoryTblSemester { get; set; }
         //private readonly BindingSource source = new BindingSource();
         public FrmCompanyManageInternsApplicaton()
         {
@@ -33,7 +34,7 @@ namespace WinFormsApplication
             var appliedJob =
                 repositoryTblRegisterJob.GetAppliedJobByIDAndStudentCode(jobCode,
                     studentCode);
-            if (appliedJob.IsCompanyConfirm == 0)
+            if (appliedJob.StudentConfirm == true && appliedJob.IsCompanyConfirm == 0)
             {
                 DialogResult result = MessageBox.Show("Do you want to confirm for this student who applied your job?",
                     "Interns Application - Confirm Application",
@@ -66,6 +67,21 @@ namespace WinFormsApplication
                     TblJob currentJob = repositoryTblJob.GetJobByID(jobCode);
                     currentJob.NumberInterns -= 1;
                     repositoryTblJob.UpdateJob(currentJob);
+                    //nếu 1 trong 2 cái được confirm thì cái còn lại sẽ chuyển student_Confirm = fasle
+                    repositoryTblSemester = new RepositoryTblSemester();
+                    TblSemester currentSemester = repositoryTblSemester.GetCurrentSemester();
+                    IEnumerable<TblRegisterJob> registerJobs = repositoryTblRegisterJob.GetListStudentApplied(currentSemester, appliedJob.StudentCode);
+                    foreach (var item in registerJobs)
+                    {
+                        if (item.JobCode == appliedJob.JobCode)
+                        {
+                            continue;
+                        } else
+                        {
+                            item.StudentConfirm = false;
+                            repositoryTblRegisterJob.UpdateRegister(item);
+                        }
+                    }
                 }
                 else if (result == DialogResult.No)
                 {
@@ -87,7 +103,15 @@ namespace WinFormsApplication
                 }
             } else
             {
-                MessageBox.Show("This student application was confirmed before!", "Confirmed student applycation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (appliedJob.IsCompanyConfirm != 0)
+                {
+                    MessageBox.Show("This student application was confirmed before!", "Confirmed student applycation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                if (appliedJob.StudentConfirm == false)
+                {
+                    MessageBox.Show("This student application is canceled!", "Confirmed student applycation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
             }
             // cancel là thoát form này
             LoadAppiedJob();

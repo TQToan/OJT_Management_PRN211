@@ -159,7 +159,7 @@ namespace WinFormsApplication
             //nếu sinh viên đã có kết quả thực tập thì mới cho sử dụng chức năng này
             var student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);
             var resultIntern = repositoryTblRegisterJob.GetStudentInternResult(student.StudentCode);
-            if (resultIntern.StudentCodeNavigation.IsIntern != 0)// điều kiện đã có kết quả thực tập
+            if ( resultIntern != null && resultIntern.StudentCodeNavigation.IsIntern != 0)// điều kiện đã có kết quả thực tập
             {
                 OpenChildForm(new FrmStudentInternShipResult()
                 {
