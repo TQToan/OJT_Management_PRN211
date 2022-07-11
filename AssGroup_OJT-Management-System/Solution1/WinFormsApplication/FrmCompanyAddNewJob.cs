@@ -18,7 +18,7 @@ namespace WinFormsApplication
         public IRepositoryTblCompany repositoryTblCompany = new RepositoryTblCompany();
         public TblAccount Account { get; set; }
         public IRepositoryTblJob RepositoryTblJob { get; set; }
-        public TblJob TblJob { get; set; }  
+        public TblJob TblJob { get; set; }
         public FrmCompanyAddNewJob()
         {
             InitializeComponent();
@@ -61,7 +61,7 @@ namespace WinFormsApplication
             {
                 MessageBox.Show(ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
         }
 
         private void checkInput()
@@ -79,7 +79,7 @@ namespace WinFormsApplication
                 msgError += "\n - number of intern is empty";
                 check = false;
             }
-            
+
             if (string.IsNullOrEmpty(TxtJobDescription.Text.Trim()))
             {
                 msgError += "\n - Job Description is empty";
@@ -119,7 +119,7 @@ namespace WinFormsApplication
             if (DateTime.TryParse(MTxtExpirationDate.Text, out var datetime))
             {
                 DateTime now = DateTime.Now;
-                if(datetime.ToString("yyyy-MM-dd").CompareTo(now.ToString("yyyy-MM-dd")) == -1)
+                if (datetime.ToString("yyyy-MM-dd").CompareTo(now.ToString("yyyy-MM-dd")) == -1)
                 {
                     msgError = "\n - Expiration date needs to be greater than current date";
                     check = false;
@@ -129,8 +129,8 @@ namespace WinFormsApplication
             {
                 msgError = "\n  Expiration Date is wrong format(MM/dd/YYYY)";
                 check = false;
-            }   
-            
+            }
+
             if (!check)
             {
                 throw new Exception(msgError);

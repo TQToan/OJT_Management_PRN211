@@ -20,7 +20,7 @@ namespace WinFormsApplication
         }
 
         // dùng tạm id để lấy studentInfor 
-        public string stuCode = "SE151262";
+        //public string stuCode = "SE151262";
 
         private IRepositoryTblJob jobRepo = new RepositoryTblJob();
         private IRepositoryTblSemester semesterRepo = new RepositoryTblSemester();
@@ -29,6 +29,7 @@ namespace WinFormsApplication
         private IRepositoryTblCompany companyRepo = new RepositoryTblCompany(); 
         private IRepositoryTblMajor majorRepo = new RepositoryTblMajor();
 
+        public TblAccount studentAccount { get; set; }
         public TblStudent studentInfor { get; set; }
         private TblJob jobInfor { get; set; }
         private TblSemester currentSemester { get; set; }
@@ -105,7 +106,8 @@ namespace WinFormsApplication
         //  và còn quantity tuyển dụng
         private void FrmStudentJobCompanyList_Load(object sender, EventArgs e)
         {
-            studentInfor = studentRepo.GetStudentByStudentID(stuCode);
+            TblStudent student = studentRepo.GetStudentProfileByUserName(studentAccount.Username);
+            studentInfor = studentRepo.GetStudentByStudentID(student.StudentCode);
             currentSemester = semesterRepo.GetCurrentSemester();
             CbFilterJobCompanyList.Text = "Company name";
             IEnumerable<TblJob> jobList = jobRepo.GetJobActive();

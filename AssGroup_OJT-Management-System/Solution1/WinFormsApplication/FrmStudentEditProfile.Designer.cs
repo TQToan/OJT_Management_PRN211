@@ -240,6 +240,7 @@ namespace WinFormsApplication
             this.Controls.Add(this.PnHeader);
             this.Controls.Add(this.PnInformation);
             this.Name = "FrmStudentEditProfile";
+            this.Load += new System.EventHandler(this.FrmStudentEditProfile_Load);
             this.PnInformation.ResumeLayout(false);
             this.PnInformation.PerformLayout();
             this.PnControls.ResumeLayout(false);
