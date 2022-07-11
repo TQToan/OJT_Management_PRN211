@@ -282,7 +282,18 @@ namespace Library.Data_Access
                 }
         }
 
-
+        public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                var list = from job in db.TblJobs
+                           join company in db.TblCompanies on job.TaxCode equals company.TaxCode
+                           join major in db.TblMajors on job.MajorCode equals major.MajorCode
+                           where job.Status == false && major.MajorName.Contains(searchValue)
+                           select job;
+                return list.ToList();
+            }
+        }
 
     }
 }

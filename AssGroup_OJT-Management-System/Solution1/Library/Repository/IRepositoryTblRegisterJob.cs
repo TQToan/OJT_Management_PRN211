@@ -27,5 +27,6 @@ namespace Library.Repository
         public void UpdateInternEvaluation(TblRegisterJob evaluation);
         public IEnumerable<TblRegisterJob> GetListStudentApplied(TblSemester currentSemester, string studentcode);
         public void InsertRegister(TblRegisterJob registerJob);
+        public void DeleteRegister(TblRegisterJob registerJob);
     }
 }

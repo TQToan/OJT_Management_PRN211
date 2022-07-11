@@ -51,7 +51,6 @@ namespace WinFormsApplication
                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (result == DialogResult.OK)
                 {
-                    var registerJob = registerJobRepo.GetAppliedJobByIDAndStudentCode(JobInfor.JobCode, StudentInfor.StudentCode);
                     var listApplied = registerJobRepo.GetListStudentApplied(currentSemester, StudentInfor.StudentCode);
                     int tmpAspiration = 1;
                     if (listApplied.Count() == 1)
@@ -67,34 +66,44 @@ namespace WinFormsApplication
                         }
                     }
 
-                    if (IsChange)
+                    if (IsChange && SelectJobFromChange != null)
                     {
                         tmpAspiration = (int)SelectJobFromChange.Aspiration;
-                        SelectJobFromChange.Aspiration = 0;
-                        SelectJobFromChange.StudentConfirm = false;
-                        registerJobRepo.UpdateInternEvaluation(SelectJobFromChange);
+                        registerJobRepo.DeleteRegister(SelectJobFromChange);
+                    }
+                    var tmpregister = new TblRegisterJob()
+                    {
+                        JobCode = JobInfor.JobCode,
+                        StudentCode = StudentInfor.StudentCode,
+                        StudentConfirm = true,
+                        Aspiration = tmpAspiration,
+                        IsCompanyConfirm = 0
+                    };
+                    registerJobRepo.InsertRegister(tmpregister);
+
+                    if (!IsChange)
+                    {
+                        SelectJobFromChange = tmpregister;
                     }
 
-                    if (registerJob != null)
-                    {
-                        registerJob.StudentConfirm = true;
-                        registerJob.Aspiration = tmpAspiration;
-                        registerJobRepo.UpdateInternEvaluation(registerJob);
-                    }
-                    else
-                    {
-                        var tmpregister = new TblRegisterJob()
-                        {
-                            JobCode = JobInfor.JobCode,
-                            StudentCode = StudentInfor.StudentCode,
-                            StudentConfirm = true,
-                            Aspiration = tmpAspiration
-                        };
-                        registerJobRepo.InsertRegister(tmpregister);
-                    }
                     //Code chức năng apply ở đây
                     BtnApply.Text = "Cancel";
-                    TxtAppliedStatus.Text = "Applied";
+
+                    switch (SelectJobFromChange.IsCompanyConfirm)
+                    {
+                        case 0:
+                            TxtAppliedStatus.Text = "Waiting";
+                            break;
+                        case 1:
+                            TxtAppliedStatus.Text = "Accepted";
+                            break;
+
+                        case 2:
+                            TxtAppliedStatus.Text = "Denied";
+                            break;
+                    }
+
+                    
                 }
             } else if (BtnApply.Text.Equals("Cancel"))
             {
@@ -106,14 +115,11 @@ namespace WinFormsApplication
                     var registerJob = registerJobRepo.GetAppliedJobByIDAndStudentCode(JobInfor.JobCode, StudentInfor.StudentCode);
                     if (registerJob != null)
                     {
-                        registerJob.StudentConfirm = false;
-                        registerJob.Aspiration = 0;
-                        registerJobRepo.UpdateInternEvaluation(registerJob);
-
+                        registerJobRepo.DeleteRegister(registerJob);
 
                         //cập nhật lại nguyện vọng cho job còn lại 
                         var listAppliedCancel = registerJobRepo.GetListStudentApplied(currentSemester, StudentInfor.StudentCode);
-                        if (listAppliedCancel != null)
+                        if (listAppliedCancel.Count() == 1)
                         {
                             var tmpListAppliedCancel = listAppliedCancel.First();
                             tmpListAppliedCancel.Aspiration = 1;
@@ -147,7 +153,28 @@ namespace WinFormsApplication
             else
             {
                 BtnApply.Text = "Cancel";
-                TxtAppliedStatus.Text = "Applied";
+                if (!IsChange)
+                {
+                    SelectJobFromChange = registerJobRepo.GetAppliedJobByIDAndStudentCode(JobInfor.JobCode, StudentInfor.StudentCode);
+                }
+                switch (SelectJobFromChange.IsCompanyConfirm)
+                {
+                    case 0:
+                        TxtAppliedStatus.Text = "Waiting";
+                        break;
+                    case 1:
+                        TxtAppliedStatus.Text = "Accepted";
+                        break;
+
+                    case 2:
+                        TxtAppliedStatus.Text = "Denied";
+                        break;
+                }
+            }
+
+            if (StudentInfor.IsIntern != 0)
+            {
+                BtnApply.Enabled = false;
             }
         }
 

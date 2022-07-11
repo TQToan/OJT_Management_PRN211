@@ -28,5 +28,7 @@ namespace Library.Repository
         public IEnumerable<TblJob> SearchJobByJobNameAsStudent(string searchValue);
         public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue);
 
+        public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue);
+
     }
 }

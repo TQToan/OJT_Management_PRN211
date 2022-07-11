@@ -72,7 +72,8 @@ namespace WinFormsApplication
             this.CbFilterJobCompanyList.Items.AddRange(new object[] {
             "Company name",
             "Company Address",
-            "Job name"});
+            "Job name",
+            "Major name"});
             this.CbFilterJobCompanyList.Location = new System.Drawing.Point(199, 37);
             this.CbFilterJobCompanyList.Name = "CbFilterJobCompanyList";
             this.CbFilterJobCompanyList.Size = new System.Drawing.Size(178, 32);

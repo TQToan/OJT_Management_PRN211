@@ -244,6 +244,15 @@ namespace Library.Data_Access
                 db.SaveChanges();
             }
         }
+
+        public void DeleteRegister(TblRegisterJob registerJob)
+        {
+            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
+            {
+                db.TblRegisterJobs.Remove(registerJob);
+                db.SaveChanges();
+            }
+        }
    
     }
 }

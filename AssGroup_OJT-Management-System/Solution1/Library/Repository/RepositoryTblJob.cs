@@ -48,6 +48,9 @@ namespace Library.Repository
 
         public IEnumerable<TblJob> SearchJobByCompanyAddressAsStudent(string searchValue) =>
             TblJobDAO.Instance.SearchJobByCompanyAddressAsStudent(searchValue);
+
+        public IEnumerable<TblJob> SearchJobByMajorNameAsStudent(string searchValue) =>
+            TblJobDAO.Instance.SearchJobByMajorNameAsStudent(searchValue);
         //----------------------------------------------------------------------
     }
 }
