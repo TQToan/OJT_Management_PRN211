@@ -33,6 +33,7 @@ namespace WinFormsApplication
             // và còn số lượng về đúng chuyên ngành của sinh viên
 
             //load dữ liệu về thông tin của sinh viên để hiện thị lênB
+            BindingSource source = new BindingSource();
 
             repositoryTblStudent = new RepositoryTblStudent();
             TblStudent student = repositoryTblStudent.GetStudentProfileByUserName(studentAccount.Username);

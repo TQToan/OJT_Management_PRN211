@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Library.Models;
 using Library.Repository;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,6 @@ namespace WinFormsApplication
     {
         public IRepositoryTblStudent repositoryTblStudent = new RepositoryTblStudent();
         public TblAccount studentAccount { get; set; }
-
         //Fields Cấu hình giao diện
         private IconButton currentBtn;
         private Panel leftBorderBtn;
@@ -133,7 +133,10 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmStudentJobCompanyList());
+            OpenChildForm(new FrmStudentJobCompanyList()
+            {
+                studentAccount = studentAccount,
+            });
         }
 
         //Method: Khi student application được click

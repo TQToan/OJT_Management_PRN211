@@ -178,7 +178,10 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmCompanyManageInternshipList());
+            OpenChildForm(new FrmCompanyManageInternshipList()
+            {
+                companyAccount = companyAccount,
+            });
         }
 
         //Method: Log out button được click

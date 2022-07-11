@@ -9,7 +9,6 @@ namespace Library.Data_Access
 {
     public class TblRegisterJobDAO
     {
-        // private OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
         //Using singleton
         private TblRegisterJobDAO() { }
         private static TblRegisterJobDAO instance = null;
@@ -33,8 +32,8 @@ namespace Library.Data_Access
         // hàm kiểm tra Cour status, lấy job mới nhất kiểm tra là pass, hay not pass(bao gồm not pass, not yet)
         public bool checkCourStatusByStudentCode(string studentCode)
         {
-            using (var db = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
                 var list = from appl in db.TblRegisterJobs
                            join job in db.TblJobs on appl.JobCode equals job.JobCode
                            where appl.StudentCode == studentCode
@@ -45,7 +44,6 @@ namespace Library.Data_Access
                 {
                     return true;
                 }
-            }
             return false;
         }
 
@@ -53,8 +51,8 @@ namespace Library.Data_Access
         // hàm kiểm tra student đã pass chưa trong tất các kỳ, chỉ cần 1 pass return true 
         public bool checkStudentIsPass(string studentCode)
         {
-            using (OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context())
-            {
+            OJT_MANAGEMENT_PRN211_Vs1Context db = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            
                 var list = from appl in db.TblRegisterJobs
                            where appl.StudentCode == studentCode && appl.IsPass == false
                            select appl;
@@ -63,7 +61,7 @@ namespace Library.Data_Access
                     return true;
                 }
                 return false;
-            }
+            
         }
 
 
@@ -133,8 +131,10 @@ namespace Library.Data_Access
 
         public IEnumerable<dynamic> SearchAppliedJobByJobNameAsCompany(string searchValue)
         {
-            var dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+
             var listResult = dBContext.TblRegisterJobs.Where(apply => apply.JobCodeNavigation.JobName.ToUpper().Contains(searchValue.ToUpper()))
+
                 .Select(apply => new
                 {
                     StudentCode = apply.StudentCode,
@@ -146,8 +146,8 @@ namespace Library.Data_Access
                     JobCode = apply.JobCode,
 
                 }).OrderBy(apply => apply.CompanyConfirm);
-            return listResult;
-
+                return listResult;
+            
         }
         public IEnumerable<dynamic> SearchAppliedJobByStatusAsCompany(int status)
         {
@@ -164,8 +164,7 @@ namespace Library.Data_Access
                     JobCode = apply.JobCode,
 
                 }).OrderBy(apply => apply.CompanyConfirm);
-            return listResult;
-
+                return listResult;
         }
 
 

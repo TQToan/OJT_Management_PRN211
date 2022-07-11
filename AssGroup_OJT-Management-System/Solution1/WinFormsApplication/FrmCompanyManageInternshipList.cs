@@ -14,6 +14,7 @@ namespace WinFormsApplication
 {
     public partial class FrmCompanyManageInternshipList : Form
     {
+        public TblAccount companyAccount { get; set; }
         public FrmCompanyManageInternshipList()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace WinFormsApplication
         private IRepositoryTblCompany companyRepo = new RepositoryTblCompany(); 
 
         // dùng tam tax code  để sử dụng
-        public string taxCode = "123456";
+        //public string taxCode = "123456";
         private TblSemester currentSemester { get; set; }
         private TblRegisterJob interInfor { get; set; }
 
@@ -35,7 +36,8 @@ namespace WinFormsApplication
         //Method: Load dữ liệu danh sách sinh viên đã và đang thực tập tại công ty này
         private void FrmCompanyManageInternshipList_Load(object sender, EventArgs e)
         {
-            companyInfor = companyRepo.GetCompanyByTaxCode(taxCode);
+            TblCompany companyInformation = companyRepo.GetCompanyInformation(companyAccount.Username);
+            companyInfor = companyRepo.GetCompanyByTaxCode(companyInformation.TaxCode);
             currentSemester = semesterRepo.GetCurrentSemester();
             IEnumerable<TblRegisterJob> list = registJobRepo.GetIntershipInCurrentSemester(currentSemester.SemesterId, companyInfor.TaxCode);
             CbFilterStudentList.Text = "Student code";

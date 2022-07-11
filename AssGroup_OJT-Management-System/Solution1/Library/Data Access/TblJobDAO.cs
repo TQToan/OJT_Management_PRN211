@@ -92,6 +92,7 @@ namespace Library.Data_Access
 
             OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
 
+
             var listFullJob = (from job in dBContext.TblJobs
                                orderby job.AdminConfirm ascending
                                select new
@@ -169,7 +170,7 @@ namespace Library.Data_Access
         }
         public IEnumerable<dynamic> SearchJobByCompanyNameAsAdmin(string searchValue)
         {
-            var dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
+            OJT_MANAGEMENT_PRN211_Vs1Context dBContext = new OJT_MANAGEMENT_PRN211_Vs1Context();
             var listResult = dBContext.TblJobs.Where(job => job.TaxCodeNavigation.CompanyName.ToUpper().Contains(searchValue.ToUpper()))
                     .Select(job => new
                     {
@@ -184,8 +185,9 @@ namespace Library.Data_Access
                         AdminConfirm = job.AdminConfirm
 
                     }).OrderBy(job => job.AdminConfirm);
-            return listResult;
 
+                return listResult;
+           // }
         }
         public IEnumerable<dynamic> SearchJobByJobNameAsAdmin(string searchValue)
         {
@@ -204,8 +206,7 @@ namespace Library.Data_Access
                     AdminConfirm = job.AdminConfirm
 
                 }).OrderBy(job => job.AdminConfirm);
-            return listResult;
-
+                return listResult;
         }
         public IEnumerable<dynamic> SearchJobByCompanyAddressAsAdmin(string searchValue)
         {
@@ -224,7 +225,7 @@ namespace Library.Data_Access
                      AdminConfirm = job.AdminConfirm
 
                  }).OrderBy(job => job.AdminConfirm);
-            return listResult;
+                return listResult;
 
         }
         public IEnumerable<dynamic> GetJobListAsCompany(string companyTax)
