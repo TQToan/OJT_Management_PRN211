@@ -118,7 +118,6 @@ namespace WinFormsApplication
             // BtnUpdate
             // 
             this.BtnUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BtnUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
             resources.ApplyResources(this.BtnUpdate, "BtnUpdate");
             this.BtnUpdate.Name = "BtnUpdate";
             this.BtnUpdate.UseVisualStyleBackColor = true;
