@@ -25,8 +25,8 @@ namespace WinFormsApplication
         private IRepositoryTblStudent studentRepo = new RepositoryTblStudent();
         private IRepositoryTblCompany companyRepo = new RepositoryTblCompany(); 
         // dùng tạm id để lấy studentInfor 
-        public string stuCode = "SE151262";
-
+        //public string stuCode = "SE151262";
+        public TblAccount studentAccount { get; set; }
         public TblStudent StudentInfor { get; set; }
         public TblSemester currentSemester { get; set; }
 
@@ -36,8 +36,9 @@ namespace WinFormsApplication
         //Method: Load dữ liệu của 2 bài được applied bởi sinh viên này
         private void FrmStudentApplication_Load(object sender, EventArgs e)
         {
+            TblStudent student = studentRepo.GetStudentProfileByUserName(studentAccount.Username);
             //code load data ở đây
-            StudentInfor = studentRepo.GetStudentByStudentID(stuCode);
+            StudentInfor = studentRepo.GetStudentByStudentID(student.StudentCode);
 
             currentSemester = semesterRepo.GetCurrentSemester();
             
@@ -81,7 +82,8 @@ namespace WinFormsApplication
                 FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList()
                 {
                     IsChange = true,
-                    SelectJobFromChange = registerJob1
+                    SelectJobFromChange = registerJob1,
+                    studentAccount = studentAccount
                 };
                 frmStudentJobCompanyList.ShowDialog();
                 LoadScreen();
@@ -117,7 +119,8 @@ namespace WinFormsApplication
                 FrmStudentJobCompanyList frmStudentJobCompanyList = new FrmStudentJobCompanyList()
                 {
                     IsChange = true,
-                    SelectJobFromChange = registerJob2
+                    SelectJobFromChange = registerJob2,
+                    studentAccount = studentAccount
                 };
                 frmStudentJobCompanyList.ShowDialog();
                 //code change applied ở đây

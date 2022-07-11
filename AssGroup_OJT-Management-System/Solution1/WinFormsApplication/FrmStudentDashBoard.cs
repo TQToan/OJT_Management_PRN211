@@ -144,7 +144,9 @@ namespace WinFormsApplication
         {
             // cấu hình nút khi được click
             ActiveButton(sender, Color.FromArgb(redColor, greenColor, blueColor));
-            OpenChildForm(new FrmStudentApplication());
+            OpenChildForm(new FrmStudentApplication() { 
+                studentAccount = studentAccount,
+            });
         }
 
         //Medthod: Khi internship result được click

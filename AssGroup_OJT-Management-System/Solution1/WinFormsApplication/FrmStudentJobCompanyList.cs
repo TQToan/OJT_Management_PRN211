@@ -138,7 +138,6 @@ namespace WinFormsApplication
                 DgvCompaniesList.Columns[4].Name = "Company Name";
                 DgvCompaniesList.Columns[5].Name = "Major Name";
 
-
                 foreach (var item in list)
                 {
                     DateTime tmpDate = (DateTime)item.ExpirationDate;
